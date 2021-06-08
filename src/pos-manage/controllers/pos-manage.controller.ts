@@ -1,20 +1,20 @@
-import { Body, Controller, Post, InternalServerErrorException, Get, NotFoundException, Put, Param, ParseIntPipe } from '@nestjs/common';
+import { Body, Controller, Post, InternalServerErrorException, Get, NotFoundException, Put, Param, ParseIntPipe, UseGuards } from '@nestjs/common';
+import { AuthenticateClientGuard } from 'src/auth';
 import { PocManageModel } from 'src/entity/pos-manage';
-
 import { CreateDto, UpdateDto } from '../dto';
 import { CrudService } from '../providers';
 
 @Controller('pos')
 export class CrudController {
   constructor(private crud: CrudService) { }
-
+  
   @Get()
+  @UseGuards(AuthenticateClientGuard)
   public async getAll(): Promise<PocManageModel[]> {
     const result = await this.crud.findAll();
     if (!result) {
       throw new NotFoundException('NotFoundData');
     }
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return result;
   }
 

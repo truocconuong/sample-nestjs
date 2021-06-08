@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('poc-manage')
+@Entity('pos-manage')
 export class PocManageModel {
   @PrimaryGeneratedColumn({ type: 'int', unsigned: true, name: 'id' })
   id!: number;

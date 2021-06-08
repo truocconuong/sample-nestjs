@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('poc-authenticate')
+@Entity('pos-authenticate')
 export class PosAuthenticateModel {
   @PrimaryGeneratedColumn({ type: 'int', unsigned: true, name: 'id' })
   id!: number;

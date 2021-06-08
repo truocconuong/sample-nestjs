@@ -19,7 +19,16 @@ export class CrudService {
   }
 
   public async read(id: number): Promise<PosAuthenticateModel | undefined> {
+    console.log('chay vao day')
     return this.table.findOne(id);
+  }
+
+  public async findByClientId(client_id: string): Promise<PosAuthenticateModel | undefined> {
+    return this.table.findOne({
+      where : {
+        client_id
+      }
+    });
   }
 
   public async update(id: number, data: Partial<PosAuthenticateModel>): Promise<UpdateResult> {
