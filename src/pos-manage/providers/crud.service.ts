@@ -26,6 +26,12 @@ export class CrudService {
     return this.table.update(id, data);
   }
 
+  public async findByOutletId(outlet_id: string): Promise<PocManageModel | undefined> {
+    return this.table.findOne({
+      outlet_id
+    })
+  }
+
   public async remove(id: number): Promise<DeleteResult> {
     return this.table.delete(id);
   }

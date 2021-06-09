@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsBoolean, IsString } from 'class-validator';
 
 import { PocManageModel } from '../../entity/pos-manage';
 
@@ -24,4 +24,7 @@ export class CreateDto implements Omit<PocManageModel, 'id' | 'updated_at' | 'cr
 
   @IsString()
   public client_secret!: string;
+  
+  @IsBoolean()
+  public isAuto!: boolean;
 }
