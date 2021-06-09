@@ -8,6 +8,9 @@ export class PocManageModel {
   @Column('varchar', { nullable: false, name: 'order_id' })
   order_id!: string;
 
+  @Column('varchar', { nullable: false, name: 'outlet_id' })
+  outlet_id!: string;
+
   @Column('varchar', { nullable: false, name: 'pos_id' })
   pos_id?: string;
 

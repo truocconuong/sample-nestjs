@@ -7,6 +7,10 @@ export class CreateDto implements Omit<PocManageModel, 'id' | 'updated_at' | 'cr
   public order_id!: string;
 
   @IsString()
+  public outlet_id!: string;
+
+
+  @IsString()
   public pos_id!: string;
 
   @IsString()
