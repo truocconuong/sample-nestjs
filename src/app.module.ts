@@ -9,6 +9,7 @@ import { CommonModule, ExceptionsFilter, LoggerMiddleware } from './common';
 import { configuration } from './config';
 import { PocAuthenticateModule } from './pos-authenticate';
 import { PocManageModule } from './pos-manage';
+import { PosServiceModule } from './pos-service/pos-service.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { PocManageModule } from './pos-manage';
     BaseModule,
     PocManageModule,
     PocAuthenticateModule,
+    PosServiceModule,
   ],
   providers: [
     // Global Guard, Authentication check on all routers
