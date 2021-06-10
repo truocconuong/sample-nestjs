@@ -1,5 +1,5 @@
 import axios from 'axios';
-enum  METHOD {
+enum METHOD {
   GET = 'get',
   POST = 'post',
   PUT = 'put',
@@ -16,8 +16,7 @@ function Request() {
     token?: string
   ) {
     try {
-      const requestToken = `Bearer ${token}`; 
-      console.log("request token---", requestToken)
+      const requestToken = `Bearer ${token}`;
       let response = await axios({
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -36,7 +35,6 @@ function Request() {
   }
 
   function get(url: string, options = {}, token?: string) {
-    console.log("token trong get la,", token)
     return requestApi(METHOD.GET, url, options, null, token);
   }
 
@@ -52,7 +50,7 @@ function Request() {
     return requestApi(METHOD.DELETE, url, options, data, token);
   }
 
-  function patch(url: string, data: any,  options = {}, token?: string) {
+  function patch(url: string, data: any, options = {}, token?: string) {
     return requestApi(METHOD.PATCH, url, options, data, token);
   }
 

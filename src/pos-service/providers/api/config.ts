@@ -4,7 +4,7 @@ const apiUrls = {
    * note: all urls is example, please replace with matching url from api.
    */
   raptor: {
-    checkConnection(baseURLRaptor: string){
+    checkConnection(baseURLRaptor: string) {
       return `${baseURLRaptor}/heartbeat`;
     },
     authen(baseURLRaptor: string) {
@@ -17,7 +17,7 @@ const apiUrls = {
       return `${baseURLRaptor}/order/order_item`;
     },
     orderModifier(baseURLRaptor: string) {
-      return `${baseURLRaptor}/order/order_modifier`;
+      return `${baseURLRaptor}/order/order_modifer`;
     },
     setMenu(baseURLRaptor: string) {
       return `${baseURLRaptor}/order/set_menu`;
@@ -31,7 +31,7 @@ const apiUrls = {
     getOpenTableList(baseURLRaptor: string) {
       return `${baseURLRaptor}//order/open_table_list`;
     },
-    closeSeason(baseURLRaptor: string){
+    closeSeason(baseURLRaptor: string) {
       return `${baseURLRaptor}/payment/close_Session`;
     },
     prepItem(baseURLRaptor: string) {

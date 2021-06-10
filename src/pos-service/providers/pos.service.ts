@@ -1,58 +1,70 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CrudService } from 'src/pos-manage/providers';
 import { SubmitOrderDto } from '../dto/order.dto';
-import { RaptorAuthenInterFace, RaptorOpenTableInterface, RaptorOpenTableResponseInterface, RaptorOrderItemInterface, RaptorRecallTableInterface, RaptorRecallTableResponseInterface, RaptorTableDetailInterface } from '../dto/raptor.dto';
+import { RaptorAuthenInterFace, RaptorOpenTableInterface, RaptorOpenTableResponseInterface, RaptorOrderItemInterface, RaptorPrepItemInterface, RaptorRecallTableInterface, RaptorRecallTableResponseInterface, RaptorTableDetailInterface, SubmitOrderResponseInterface } from '../dto/raptor.dto';
 import { raptorApiService } from './api/Raptor/RaptorApiService';
-
+import { ItemInterface, ItemSelectedOptionsInterface } from '../dto/order.dto';
 @Injectable()
 export class PosService {
   constructor(private posManager: CrudService) { }
 
-  public async submitOrder(orderInfo: SubmitOrderDto) {
+  public async submitOrder(orderInfo: SubmitOrderDto): Promise<SubmitOrderResponseInterface | Error> {
+    this.validateOrderInfo(orderInfo);
     const posInfo = await this.posManager.findByOutletId(orderInfo?.outletId);
-    if (posInfo) {
-      console.log("co pos info")
-      const { pos_id: posId } = posInfo;
-      const raptorUsername = process.env.RAPTOR_USERNAME;
-      const raptorPassword = process.env.RAPTOR_PASSWORD;
-      if (raptorUsername && raptorPassword) {
-        const data: RaptorAuthenInterFace = {
-          username: raptorUsername,
-          password: raptorPassword,
+    const submitOrderRes: SubmitOrderResponseInterface = {
+      success: true,
+      data: {}
+    };
+    const { data } = submitOrderRes;
+    if (!posInfo) {
+      throw new HttpException('POS not found.', HttpStatus.BAD_REQUEST);
+    }
+    const { pos_id: posId } = posInfo;
+    data.posId = posId;
+    data.operator = 1;
+    const raptorUsername = process.env.RAPTOR_USERNAME;
+    const raptorPassword = process.env.RAPTOR_PASSWORD;
+    if (raptorUsername && raptorPassword) {
+      const dataAuthen: RaptorAuthenInterFace = {
+        username: raptorUsername,
+        password: raptorPassword,
+      }
+      const response = await this.authenWithRaptor(dataAuthen);
+      if (response) {
+        const token: string = response[0]?.access_token;
+        const [tablesOpenList, errTableOpenList, _message] = await raptorApiService.getListTableOpen(token);
+        if (errTableOpenList) {
+          throw new HttpException(errTableOpenList.message, HttpStatus.BAD_REQUEST);
         }
-        const response = await this.authenWithRaptor(data);
-        if (response) {
-          const token: string = response[0]?.access_token;
-          const [tablesOpenList, _err, _message] = await raptorApiService.getListTableOpen(token);
-          if (tablesOpenList) {
-            const { details: tablesDetail } = tablesOpenList;
-            const { tableId } = orderInfo;
-            if (tableId) {
-              console.log('ttableId', tableId)
-              const tableFound: RaptorTableDetailInterface | undefined = tablesDetail.find((tableDetail: RaptorTableDetailInterface) => tableDetail.tablename === tableId);
-              if (tableFound) {
-                console.log("table found", tableFound)
-                const [response, _error, _message] = await this.recallTable(token, tableFound, posId as string);
-                console.log("response order item", _error)
-                if (response) {
-                  await this.orderItem(token, posId as string, response, orderInfo?.tableId);
-                }
-              } else {
-                const [tableDataRes, _error, _message] = await this.openTable(token, orderInfo, posId as string);
-                console.log("response order item", _error)
-                if (tableDataRes) {
-                  await this.orderItem(token, posId as string, tableDataRes, orderInfo?.tableId);
-                }
-              }
-            }
+        const { details: tablesDetail } = tablesOpenList;
+        const { tableId } = orderInfo;
+
+        data.tableName = tableId;
+        const tableFound: RaptorTableDetailInterface | undefined = tablesDetail.find((tableDetail: RaptorTableDetailInterface) => tableDetail.tablename === tableId);
+        if (tableFound) {
+          const [response, errorRecallTable, _message] = await this.recallTable(token, tableFound, posId as string);
+          if (errorRecallTable) {
+            throw new HttpException(errorRecallTable.message, HttpStatus.BAD_REQUEST);
           }
+          data.salesNo = tableFound.salesno;
+          data.splitNo = tableFound.splitno;
+          await this.orderItems(orderInfo.items, token, posId as string, response, orderInfo?.tableId);
+        } else {
+          const [tableDataRes, errorOpenTable, _message] = await this.openTable(token, orderInfo, posId as string);
+          if (errorOpenTable) {
+            throw new HttpException(errorOpenTable.message, HttpStatus.BAD_REQUEST);
+          }
+          await this.orderItems(orderInfo.items, token, posId as string, tableDataRes, orderInfo?.tableId);
+          data.salesNo = tableDataRes.salesno;
+          data.splitNo = tableDataRes.splitno;
         }
+
       }
     }
-    return null;
+    return submitOrderRes;
   }
 
-  private async orderItem(token: string, posId: string, tableData: RaptorOpenTableResponseInterface | RaptorRecallTableResponseInterface, tableName: string) {
+  private async orderItems(items: ItemInterface[], token: string, posId: string, tableData: RaptorOpenTableResponseInterface | RaptorRecallTableResponseInterface, tableName: string) {
     const dataOrder: RaptorOrderItemInterface = {
       token,
       posid: `pos00${posId}`,
@@ -63,10 +75,30 @@ export class PosService {
       splitno: tableData.splitno,
       tablename: tableName,
     };
-    console.log("data order", dataOrder)
-    const [response, error, message] = await raptorApiService.orderItem(dataOrder);
-    console.log("response khi orderitem", response)
-    return [response, error, message];
+    items.map(async (item: ItemInterface) => {
+      dataOrder.pluno = this.toPlunoString("54");
+      const [response, _error, _message] = await raptorApiService.orderItem(dataOrder);
+      if (item.selectedOptions) {
+        item.selectedOptions.map(async (option: ItemSelectedOptionsInterface) => {
+          const optionsData: RaptorPrepItemInterface = {
+            ...dataOrder,
+            pluSalesRef: response.pluSalesRef
+          }
+          if (option.price > 0) {
+            raptorApiService.prepItem(optionsData);
+          } else {
+            raptorApiService.modifyItem(optionsData);
+          }
+        })
+      }
+    })
+    return [];
+  }
+
+  toPlunoString = (itemId: string) => {
+    let baseString = "000000000000000";
+    let concatedStr = baseString.substr(0, baseString.length - itemId.length)
+    return concatedStr + itemId;
   }
 
   private async recallTable(token: string, tableDetail: RaptorTableDetailInterface, posId: string): Promise<[RaptorRecallTableResponseInterface, Error, string]> {
@@ -94,7 +126,7 @@ export class PosService {
     return [response, error, message];
   }
 
-  async authenWithRaptor(raptorAuthenInfo: RaptorAuthenInterFace) {
+  private async authenWithRaptor(raptorAuthenInfo: RaptorAuthenInterFace) {
     const { username, password } = raptorAuthenInfo;
     const result = await raptorApiService.authenticate({ username, password });
     return result;
@@ -102,4 +134,20 @@ export class PosService {
 
   public async viewBill() {
   }
+
+  private validateOrderInfo(orderInfo: SubmitOrderDto) {
+    const { outletId, items, tableId } = orderInfo;
+    if (!outletId) {
+      throw new HttpException('outletId can not null.', HttpStatus.BAD_REQUEST);
+    }
+    if (!items || !items?.length) {
+      throw new HttpException('items can not empty.', HttpStatus.BAD_REQUEST);
+    }
+    if (!tableId) {
+      console.log("ko co tableId")
+      throw new HttpException('tableId can not null.', HttpStatus.BAD_REQUEST);
+    }
+  }
 }
+
+
