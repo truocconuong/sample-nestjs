@@ -136,10 +136,13 @@ export interface SubmitOrderResponseInterface {
     data: SubmitOrderDataInterface;
 }
 
-interface SubmitOrderDataInterface {
+export interface SubmitOrderDataInterface {
     posId?: string;
     operator?: number;
     salesNo?: number;
     splitNo?: number;
     tableName?: string;
+}
+
+export interface ViewBillDataRequest extends SubmitOrderDataInterface {
 }

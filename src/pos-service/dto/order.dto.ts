@@ -16,7 +16,11 @@ export class SubmitOrderDto {
 }
 
 export class ViewBillOrderDto {
-
+    posId!: string;
+    operator!: number;
+    salesNo!: number;
+    splitNo!: number;
+    tableName!: string
 }
 
 export interface ItemSelectedOptionsInterface {

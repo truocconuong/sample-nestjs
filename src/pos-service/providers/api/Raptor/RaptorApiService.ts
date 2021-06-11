@@ -32,7 +32,7 @@ export const raptorApiService = {
     return [dataResponse, err, msg];
   },
   printBill: async function (data: RaptorPrintBillInterface): Promise<[RaptorBillResponseInterface, Error, string]> {
-    const [dataResponse, err, msg] = await Request.post(apiUrls.raptor.printBill(apiUrls.raptor.printBill(process.env.RAPTOR_API_URL as string)), data, {}, data.token);
+    const [dataResponse, err, msg] = await Request.post(apiUrls.raptor.printBill(process.env.RAPTOR_API_URL as string), data, {}, data.token);
     return [dataResponse, err, msg];
   },
   getListTableOpen: async function (token: string): Promise<[RaptorListTableOpenInterface, Error, string]> {

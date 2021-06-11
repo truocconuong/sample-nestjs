@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CrudService } from 'src/pos-manage/providers';
 import { SubmitOrderDto } from '../dto/order.dto';
-import { RaptorAuthenInterFace, RaptorOpenTableInterface, RaptorOpenTableResponseInterface, RaptorOrderItemInterface, RaptorPrepItemInterface, RaptorRecallTableInterface, RaptorRecallTableResponseInterface, RaptorTableDetailInterface, SubmitOrderResponseInterface } from '../dto/raptor.dto';
+import { RaptorAuthenInterFace, RaptorOpenTableInterface, RaptorOpenTableResponseInterface, RaptorOrderItemInterface, RaptorPrepItemInterface, RaptorPrintBillInterface, RaptorRecallTableInterface, RaptorRecallTableResponseInterface, RaptorTableDetailInterface, SubmitOrderResponseInterface, ViewBillDataRequest } from '../dto/raptor.dto';
 import { raptorApiService } from './api/Raptor/RaptorApiService';
 import { ItemInterface, ItemSelectedOptionsInterface } from '../dto/order.dto';
 @Injectable()
@@ -76,7 +76,7 @@ export class PosService {
       tablename: tableName,
     };
     items.map(async (item: ItemInterface) => {
-      dataOrder.pluno = this.toPlunoString("54");
+      dataOrder.pluno = this.toPlunoString(posId);
       const [response, _error, _message] = await raptorApiService.orderItem(dataOrder);
       if (item.selectedOptions) {
         item.selectedOptions.map(async (option: ItemSelectedOptionsInterface) => {
@@ -132,7 +132,33 @@ export class PosService {
     return result;
   }
 
-  public async viewBill() {
+  public async viewBill(billDataRequest: ViewBillDataRequest) {
+    const { posId, tableName, salesNo, splitNo, operator } = billDataRequest;
+    validateBillInfo(billDataRequest);
+    const raptorUsername = process.env.RAPTOR_USERNAME;
+    const raptorPassword = process.env.RAPTOR_PASSWORD;
+    if (raptorUsername && raptorPassword) {
+      const dataAuthen: RaptorAuthenInterFace = {
+        username: raptorUsername,
+        password: raptorPassword,
+      }
+      const authenRes = await this.authenWithRaptor(dataAuthen);
+      const token: string = authenRes[0]?.access_token;
+      const dataRequest: RaptorPrintBillInterface = {
+        posid: posId as string,
+        tablename: tableName as string,
+        salesno: salesNo as number,
+        splitno: splitNo as number,
+        operator: operator as number,
+        token
+      }
+      const [billData, err, _msg] = await raptorApiService.printBill(dataRequest);
+      if (err) {
+        throw new HttpException(err, HttpStatus.BAD_REQUEST);
+      }
+      return billData;
+    }
+    return [];
   }
 
   private validateOrderInfo(orderInfo: SubmitOrderDto) {
@@ -144,10 +170,26 @@ export class PosService {
       throw new HttpException('items can not empty.', HttpStatus.BAD_REQUEST);
     }
     if (!tableId) {
-      console.log("ko co tableId")
       throw new HttpException('tableId can not null.', HttpStatus.BAD_REQUEST);
     }
   }
 }
 
-
+function validateBillInfo(billDataRequest: ViewBillDataRequest) {
+  const { posId, salesNo, splitNo, tableName, operator } = billDataRequest;
+  if (!posId) {
+    throw new HttpException('posId can not null.', HttpStatus.BAD_REQUEST);
+  }
+  if (salesNo !== 0 && !salesNo) {
+    throw new HttpException('salesNo can not null.', HttpStatus.BAD_REQUEST);
+  }
+  if (splitNo !== 0 && !splitNo) {
+    throw new HttpException('splitNo can not null.', HttpStatus.BAD_REQUEST);
+  }
+  if (!tableName) {
+    throw new HttpException('tableName can not null.', HttpStatus.BAD_REQUEST);
+  }
+  if (!operator) {
+    throw new HttpException('operator can not null.', HttpStatus.BAD_REQUEST);
+  }
+}
