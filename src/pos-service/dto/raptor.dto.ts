@@ -136,6 +136,11 @@ export interface SubmitOrderResponseInterface {
     data: SubmitOrderDataInterface;
 }
 
+export interface UpdateTableResponseInterface {
+    success: boolean;
+    data: UpdateOrderDataInterface;
+}
+
 export interface SubmitOrderDataInterface {
     posId?: string;
     operator?: number;
@@ -144,5 +149,8 @@ export interface SubmitOrderDataInterface {
     tableName?: string;
 }
 
+export interface UpdateOrderDataInterface extends SubmitOrderDataInterface {
+
+}
 export interface ViewBillDataRequest extends SubmitOrderDataInterface {
 }
