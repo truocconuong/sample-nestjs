@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { AuthenticateClientGuard } from 'src/auth';
-import { SubmitOrderDto, UpdateTableDto, ViewBillOrderDto } from '../dto/order.dto';
+import { GetInfoPosDto, SubmitOrderDto, UpdateTableDto, ViewBillOrderDto } from '../dto/order.dto';
 import { PosService } from '../providers/pos.service';
 
 @Controller('order')
@@ -18,6 +18,13 @@ export class PosController {
   @UseGuards(AuthenticateClientGuard)
   public async updateTable(@Body() updateTableRequest: UpdateTableDto) {
     const result = await this.posService.updateTable(updateTableRequest);
+    return result;
+  }
+
+  @Post('/getInfoPos')
+  // @UseGuards(AuthenticateClientGuard)
+  public async getInfoPos(@Body() request: GetInfoPosDto) {
+    const result = await this.posService.getInfoPos(request);
     return result;
   }
 

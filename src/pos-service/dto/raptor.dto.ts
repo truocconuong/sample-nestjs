@@ -154,3 +154,7 @@ export interface UpdateOrderDataInterface extends SubmitOrderDataInterface {
 }
 export interface ViewBillDataRequest extends SubmitOrderDataInterface {
 }
+
+export interface PosInfoResponseInferface extends SubmitOrderDataInterface {
+
+}

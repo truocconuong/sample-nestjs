@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CrudService } from 'src/pos-manage/providers';
-import { SubmitOrderDto, UpdateTableDto } from '../dto/order.dto';
-import { RaptorAuthenInterFace, RaptorOpenTableInterface, RaptorOpenTableResponseInterface, RaptorOrderItemInterface, RaptorPrepItemInterface, RaptorPrintBillInterface, RaptorRecallTableInterface, RaptorRecallTableResponseInterface, RaptorTableDetailInterface, SubmitOrderResponseInterface, ViewBillDataRequest } from '../dto/raptor.dto';
+import { GetInfoPosDto, SubmitOrderDto, UpdateTableDto } from '../dto/order.dto';
+import { PosInfoResponseInferface, RaptorAuthenInterFace, RaptorOpenTableInterface, RaptorOpenTableResponseInterface, RaptorOrderItemInterface, RaptorPrepItemInterface, RaptorPrintBillInterface, RaptorRecallTableInterface, RaptorRecallTableResponseInterface, RaptorTableDetailInterface, SubmitOrderResponseInterface, ViewBillDataRequest } from '../dto/raptor.dto';
 import { raptorApiService } from './api/Raptor/RaptorApiService';
 import { ItemInterface, ItemSelectedOptionsInterface } from '../dto/order.dto';
 @Injectable()
@@ -57,30 +57,23 @@ export class PosService {
 
   public async updateTable(updateTableInfo: UpdateTableDto): Promise<SubmitOrderResponseInterface | Error> {
     this.validateTableInfo(updateTableInfo);
-    const posInfo = await this.posManager.findByOutletId(updateTableInfo?.outletId);
     const updateTableRes: SubmitOrderResponseInterface = {
       success: true,
       data: {}
     };
     const { data } = updateTableRes;
-    if (!posInfo) {
-      throw new HttpException('POS not found.', HttpStatus.BAD_REQUEST);
-    }
-    const { pos_id: posId } = posInfo;
-    data.posId = posId;
-    data.operator = 1;
-    const token: string = await this.getPosToken();
-    const [tablesOpenList, errTableOpenList, _message] = await raptorApiService.getListTableOpen(token);
-    if (errTableOpenList) {
-      throw new HttpException(this.buildRaptorMessageError(errTableOpenList), HttpStatus.BAD_REQUEST);
-    }
-    const { details: tablesDetail } = tablesOpenList;
-    const { tableId } = updateTableInfo;
+    const posId = await this.getPosInfoByOutletId(updateTableInfo.outletId);
 
+    data.posId = posId as unknown as string;
+    data.operator = 1;
+    const { tableId } = updateTableInfo;
     data.tableName = tableId;
-    const tableFound: RaptorTableDetailInterface | undefined = tablesDetail.find((tableDetail: RaptorTableDetailInterface) => tableDetail.tablename === tableId);
+
+    const { tableFound, token }: { tableFound: RaptorTableDetailInterface | undefined; token: string; } = await this.findTableById(tableId);
+    console.log("tableFound", tableFound)
     if (tableFound) {
-      const [_response, errorRecallTable, _message] = await this.recallTable(token, tableFound, posId as string);
+      const [_response, errorRecallTable, _message] = await this.recallTable(token, tableFound, posId as unknown as string);
+      console.log(errorRecallTable)
       if (errorRecallTable) {
         throw new HttpException(this.buildRaptorMessageError(errorRecallTable), HttpStatus.BAD_REQUEST);
       }
@@ -88,7 +81,7 @@ export class PosService {
       data.splitNo = tableFound.splitno;
 
     } else {
-      const [tableDataRes, errorOpenTable, _message] = await this.openTable(token, updateTableInfo, posId as string);
+      const [tableDataRes, errorOpenTable, _message] = await this.openTable(token, updateTableInfo, posId as unknown as string);
       if (errorOpenTable) {
         throw new HttpException(this.buildRaptorMessageError(errorOpenTable), HttpStatus.BAD_REQUEST);
       }
@@ -97,6 +90,39 @@ export class PosService {
     }
 
     return updateTableRes;
+  }
+
+  private async findTableById(tableId: string) {
+    const token: string = await this.getPosToken();
+    const [tablesOpenList, errTableOpenList, _message] = await raptorApiService.getListTableOpen(token);
+    console.log("open list", tablesOpenList)
+    if (errTableOpenList) {
+      throw new HttpException(this.buildRaptorMessageError(errTableOpenList), HttpStatus.BAD_REQUEST);
+    }
+    const { details: tablesDetail } = tablesOpenList;
+    const tableFound: RaptorTableDetailInterface | undefined = tablesDetail.find((tableDetail: RaptorTableDetailInterface) => tableDetail.tablename === tableId);
+    return { tableFound, token };
+  }
+
+  private async getPosInfoByOutletId(outletId: string) {
+    const posInfo = await this.posManager.findByOutletId(outletId);
+    if (!posInfo) {
+      throw new HttpException('POS not found.', HttpStatus.BAD_REQUEST);
+    }
+    const { pos_id: posId } = posInfo;
+    return posId;
+  }
+
+  public async getInfoPos(request: GetInfoPosDto) {
+    const { outletId, tableId } = request;
+    this.validateGetInfoPosRequest(request);
+    const posId = await this.getPosInfoByOutletId(outletId);
+    const table = await this.findTableById(tableId);
+    const dataRes: PosInfoResponseInferface = {
+      posId,
+      ...table.tableFound
+    };
+    return dataRes;
   }
 
   private async getPosToken() {
@@ -233,6 +259,16 @@ export class PosService {
     }
     if (!operator) {
       throw new HttpException('operator can not null.', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  private validateGetInfoPosRequest(request: GetInfoPosDto) {
+    const { tableId, outletId } = request;
+    if (!tableId) {
+      throw new HttpException('tableId can not null.', HttpStatus.BAD_REQUEST);
+    }
+    if (!outletId) {
+      throw new HttpException('outletId can not null.', HttpStatus.BAD_REQUEST);
     }
   }
 }
