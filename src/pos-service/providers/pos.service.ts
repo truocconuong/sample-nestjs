@@ -33,17 +33,21 @@ export class PosService {
     };
     items.map(async (item: ItemInterface) => {
       dataOrder.pluno = this.toPlunoString(posId);
-      const [response, _error, _message] = await raptorApiService.orderItem(dataOrder);
+      const [response, error, _message] = await raptorApiService.orderItem(dataOrder);
+      if (error) {
+        throw new HttpException(this.buildRaptorMessageError(error), HttpStatus.BAD_REQUEST);
+      }
       if (item.selectedOptions) {
         item.selectedOptions.map(async (option: ItemSelectedOptionsInterface) => {
           const optionsData: RaptorPrepItemInterface = {
             ...dataOrder,
             pluSalesRef: response.pluSalesRef
           }
-          if (option.price > 0) {
-            raptorApiService.prepItem(optionsData);
-          } else {
-            raptorApiService.modifyItem(optionsData);
+          const [_res, err, _message] = option.price > 0 ? await raptorApiService.prepItem(optionsData)
+            : await raptorApiService.modifyItem(optionsData);
+
+          if (err) {
+            throw new HttpException(this.buildRaptorMessageError(error), HttpStatus.BAD_REQUEST);
           }
         })
       }
@@ -68,7 +72,7 @@ export class PosService {
     const token: string = await this.getPosToken();
     const [tablesOpenList, errTableOpenList, _message] = await raptorApiService.getListTableOpen(token);
     if (errTableOpenList) {
-      throw new HttpException(errTableOpenList.message, HttpStatus.BAD_REQUEST);
+      throw new HttpException(this.buildRaptorMessageError(errTableOpenList), HttpStatus.BAD_REQUEST);
     }
     const { details: tablesDetail } = tablesOpenList;
     const { tableId } = updateTableInfo;
@@ -78,7 +82,7 @@ export class PosService {
     if (tableFound) {
       const [_response, errorRecallTable, _message] = await this.recallTable(token, tableFound, posId as string);
       if (errorRecallTable) {
-        throw new HttpException(errorRecallTable.message, HttpStatus.BAD_REQUEST);
+        throw new HttpException(this.buildRaptorMessageError(errorRecallTable), HttpStatus.BAD_REQUEST);
       }
       data.salesNo = tableFound.salesno;
       data.splitNo = tableFound.splitno;
@@ -86,7 +90,7 @@ export class PosService {
     } else {
       const [tableDataRes, errorOpenTable, _message] = await this.openTable(token, updateTableInfo, posId as string);
       if (errorOpenTable) {
-        throw new HttpException(errorOpenTable.message, HttpStatus.BAD_REQUEST);
+        throw new HttpException(this.buildRaptorMessageError(errorOpenTable), HttpStatus.BAD_REQUEST);
       }
       data.salesNo = tableDataRes.salesno;
       data.splitNo = tableDataRes.splitno;
@@ -105,7 +109,7 @@ export class PosService {
       }
       const response = await this.authenWithRaptor(dataAuthen);
       if (response) {
-        const token: string = response[0]?.access_token;
+        const token: string = response.access_token;
         return token;
       }
     }
@@ -145,8 +149,11 @@ export class PosService {
 
   private async authenWithRaptor(raptorAuthenInfo: RaptorAuthenInterFace) {
     const { username, password } = raptorAuthenInfo;
-    const result = await raptorApiService.authenticate({ username, password });
-    return result;
+    const [res, err, _msg] = await raptorApiService.authenticate({ username, password });
+    if (err) {
+      throw new HttpException(this.buildRaptorMessageError(err), HttpStatus.BAD_REQUEST);
+    }
+    return res;
   }
 
   public async viewBill(billDataRequest: ViewBillDataRequest) {
@@ -160,7 +167,7 @@ export class PosService {
         password: raptorPassword,
       }
       const authenRes = await this.authenWithRaptor(dataAuthen);
-      const token: string = authenRes[0]?.access_token;
+      const token: string = authenRes?.access_token;
       const dataRequest: RaptorPrintBillInterface = {
         posid: posId as string,
         tablename: tableName as string,
@@ -171,11 +178,15 @@ export class PosService {
       }
       const [billData, err, _msg] = await raptorApiService.printBill(dataRequest);
       if (err) {
-        throw new HttpException(err, HttpStatus.BAD_REQUEST);
+        throw new HttpException(this.buildRaptorMessageError(err), HttpStatus.BAD_REQUEST);
       }
       return billData;
     }
     return [];
+  }
+
+  private buildRaptorMessageError = (err: Error) => {
+    return `Error from Pos: ${err.message}`;
   }
 
   private validateTableInfo(tableInfo: UpdateTableDto) {

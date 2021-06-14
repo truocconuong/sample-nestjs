@@ -2,9 +2,7 @@ import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { AuthenticateClientGuard } from 'src/auth';
 import { SubmitOrderDto, UpdateTableDto, ViewBillOrderDto } from '../dto/order.dto';
 import { PosService } from '../providers/pos.service';
-/**
- * route /test/crud/*
- */
+
 @Controller('order')
 export class PosController {
   constructor(private posService: PosService) { }
@@ -15,7 +13,6 @@ export class PosController {
     const result = await this.posService.submitOrder(orderData);
     return result;
   }
-
 
   @Post('/updateTable')
   @UseGuards(AuthenticateClientGuard)
