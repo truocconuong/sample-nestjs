@@ -1,19 +1,29 @@
-import { IsArray, IsOptional } from "class-validator";
+import { IsArray } from "class-validator";
 
-export class SubmitOrderDto {
-    // @IsNotEmpty({ message: 'Please select outlet' })
+export class UpdateTableDto {
     outletId: string = '';
 
-    // @IsNotEmpty({ message: 'Please select table' })
     tableId: string = '';
 
-    @IsArray()
-    // @ArrayNotEmpty({ message: 'items can not empty' })
-    items!: [ItemInterface];
-
-    @IsOptional()
-    remarks: string = '';
+    remarks: string = ''
 }
+
+export class SubmitOrderDto {
+    tableName!: string;
+
+    posId!: string;
+
+    operator!: number;
+
+    salesNo!: number;
+
+    splitNo!: number;
+
+
+    @IsArray()
+    items!: [ItemInterface];
+}
+
 
 export class ViewBillOrderDto {
     posId!: string;

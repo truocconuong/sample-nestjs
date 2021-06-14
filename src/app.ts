@@ -22,7 +22,7 @@ async function bootstrap(): Promise<void> {
     transform: true, // transform object to DTO class,
   }));
   app.setGlobalPrefix('api/v1');
-
+  app.enableCors();
 
   if (isProduction) {
     app.useLogger(await app.resolve(Logger));
