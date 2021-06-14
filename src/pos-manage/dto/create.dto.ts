@@ -26,5 +26,5 @@ export class CreateDto implements Omit<PocManageModel, 'id' | 'updated_at' | 'cr
   public client_secret!: string;
   
   @IsBoolean()
-  public isAuto!: boolean;
+  public is_auto!: boolean;
 }
