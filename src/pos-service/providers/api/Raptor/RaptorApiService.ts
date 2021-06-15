@@ -36,7 +36,6 @@ export const raptorApiService = {
     return [dataResponse, err, msg];
   },
   getListTableOpen: async function (token: string): Promise<[RaptorListTableOpenInterface, Error, string]> {
-    console.log("token nhan dc la: ", token)
     const [dataResponse, err, msg] = await Request.get(apiUrls.raptor.getOpenTableList(process.env.RAPTOR_API_URL as string), {}, token);
     return [dataResponse as RaptorListTableOpenInterface, err as Error, msg as string];
   },

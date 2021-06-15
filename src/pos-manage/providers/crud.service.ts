@@ -32,6 +32,12 @@ export class CrudService {
     })
   }
 
+  public async findById(pos_id: string): Promise<PocManageModel | undefined> {
+    return this.table.findOne({
+      pos_id
+    })
+  }
+
   public async remove(id: number): Promise<DeleteResult> {
     return this.table.delete(id);
   }

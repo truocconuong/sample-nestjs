@@ -8,7 +8,7 @@ export interface TabbleOpenListInterface {
 }
 
 export interface RaptorBaseResponseInterface {
-    errorCode: number;
+    errorcode: number;
     msg: string;
 }
 
@@ -27,66 +27,81 @@ export interface RaptorOpenTableInterface extends RaptorCommonRequestInterface {
     cover: number;
     orderremark: string;
     tablename: string;
+    operator: number;
 }
 
-export interface RaptorRecallTableInterface extends RaptorTableDetailInterface, RaptorCommonRequestInterface {
-}
-export interface RaptorOrderItemInterface extends RaptorCommonRequestInterface, RaptorTableDetailInterface {
+export interface RaptorRecallTableInterface
+    extends RaptorTableDetailInterface,
+    RaptorCommonRequestInterface { }
+export interface RaptorOrderItemInterface
+    extends RaptorCommonRequestInterface,
+    RaptorTableDetailInterface {
     item_qty: number;
     sales_category: number;
     pluno?: string;
 }
 
-export interface RaptorPrepItemInterface extends RaptorCommonRequestInterface, RaptorTableDetailInterface {
-    item_qty: number;
+export interface RaptorPrepItemInterface
+    extends RaptorCommonRequestInterface,
+    RaptorTableDetailInterface {
+    qty: number;
     sales_category: number;
     pluSalesRef: number;
     pluno?: string;
 }
 
-export interface RaptorModifyItemInterface extends RaptorCommonRequestInterface, RaptorTableDetailInterface {
-    item_qty: number;
+export interface RaptorModifyItemInterface
+    extends RaptorCommonRequestInterface,
+    RaptorTableDetailInterface {
     sales_category: number;
     pluSalesRef: number;
-    pluno?: string;
+    instruction?: string;
 }
 
-export interface RaptorPrintBillInterface extends RaptorCommonRequestInterface, RaptorTableDetailInterface {
-}
+export interface RaptorPrintBillInterface
+    extends RaptorCommonRequestInterface,
+    RaptorTableDetailInterface { }
 /*============RESPONSE==============*/
-export interface RaptorOpenTableResponseInterface extends RaptorBaseResponseInterface {
+export interface RaptorOpenTableResponseInterface
+    extends RaptorBaseResponseInterface {
     salesno: number;
     splitno: number;
 }
 
-export interface RaptorRecallTableResponseInterface extends RaptorBaseResponseInterface {
+export interface RaptorRecallTableResponseInterface
+    extends RaptorBaseResponseInterface {
     salesno: number;
     splitno: number;
 }
 
-export interface RaptorListTableOpenInterface extends RaptorBaseResponseInterface {
+export interface RaptorListTableOpenInterface
+    extends RaptorBaseResponseInterface {
     details: RaptorTableDetailInterface[];
 }
 
-export interface RaptorOrderItemResponseInterface extends RaptorBaseResponseInterface {
+export interface RaptorOrderItemResponseInterface
+    extends RaptorBaseResponseInterface {
     salesno: number;
     splitno: number;
     pluSalesRef: number;
 }
 
-export interface RaptorPrepItemResponseInterface extends RaptorBaseResponseInterface {
+export interface RaptorPrepItemResponseInterface
+    extends RaptorBaseResponseInterface {
     salesno: number;
     splitno: number;
 }
 
-export interface RaptorModifyItemResponseInterface extends RaptorBaseResponseInterface {
+export interface RaptorModifyItemResponseInterface
+    extends RaptorBaseResponseInterface {
     salesno: number;
     splitno: number;
     pluSalesRef: number;
 }
 
-
-export interface RaptorBillResponseInterface extends RaptorBaseResponseInterface, RaptorTableDetailInterface {
+export interface RaptorBillResponseInterface
+    extends RaptorBaseResponseInterface,
+    RaptorTableDetailInterface {
     pluSalesRef: number;
     header1: string;
     header2: string;
@@ -126,14 +141,14 @@ export interface BillDetailResponseInterface {
     qty: number;
     name1: string;
     name2: string;
-    amount: number,
-    transtypeID: number,
+    amount: number;
+    transtypeID: number;
     transtype: string;
 }
-
 export interface SubmitOrderResponseInterface {
     success: boolean;
     data: SubmitOrderDataInterface;
+    type: string;
 }
 
 export interface UpdateTableResponseInterface {
@@ -149,12 +164,7 @@ export interface SubmitOrderDataInterface {
     tableName?: string;
 }
 
-export interface UpdateOrderDataInterface extends SubmitOrderDataInterface {
+export interface UpdateOrderDataInterface extends SubmitOrderDataInterface { }
+export interface ViewBillDataRequest extends SubmitOrderDataInterface { }
 
-}
-export interface ViewBillDataRequest extends SubmitOrderDataInterface {
-}
-
-export interface PosInfoResponseInferface extends SubmitOrderDataInterface {
-
-}
+export interface PosInfoResponseInferface extends SubmitOrderDataInterface { }
