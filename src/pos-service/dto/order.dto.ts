@@ -8,6 +8,12 @@ export class UpdateTableDto {
     remarks: string = ''
 }
 
+export class GetInfoPosDto {
+    outletId: string = '';
+
+    tableId: string = '';
+}
+
 export class SubmitOrderDto {
     tableName!: string;
 

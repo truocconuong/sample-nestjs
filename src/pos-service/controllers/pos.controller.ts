@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { AuthenticateClientGuard } from 'src/auth';
-import { SubmitOrderDto, UpdateTableDto, ViewBillOrderDto } from '../dto/order.dto';
+import { GetInfoPosDto, SubmitOrderDto, UpdateTableDto, ViewBillOrderDto } from '../dto/order.dto';
 import { PosService } from '../providers/pos.service';
 
 @Controller('order')
@@ -21,10 +21,23 @@ export class PosController {
     return result;
   }
 
+  @Post('/getInfoPos')
+  @UseGuards(AuthenticateClientGuard)
+  public async getInfoPos(@Body() request: GetInfoPosDto) {
+    const result = await this.posService.getInfoPos(request);
+    return result;
+  }
+
   @Get('/bill')
   @UseGuards(AuthenticateClientGuard)
   public async viewBill(@Body() dataRequest: ViewBillOrderDto) {
     const result = await this.posService.viewBill(dataRequest);
     return result;
+  }
+
+  @Post('/closeSession')
+  public async closeSession(@Body() dataRequest: any) {
+    console.log("dataRequest", dataRequest)
+    return null;
   }
 }
