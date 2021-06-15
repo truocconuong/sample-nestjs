@@ -22,7 +22,7 @@ export class PosController {
   }
 
   @Post('/getInfoPos')
-  // @UseGuards(AuthenticateClientGuard)
+  @UseGuards(AuthenticateClientGuard)
   public async getInfoPos(@Body() request: GetInfoPosDto) {
     const result = await this.posService.getInfoPos(request);
     return result;
@@ -33,5 +33,11 @@ export class PosController {
   public async viewBill(@Body() dataRequest: ViewBillOrderDto) {
     const result = await this.posService.viewBill(dataRequest);
     return result;
+  }
+
+  @Post('/closeSession')
+  public async closeSession(@Body() dataRequest: any) {
+    console.log("dataRequest", dataRequest)
+    return null;
   }
 }
