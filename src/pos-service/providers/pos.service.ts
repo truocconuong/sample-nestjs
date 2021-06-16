@@ -477,6 +477,15 @@ export class PosService {
         HttpStatus.BAD_REQUEST
       );
     }
+    if(!posId){
+      throw new HttpException(
+        this.buildRaptorMessageError(
+          "posId can not null.",
+          ResponseType.Middleware
+        ),
+        HttpStatus.BAD_REQUEST
+      );
+    }
     const posInfo = await this.posManager.findById(posId);
     if (!posInfo) {
       throw new HttpException(
