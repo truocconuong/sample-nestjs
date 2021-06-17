@@ -41,4 +41,15 @@ export class CrudService {
   public async remove(id: number): Promise<DeleteResult> {
     return this.table.delete(id);
   }
+
+
+  public async checkOutletIdAndPosIdExists(outlet_id: string, pos_id: string): Promise<PocManageModel> {
+    const result = await this.table.findOne({
+      outlet_id,
+      pos_id
+    })
+    return result as PocManageModel
+  }
+
+
 }

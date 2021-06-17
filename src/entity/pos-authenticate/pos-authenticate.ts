@@ -11,6 +11,9 @@ export class PosAuthenticateModel {
   @Column('text', { nullable: false, name: 'token' })
   token?: string;
 
+  @Column('text', { nullable: false, name: 'signature' })
+  signature?: string;
+
   @Column('text', { nullable: false, name: 'secret_key' })
   secret_key?: string;
 

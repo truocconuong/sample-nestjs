@@ -29,6 +29,7 @@
     "@nestjs/serve-static": "^2.1.4",
     "@nestjs/swagger": "^4.8.0",
     "@nestjs/typeorm": "^7.1.5",
+    "@types/lodash": "^4.14.170",
     "apollo-server-express": "^2.25.0",
     "aws-sdk": "^2.920.0",
     "class-transformer": "^0.4.0",

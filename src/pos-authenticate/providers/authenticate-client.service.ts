@@ -9,9 +9,9 @@ export class AuthenticateClientService {
     @InjectRepository(PosAuthenticateModel)
     private table: Repository<PosAuthenticateModel>,
   ) { }
-  public async findClientByClientId(client_id: string | undefined): Promise<PosAuthenticateModel | undefined> {
+  public async findClientBySignature(signature: string | undefined): Promise<PosAuthenticateModel | undefined> {
     return this.table.findOne({
-      client_id
+      signature
     });
   }
 
