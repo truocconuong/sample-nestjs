@@ -1,15 +1,19 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UnauthorizedException, UseGuards } from '@nestjs/common';
 import jwt from 'jsonwebtoken';
+import { AuthenticateActionGuard } from 'src/auth/guards/authenticate-action.guard';
 
 import { CreateDto } from '../dto';
+import { LoginDto } from '../dto/login.dto';
 import { CrudService } from '../providers';
 
-@Controller('token')
+@Controller()
 export class CrudController {
   // eslint-disable-next-line @typescript-eslint/no-useless-constructor
   constructor(private crud: CrudService) { }
   // eslint-disable-next-line @typescript-eslint/require-await
-  @Post('generate')
+
+  @UseGuards(AuthenticateActionGuard)
+  @Post('generate/token')
   public async generateToken(@Body() body: CreateDto): Promise<{ signature: string }> {
     const secret: string = `${process.env.JWT_SECRET}`
     const tokenSign = jwt.sign({
@@ -27,5 +31,23 @@ export class CrudController {
     return {
       signature: signature
     };
+  }
+
+  @Post('auth/login')
+  public async login(@Body() body: LoginDto) {
+    const { username, password } = body;
+    if (username !== process.env.USERNAME || password !== process.env.PASSWORD) {
+      throw new UnauthorizedException();
+    }
+    const tokenSign = jwt.sign({
+      username,
+      password
+    }, process.env.JWT_SECRET as string ,{
+      expiresIn: '24h'
+    });
+
+    return {
+      token: tokenSign
+    }
   }
 }
