@@ -1,16 +1,17 @@
 import { Body, Controller, Post, Get, NotFoundException, UseGuards } from '@nestjs/common';
-import { AuthenticateClientGuard } from 'src/auth';
 import { PocManageModel } from 'src/entity/pos-manage';
 import { CreateDto } from '../dto';
 import { CrudService } from '../providers';
 import _ from 'lodash'
+import { AuthenticateActionGuard } from 'src/auth/guards/authenticate-action.guard';
 
 @Controller('pos')
 export class CrudController {
   constructor(private crud: CrudService) { }
 
+  
   @Get()
-  @UseGuards(AuthenticateClientGuard)
+  @UseGuards(AuthenticateActionGuard)
   public async getAll(): Promise<PocManageModel[]> {
     const result = await this.crud.findAll();
     if (!result) {
@@ -20,6 +21,7 @@ export class CrudController {
   }
 
   @Post()
+  @UseGuards(AuthenticateActionGuard)
   public async create(@Body() body: CreateDto): Promise<{ result: {} }> {
     const { outlet_id, pos_id } = body;
     const checkOutletAndPosExists = await this.crud.checkOutletIdAndPosIdExists(outlet_id, pos_id)
@@ -39,6 +41,7 @@ export class CrudController {
   // }
 
   // eslint-disable-next-line @typescript-eslint/require-await
+  @UseGuards(AuthenticateActionGuard)
   @Get('validate')
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
