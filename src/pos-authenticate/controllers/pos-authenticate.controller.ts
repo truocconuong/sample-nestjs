@@ -10,20 +10,22 @@ export class CrudController {
   constructor(private crud: CrudService) { }
   // eslint-disable-next-line @typescript-eslint/require-await
   @Post('generate')
-  public async generateToken(@Body() body: CreateDto): Promise<{ token: string; secret_key: string }> {
-    const secret: string = `${body.secret_key}${process.env.SALT}`
+  public async generateToken(@Body() body: CreateDto): Promise<{ signature: string }> {
+    const secret: string = `${process.env.JWT_SECRET}`
     const tokenSign = jwt.sign({
       client_id: body.client_id,
     }, secret);
 
+    const signature = tokenSign && tokenSign.length > 1 ? tokenSign.split('.')[2] : '';
+
     await this.crud.create({
       client_id: body.client_id,
-      secret_key: body.secret_key,
+      secret_key: secret,
       token: tokenSign,
+      signature
     });
     return {
-      token: tokenSign,
-      secret_key: body.secret_key,
+      signature: signature
     };
   }
 }

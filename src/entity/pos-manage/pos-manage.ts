@@ -5,9 +5,6 @@ export class PocManageModel {
   @PrimaryGeneratedColumn({ type: 'int', unsigned: true, name: 'id' })
   id!: number;
 
-  @Column('varchar', { nullable: false, name: 'order_id' })
-  order_id!: string;
-
   @Column('boolean', { nullable: false, name: 'is_auto' })
   is_auto!: boolean;
 
