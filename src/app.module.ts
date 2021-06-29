@@ -7,9 +7,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { BaseModule } from './base';
 import { CommonModule, ExceptionsFilter, LoggerMiddleware } from './common';
 import { configuration } from './config';
-import { PocAuthenticateModule } from './pos-authenticate';
-import { PocManageModule } from './pos-manage';
-import { PosServiceModule } from './pos-service/pos-service.module';
 
 @Module({
   imports: [
@@ -42,9 +39,6 @@ import { PosServiceModule } from './pos-service/pos-service.module';
     // Service Modules
     CommonModule, // Global
     BaseModule,
-    PocManageModule,
-    PocAuthenticateModule,
-    PosServiceModule,
   ],
   providers: [
     // Global Guard, Authentication check on all routers
