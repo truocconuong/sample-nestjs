@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { BaseModule } from './base';
 import { CommonModule, ExceptionsFilter, LoggerMiddleware } from './common';
 import { configuration } from './config';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { configuration } from './config';
     // Service Modules
     CommonModule, // Global
     BaseModule,
+    UserModule
   ],
   providers: [
     // Global Guard, Authentication check on all routers
