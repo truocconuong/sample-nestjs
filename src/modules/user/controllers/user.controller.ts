@@ -1,24 +1,21 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, UseFilters, UseInterceptors } from '@nestjs/common';
 import _ from 'lodash'
 import { TransformInterceptor } from 'src/common/interceptor/transform.interceptor';
 import { UserModel } from 'src/entity/user';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { UserLoggerExceptionsFilter } from '../exceptions/user.exceptions';
 import { UserService } from '../providers/user.service';
 
 @Controller('users')
-export class CrudController {
+export class UserController {
     constructor(private userService: UserService) { }
-
     @Get()
     @UseInterceptors(TransformInterceptor)
+    @UseFilters(UserLoggerExceptionsFilter)
     public async getAll(): Promise<UserModel[]> {
-        try {
-            const result = await this.userService.findAll();
-            return result;
-        } catch (error) {
-            throw error
-        }
+        const result = await this.userService.findAll();
+        return result;
     }
 
     @Get(':id')
