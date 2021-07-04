@@ -8,10 +8,6 @@ export class PropertyModel {
     @Column("uuid", { nullable: false })
     user_id?: string;
 
-    @Column("uuid", { nullable: false })
-    type_id?: string;
-
-
     @Column({ length: 255, nullable: false })
     country?: string;
 
@@ -30,6 +26,12 @@ export class PropertyModel {
 
     @Column({ length: 255, nullable: false })
     address_line_2?: string;
+
+    @Column({ length: 45, nullable: false })
+    joint_name?: string;
+
+    @Column({ length: 45, nullable: false })
+    joint_contact?: string;
 
     @Column({ nullable: false })
     unit_number?: number;

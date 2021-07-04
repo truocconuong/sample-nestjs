@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('system_parameter')
+@Entity('master_data')
 export class MasterDataModel {
     @PrimaryGeneratedColumn("uuid")
     id!: string;

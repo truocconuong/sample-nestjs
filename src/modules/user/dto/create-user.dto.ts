@@ -1,7 +1,374 @@
-import { IsString } from "class-validator";
-import { UserModel } from "src/entity/user";
+import { Type } from "class-transformer";
+import { IsArray, IsBoolean, IsDate, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, Length, ValidateNested } from "class-validator";
 
-export class CreateUserDto implements Omit<UserModel, 'id' | 'updated_at' | 'created_at'> {
+export class ExecutorDto {
   @IsString()
+  @IsNotEmpty()
+  @Length(1, 255)
+  public full_legal_name!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @Length(1, 255)
+  public relationship_id!: string;
+
+  @IsEmail()
+  @IsOptional()
+  @Length(1, 45)
   public email!: string;
+
+  @IsString()
+  @IsOptional()
+  @Length(1, 45)
+  public nric!: string;
+
+}
+
+export class BeneficiaryDto {
+  @IsNumber()
+  @IsNotEmpty()
+  public id!: number;
+
+  @IsString()
+  @IsNotEmpty()
+  @Length(1, 255)
+  public full_legal_name!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @Length(1, 255)
+  public relationship_id!: string;
+
+  @IsEmail()
+  @IsOptional()
+  @Length(1, 255)
+  public email!: string;
+
+  @IsString()
+  @IsOptional()
+  @Length(1, 255)
+  public nric!: string;
+
+  @IsNumber()
+  @IsOptional()
+  public percent!: number;
+}
+
+
+export class PropertyDto {
+  @IsNotEmpty()
+  @IsString()
+  @Length(1,45)
+  country!: string;
+
+  @IsBoolean()
+  @IsOptional()
+  is_solely!: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  is_joint!: boolean;
+
+  @IsString()
+  @IsOptional()
+  postal_code!: string;
+
+  @IsString()
+  @IsOptional()
+  address_line_1!: string;
+
+  @IsString()
+  @IsOptional()
+  address_line_2!: string;
+
+  @IsNumber()
+  @IsOptional()
+  unit_number!: number;
+
+  @IsNumber()
+  @IsOptional()
+  tenure!: number;
+
+  @IsString()
+  @IsOptional()
+  current_bank_loan_id!: string;
+
+  @IsString()
+  @IsOptional()
+  joint_name!: string;
+
+  @IsString()
+  @IsOptional()
+  joint_contact!: string;
+
+  @IsDate()
+  @IsOptional()
+  loan_start_date!: Date;
+
+  @IsDate()
+  @IsOptional()
+  loan_end_date!: Date;
+
+  @IsNumber()
+  @IsOptional()
+  year_loan_taken!: number;
+
+  @IsNumber()
+  @IsOptional()
+  interest_rate!: number;
+
+  @IsNumber()
+  @IsOptional()
+  outstanding_loan_amount!: number;
+}
+
+
+export class BankAccountDto {
+  @IsString()
+  @IsNotEmpty()
+  bank_id!: string;
+
+  @IsString()
+  @Length(1,255)
+  @IsNotEmpty()
+  account_no!: string;
+
+  @IsBoolean()
+  @IsOptional()
+  is_solely!: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  is_joint!: boolean;
+
+  @IsNumber()
+  @IsOptional()
+  current_balance!: number;
+
+  @IsString()
+  @IsOptional()
+  account_holder!: string;
+}
+
+
+export class InsurancePoliciesDto {
+  @IsNumber()
+  @IsOptional()
+  beneficiary_id!: number;
+
+  @IsString()
+  @IsNotEmpty()
+  insurance_company!: string
+
+  @IsBoolean()
+  @IsOptional()
+  is_non_nomivated!: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  is_nominated!: boolean;
+
+  @IsString()
+  @Length(1, 255)
+  @IsOptional()
+  policy_name!: string;
+
+  @IsString()
+  @Length(1, 45)
+  @IsOptional()
+  policy_no!: string;
+
+  @IsNumber()
+  @IsOptional()
+  current_value!: number;
+
+  @IsNumber()
+  @IsOptional()
+  converage!: number;
+}
+
+export class InvestmentsDto {
+  @IsString()
+  @IsNotEmpty()
+  type_id?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  financial_institutions?: string;
+
+  @IsString()
+  @IsOptional()
+  account_no?: string;
+
+  @IsNumber()
+  @IsOptional()
+  capital_outlay?: number;
+
+  @IsNumber()
+  @IsOptional()
+  current_market_value?: number;
+}
+
+
+export class BusinessInterestsDto {
+  @IsString()
+  @IsNotEmpty()
+  company_name?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  company_uen?: string;
+
+  @IsString()
+  @IsOptional()
+  position?: string;
+
+  @IsNumber()
+  @IsOptional()
+  estimated_current_market_value?: number;
+
+  @IsNumber()
+  @IsOptional()
+  percentage_share?: number;
+}
+
+export class ValuablesDto {
+  @IsString()
+  @IsNotEmpty()
+  type_id?: string;
+
+  @IsString()
+  @IsOptional()
+  brand?: string;
+
+  @IsString()
+  @IsOptional()
+  model?: string;
+
+  @IsString()
+  @IsOptional()
+  serial_no?: string;
+
+  @IsString()
+  @IsOptional()
+  plate_no?: string;
+
+  @IsString()
+  @IsOptional()
+  country_name?: string;
+
+  @IsString()
+  @IsOptional()
+  address_line_1?: string;
+
+  @IsString()
+  @IsOptional()
+  address_line_2?: string;
+
+  @IsString()
+  @IsOptional()
+  postal_code?: string;
+
+  @IsString()
+  @IsOptional()
+  pet_name?: string;
+
+  @IsString()
+  @IsOptional()
+  pet_breed?: string;
+
+  @IsString()
+  @IsOptional()
+  pet_registration_number?: string;
+
+  @IsString()
+  @IsOptional()
+  safe_box_detail?: string;
+}
+
+
+
+export class CreateUserGuestDto {
+  @IsEmail()
+  @Length(1, 255)
+  @IsNotEmpty()
+  public email!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  public full_legal_name!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @Length(1, 255)
+  public nric!: string;
+
+
+  @IsString()
+  @IsOptional()
+  @Length(1, 6)
+  public postal_code!: string
+
+  @IsString()
+  @IsOptional()
+  @Length(1, 255)
+  public address_line_1!: string
+
+
+  @IsString()
+  @IsOptional()
+  @Length(1, 255)
+  public address_line_2!: string
+
+  @IsString()
+  @IsOptional()
+  @Length(1, 20)
+  public unit_number!: string
+
+//  done
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ExecutorDto)
+  public executors!: ExecutorDto[]
+
+  // done
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => BeneficiaryDto)
+  public beneficiaries!: BeneficiaryDto[]
+
+  //done
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => PropertyDto)
+  public properties!: PropertyDto[]
+
+  //done
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => BankAccountDto)
+  public bank_accounts!: BankAccountDto[]
+
+  // done
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => InsurancePoliciesDto)
+  public insurance_policies!: InsurancePoliciesDto[]
+
+  //done
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => InvestmentsDto)
+  public investments!: InvestmentsDto[]
+
+  //done
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => BusinessInterestsDto)
+  public business_interests!: BusinessInterestsDto[]
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ValuablesDto)
+  public valuables!: ValuablesDto[]
 }

@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, U
 import _ from 'lodash'
 import { TransformInterceptor } from 'src/common/interceptor/transform.interceptor';
 import { UserModel } from 'src/entity/user';
-import { CreateUserDto } from '../dto/create-user.dto';
+import { CreateUserGuestDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserLoggerExceptionsFilter } from '../exceptions/user.exceptions';
 import { UserService } from '../providers/user.service';
@@ -32,12 +32,13 @@ export class UserController {
         }
     }
 
-    @Post()
+    @Post('guest')
     @UseInterceptors(TransformInterceptor)
-    public async create(@Body() body: CreateUserDto): Promise<UserModel> {
+    public async create(@Body() body: CreateUserGuestDto): Promise<boolean> {
+        console.log(body)
         try {
-            const result = await this.userService.create(body);
-            return result;
+            // const result = await this.userService.create(body);
+            return true;
         } catch (error) {
             throw error
         }

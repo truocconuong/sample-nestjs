@@ -11,6 +11,9 @@ export class InsurancePolicyModel {
     @Column("uuid", { nullable: true })
     beneficiary_id?: string;
 
+    @Column({ length: 255, nullable: true })
+    insurance_company?: string;
+
     @Column({ nullable: true })
     is_non_nomivated?: boolean;
 
