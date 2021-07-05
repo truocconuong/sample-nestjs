@@ -9,6 +9,7 @@ import { CommonModule, ExceptionsFilter, LoggerMiddleware } from './common';
 import { configuration } from './config';
 import { UserModule } from './modules/user/user.module';
 import { MasterdataModule } from './modules/masterdata/masterdata.module';
+import { ContactModule } from './modules/contact/contact.module';
 
 @Module({
   imports: [
@@ -42,7 +43,8 @@ import { MasterdataModule } from './modules/masterdata/masterdata.module';
     CommonModule, // Global
     BaseModule,
     UserModule,
-    MasterdataModule
+    MasterdataModule,
+    ContactModule
   ],
   providers: [
     // Global Guard, Authentication check on all routers
