@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { ExecutorModel } from '../executor';
 
 @Entity('user')
 export class UserModel {
@@ -37,4 +38,9 @@ export class UserModel {
 
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
     created_at!: Date;
+
+    @OneToMany(() => ExecutorModel, executor => executor.user_id, { persistence: true })
+    executors!: ExecutorModel[];
+
+
 }

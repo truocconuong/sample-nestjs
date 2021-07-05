@@ -32,4 +32,9 @@ export class UserRepositoryService {
     public async remove(id: string): Promise<DeleteResult> {
         return this.repository.delete(id);
     }
+
+    public async findOne(options: any): Promise<UserModel | undefined> {
+        return this.repository.findOne(options);
+
+    }
 }
