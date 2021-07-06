@@ -33,7 +33,7 @@ export class UserController {
     @Post('guest')
     @UseInterceptors(TransformInterceptor)
     public async create(@Body() body: CreateUserGuestDto): Promise<UserModel | undefined> {
-        const { email, full_legal_name, nric, postal_code, address_line_1, address_line_2, unit_number, executors, beneficiaries, properties, bank_accounts, insurance_policies, business_interests, valuables } = body;
+        const { email, full_legal_name, nric, postal_code, address_line_1, address_line_2, unit_number, executors, beneficiaries, properties, bank_accounts, insurance_policies, business_interests, valuables , investments } = body;
         // use store beneficiary
         const beneficiaryStore: {
             id: string,
@@ -138,6 +138,16 @@ export class UserController {
                     ...business_interest
                 }
                 await this.userService.createBusinessInterest(dataBusinessInterest)
+            })
+        }
+
+        if (!_.isEmpty(investments)) {
+            _.forEach(investments, async investment => {
+                const dataInvestment = {
+                    user_id: user.id,
+                    ...investment
+                }
+                await this.userService.createInvestment(dataInvestment)
             })
         }
 

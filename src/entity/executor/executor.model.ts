@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { UserModel } from '../user';
 
 @Entity('executor')
 export class ExecutorModel {
@@ -6,26 +7,30 @@ export class ExecutorModel {
     id!: string;
 
     @Column("uuid", { nullable: false })
-    user_id?: string;
+    user_id!: string;
 
     @Column({ length: 255, nullable: false })
-    full_legal_name?: string;
+    full_legal_name!: string;
 
     @Column("uuid", { nullable: false })
-    relationship_id?: string;
+    relationship_id!: string;
 
     @Column({ length: 45, nullable: true })
-    email?: string;
+    email!: string;
 
     @Column({ length: 45, nullable: true })
-    nric?: string;
+    nric!: string;
 
     @Column({ nullable: true })
-    is_delete?: boolean;
+    is_delete!: boolean;
 
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'updated_at' })
     updated_at!: Date;
 
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
     created_at!: Date;
+
+    @ManyToOne(() => UserModel, user => user.executors, { persistence: false })
+    @JoinColumn({ name: 'user_id' })
+    user!: UserModel;
 }

@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { UserModel } from '../user';
 
 @Entity('bank_account')
 export class BankAccountModel {
@@ -34,4 +35,8 @@ export class BankAccountModel {
 
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
     created_at!: Date;
+
+    @ManyToOne(() => UserModel, user => user.bank_accounts, { persistence: true })
+    @JoinColumn({ name: 'user_id' })
+    user!: UserModel;
 }

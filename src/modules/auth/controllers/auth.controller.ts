@@ -17,8 +17,9 @@ export class AuthController {
     @Get('profile')
     @UseGuards(AuthGuard('jwt'))
     @UseInterceptors(TransformInterceptor)
-    public async getProfile(@GetUser() user: UserModel): Promise<UserModel | undefined> {
-       return user
+    public async getProfile(@GetUser() _user: UserModel): Promise<UserModel | undefined> {
+        const profileUser = await this.userService.getProfileUser('2f4824d7-2ad2-4ba6-bd6c-c84409a68380');
+       return profileUser
     }
 
     @Post('send-otp')
@@ -49,7 +50,6 @@ export class AuthController {
         if (user.otp !== otp) {
             throw new NotFoundException('Otp cannot exists');
         }
-
         const isValid = this.otpService.checkValidToken(user.otp, email)
         if (!isValid) {
             throw new HttpException('Otp expired', HttpStatus.UNAUTHORIZED);

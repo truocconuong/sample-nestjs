@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsArray, IsBoolean, IsDate, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, Length, ValidateNested } from "class-validator";
+import { IsArray, IsBoolean, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, Length, ValidateNested } from "class-validator";
 
 export class ExecutorDto {
   @IsString()
@@ -77,9 +77,9 @@ export class PropertyDto {
   @IsOptional()
   address_line_2!: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  unit_number!: number;
+  unit_number!: string;
 
   @IsNumber()
   @IsOptional()
@@ -97,11 +97,11 @@ export class PropertyDto {
   @IsOptional()
   joint_contact!: string;
 
-  @IsDate()
+  @IsString()
   @IsOptional()
   loan_start_date!: Date;
 
-  @IsDate()
+  @IsString()
   @IsOptional()
   loan_end_date!: Date;
 
