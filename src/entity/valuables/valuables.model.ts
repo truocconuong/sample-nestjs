@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { UserModel } from '../user';
 
 @Entity('valuables')
 export class ValuablesModel {
@@ -55,4 +56,8 @@ export class ValuablesModel {
 
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
     created_at!: Date;
+
+    @ManyToOne(() => UserModel, user => user.valuables, { persistence: true })
+    @JoinColumn({ name: 'user_id' })
+    user!: UserModel;
 }

@@ -107,4 +107,12 @@ export class UserService {
         const Valuables = await this.repositoryValuables.save(data)
         return Valuables
     }
+
+    public async getProfileUser (id : string) {
+        const user = await this.userRepositoryService.findById(id,{
+            relations : ['executors','beneficiaries','properties','bank_accounts','insurance_policies','investments','business_interests','valuables']
+        });
+        return user
+    }
+
 }

@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { UserModel } from '../user';
 
 @Entity('property')
 export class PropertyModel {
@@ -6,63 +7,67 @@ export class PropertyModel {
     id!: string;
 
     @Column("uuid", { nullable: false })
-    user_id?: string;
+    user_id!: string;
 
     @Column({ length: 255, nullable: false })
-    country?: string;
+    country!: string;
 
 
     @Column({ nullable: true })
-    is_solely?: boolean;
+    is_solely!: boolean;
 
     @Column({ nullable: true })
-    is_joint?: boolean;
+    is_joint!: boolean;
 
     @Column({ length: 45, nullable: true })
-    postal_code?: string;
+    postal_code!: string;
 
     @Column({ length: 255, nullable: true })
-    address_line_1?: string;
+    address_line_1!: string;
 
     @Column({ length: 255, nullable: true })
-    address_line_2?: string;
+    address_line_2!: string;
 
     @Column({ length: 45, nullable: true })
-    joint_name?: string;
+    joint_name!: string;
 
     @Column({ length: 45, nullable: true })
-    joint_contact?: string;
+    joint_contact!: string;
 
     @Column({ nullable: true })
-    unit_number?: number;
+    unit_number!: string;
 
     @Column({ nullable: true })
-    tenure?: number;
+    tenure!: number;
 
     @Column({ length: 45, nullable: true })
-    current_bank_loan_id?: string;
+    current_bank_loan_id!: string;
 
     @Column({ nullable: true })
-    loan_start_date?: Date;
+    loan_start_date!: Date;
 
     @Column({ nullable: true })
-    loan_end_date?: Date;
+    loan_end_date!: Date;
 
     @Column({ nullable: true })
-    year_loan_taken?: number;
+    year_loan_taken!: number;
 
     @Column({ nullable: true, type: 'float' })
-    interest_rate?: number;
+    interest_rate!: number;
 
     @Column({ nullable: true, type: 'float' })
-    outstanding_loan_amount?: number;
+    outstanding_loan_amount!: number;
 
     @Column({ nullable: true })
-    is_delete?: boolean;
+    is_delete!: boolean;
 
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'updated_at' })
     updated_at!: Date;
 
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
     created_at!: Date;
+
+    @ManyToOne(() => UserModel, user => user.properties, { persistence: true })
+    @JoinColumn({ name: 'user_id' })
+    user!: UserModel;
 }
