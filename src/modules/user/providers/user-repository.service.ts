@@ -19,7 +19,7 @@ export class UserRepositoryService {
     }
 
 
-    public async update(id: number, data: Partial<UserModel>): Promise<UpdateResult> {
+    public async update(id: string, data: Partial<UserModel>): Promise<UpdateResult> {
         return this.repository.update(id, data);
     }
 

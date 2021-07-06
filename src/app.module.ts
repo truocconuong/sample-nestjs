@@ -4,12 +4,12 @@ import { APP_FILTER } from '@nestjs/core';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { BaseModule } from './base';
 import { CommonModule, ExceptionsFilter, LoggerMiddleware } from './common';
 import { configuration } from './config';
 import { UserModule } from './modules/user/user.module';
 import { MasterdataModule } from './modules/masterdata/masterdata.module';
 import { ContactModule } from './modules/contact/contact.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -41,10 +41,10 @@ import { ContactModule } from './modules/contact/contact.module';
     // https://github.com/nestjsx/nest-router
     // Service Modules
     CommonModule, // Global
-    BaseModule,
     UserModule,
     MasterdataModule,
-    ContactModule
+    ContactModule,
+    AuthModule,
   ],
   providers: [
     // Global Guard, Authentication check on all routers

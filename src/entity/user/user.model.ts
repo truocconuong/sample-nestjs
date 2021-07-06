@@ -33,6 +33,12 @@ export class UserModel {
     @Column({ length: 255, nullable: true })
     will_pdf_link?: string;
 
+    @Column({ nullable: true })
+    is_verify?: boolean;
+
+    @Column({ length: 4, nullable: true })
+    otp?: string;
+
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'updated_at' })
     updated_at!: Date;
 
