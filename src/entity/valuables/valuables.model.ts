@@ -8,43 +8,43 @@ export class ValuablesModel {
     @Column("uuid", { nullable: false })
     user_id?: string;
 
-    @Column("uuid", { nullable: false })
+    @Column("uuid", { nullable: true })
     type_id?: string;
 
-    @Column({ length: 255, nullable: false })
+    @Column({ length: 255, nullable: true })
     brand?: string;
 
-    @Column({ length: 255, nullable: false })
+    @Column({ length: 255, nullable: true })
     model?: string;
 
-    @Column({ length: 255, nullable: false })
+    @Column({ length: 255, nullable: true })
     serial_no?: string;
 
-    @Column({ length: 45, nullable: false })
+    @Column({ length: 45, nullable: true })
     plate_no?: string;
 
-    @Column({ length: 255, nullable: false })
+    @Column({ length: 255, nullable: true })
     country_name?: string;
 
-    @Column({ length: 255, nullable: false })
+    @Column({ length: 255, nullable: true })
     address_line_1?: string;
 
-    @Column({ length: 255, nullable: false })
+    @Column({ length: 255, nullable: true })
     address_line_2?: string;
 
-    @Column({ length: 45, nullable: false })
+    @Column({ length: 45, nullable: true })
     postal_code?: string;
 
-    @Column({ length: 45, nullable: false })
+    @Column({ length: 45, nullable: true })
     pet_name?: string;
 
-    @Column({ length: 45, nullable: false })
+    @Column({ length: 45, nullable: true })
     pet_breed?: string;
 
-    @Column({ length: 45, nullable: false })
+    @Column({ length: 45, nullable: true })
     pet_registration_number?: string;
 
-    @Column({ nullable: false, type: 'text' })
+    @Column({ nullable: true, type: 'text' })
     safe_box_detail?: string;
 
     @Column({ nullable: true })

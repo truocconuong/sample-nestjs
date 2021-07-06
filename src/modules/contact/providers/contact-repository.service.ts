@@ -1,29 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserModel } from 'src/entity/user';
+import { ContactModel } from 'src/entity/contact';
 import { Repository, UpdateResult, DeleteResult } from 'typeorm';
 
 @Injectable()
-export class UserRepositoryService {
+export class ContactRepositoryService {
     constructor(
-        @InjectRepository(UserModel)
-        private repository: Repository<UserModel>,
+        @InjectRepository(ContactModel)
+        private repository: Repository<ContactModel>,
     ) { }
 
-    public async findAll(): Promise<UserModel[]> {
+    public async findAll(): Promise<ContactModel[]> {
         return this.repository.find()
     }
 
-    public async create(data: Partial<UserModel>): Promise<UserModel> {
+    public async create(data: Partial<ContactModel>): Promise<ContactModel> {
         return this.repository.save(data);
     }
 
 
-    public async update(id: string, data: Partial<UserModel>): Promise<UpdateResult> {
+    public async update(id: number, data: Partial<ContactModel>): Promise<UpdateResult> {
         return this.repository.update(id, data);
     }
 
-    public async findById(id: string): Promise<UserModel | undefined> {
+    public async findById(id: string): Promise<ContactModel | undefined> {
         return this.repository.findOne({
             id
         })
@@ -33,7 +33,7 @@ export class UserRepositoryService {
         return this.repository.delete(id);
     }
 
-    public async findOne(options: any): Promise<UserModel | undefined> {
+    public async findOne(options: any): Promise<ContactModel | undefined> {
         return this.repository.findOne(options);
 
     }

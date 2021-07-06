@@ -25,10 +25,6 @@ export class ExecutorDto {
 }
 
 export class BeneficiaryDto {
-  @IsNumber()
-  @IsNotEmpty()
-  public id!: number;
-
   @IsString()
   @IsNotEmpty()
   @Length(1, 255)
@@ -58,7 +54,7 @@ export class BeneficiaryDto {
 export class PropertyDto {
   @IsNotEmpty()
   @IsString()
-  @Length(1,45)
+  @Length(1, 45)
   country!: string;
 
   @IsBoolean()
@@ -129,7 +125,7 @@ export class BankAccountDto {
   bank_id!: string;
 
   @IsString()
-  @Length(1,255)
+  @Length(1, 255)
   @IsNotEmpty()
   account_no!: string;
 
@@ -152,9 +148,10 @@ export class BankAccountDto {
 
 
 export class InsurancePoliciesDto {
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  beneficiary_id!: number;
+  beneficiary_id!: string
+
 
   @IsString()
   @IsNotEmpty()
@@ -174,6 +171,11 @@ export class InsurancePoliciesDto {
   policy_name!: string;
 
   @IsString()
+  @Length(1, 255)
+  @IsOptional()
+  beneficiary_name!: string;
+
+  @IsString()
   @Length(1, 45)
   @IsOptional()
   policy_no!: string;
@@ -190,100 +192,100 @@ export class InsurancePoliciesDto {
 export class InvestmentsDto {
   @IsString()
   @IsNotEmpty()
-  type_id?: string;
+  type_id!: string;
 
   @IsString()
   @IsNotEmpty()
-  financial_institutions?: string;
+  financial_institutions!: string;
 
   @IsString()
   @IsOptional()
-  account_no?: string;
+  account_no!: string;
 
   @IsNumber()
   @IsOptional()
-  capital_outlay?: number;
+  capital_outlay!: number;
 
   @IsNumber()
   @IsOptional()
-  current_market_value?: number;
+  current_market_value!: number;
 }
 
 
 export class BusinessInterestsDto {
   @IsString()
   @IsNotEmpty()
-  company_name?: string;
+  company_name!: string;
 
   @IsString()
   @IsNotEmpty()
-  company_uen?: string;
+  company_uen!: string;
 
   @IsString()
   @IsOptional()
-  position?: string;
+  position!: string;
 
   @IsNumber()
   @IsOptional()
-  estimated_current_market_value?: number;
+  estimated_current_market_value!: number;
 
   @IsNumber()
   @IsOptional()
-  percentage_share?: number;
+  percentage_share!: number;
 }
 
 export class ValuablesDto {
   @IsString()
   @IsNotEmpty()
-  type_id?: string;
+  type_id!: string;
 
   @IsString()
   @IsOptional()
-  brand?: string;
+  brand!: string;
 
   @IsString()
   @IsOptional()
-  model?: string;
+  model!: string;
 
   @IsString()
   @IsOptional()
-  serial_no?: string;
+  serial_no!: string;
 
   @IsString()
   @IsOptional()
-  plate_no?: string;
+  plate_no!: string;
 
   @IsString()
   @IsOptional()
-  country_name?: string;
+  country_name!: string;
 
   @IsString()
   @IsOptional()
-  address_line_1?: string;
+  address_line_1!: string;
 
   @IsString()
   @IsOptional()
-  address_line_2?: string;
+  address_line_2!: string;
 
   @IsString()
   @IsOptional()
-  postal_code?: string;
+  postal_code!: string;
 
   @IsString()
   @IsOptional()
-  pet_name?: string;
+  pet_name!: string;
 
   @IsString()
   @IsOptional()
-  pet_breed?: string;
+  pet_breed!: string;
 
   @IsString()
   @IsOptional()
-  pet_registration_number?: string;
+  pet_registration_number!: string;
 
   @IsString()
   @IsOptional()
-  safe_box_detail?: string;
+  safe_box_detail!: string;
 }
 
 
@@ -325,7 +327,7 @@ export class CreateUserGuestDto {
   @Length(1, 20)
   public unit_number!: string
 
-//  done
+  //  done
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => ExecutorDto)
