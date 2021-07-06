@@ -4,7 +4,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { CommonModule, ExceptionsFilter, LoggerMiddleware } from './common';
+import { CommonModule, ExceptionsFilter } from './common';
 import { configuration } from './config';
 import { UserModule } from './modules/user/user.module';
 import { MasterdataModule } from './modules/masterdata/masterdata.module';
@@ -55,7 +55,7 @@ import { AuthModule } from './modules/auth/auth.module';
 })
 export class AppModule implements NestModule {
   // Global Middleware, Inbound logging
-  public configure(consumer: MiddlewareConsumer): void {
-    consumer.apply(LoggerMiddleware).forRoutes('*');
+  public configure(_consumer: MiddlewareConsumer): void {
+    // consumer.apply(LoggerMiddleware).forRoutes('*');
   }
 }
