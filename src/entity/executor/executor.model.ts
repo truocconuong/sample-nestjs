@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('executor')
-export class BusinessInterestModel {
+export class ExecutorModel {
     @PrimaryGeneratedColumn("uuid")
     id!: string;
 

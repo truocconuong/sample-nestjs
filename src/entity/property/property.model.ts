@@ -18,22 +18,22 @@ export class PropertyModel {
     @Column({ nullable: true })
     is_joint?: boolean;
 
-    @Column({ length: 45, nullable: false })
+    @Column({ length: 45, nullable: true })
     postal_code?: string;
 
-    @Column({ length: 255, nullable: false })
+    @Column({ length: 255, nullable: true })
     address_line_1?: string;
 
-    @Column({ length: 255, nullable: false })
+    @Column({ length: 255, nullable: true })
     address_line_2?: string;
 
-    @Column({ length: 45, nullable: false })
+    @Column({ length: 45, nullable: true })
     joint_name?: string;
 
-    @Column({ length: 45, nullable: false })
+    @Column({ length: 45, nullable: true })
     joint_contact?: string;
 
-    @Column({ nullable: false })
+    @Column({ nullable: true })
     unit_number?: number;
 
     @Column({ nullable: true })
