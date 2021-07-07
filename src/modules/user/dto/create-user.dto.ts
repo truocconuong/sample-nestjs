@@ -3,12 +3,12 @@ import { IsArray, IsBoolean, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString
 
 export class ExecutorDto {
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @Length(1, 255)
   public full_legal_name!: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @Length(1, 255)
   public relationship_id!: string;
 
@@ -21,6 +21,10 @@ export class ExecutorDto {
   @IsOptional()
   @Length(1, 45)
   public nric!: string;
+
+  @IsBoolean()
+  @IsOptional()
+  public is_delete!: boolean;
 
 }
 
