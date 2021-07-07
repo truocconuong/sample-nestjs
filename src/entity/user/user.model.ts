@@ -40,6 +40,9 @@ export class UserModel {
     @Column({ length: 255, nullable: true })
     will_pdf_link!: string;
 
+    @Column({ length: 45, nullable: true })
+    phone!: string;
+
     @Column({ nullable: true })
     is_verify!: boolean;
 

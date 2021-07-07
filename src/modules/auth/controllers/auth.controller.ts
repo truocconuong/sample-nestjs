@@ -113,7 +113,6 @@ export class AuthController {
             throw new NotFoundException('Email cannot exists')
         }
         const generateToken = this.otpService.generateTokenByEmail(email);
-        console.log(generateToken,'what the fuck')
         // update token to user
         await this.userService.update(user.id, {
             otp: generateToken.token as string

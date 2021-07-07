@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BankAccountModel } from 'src/entity/bank-account';
 import { BeneficiaryModel } from 'src/entity/beneficiary';
@@ -9,6 +9,7 @@ import { InvestmentModel } from 'src/entity/investment';
 import { PropertyModel } from 'src/entity/property';
 import { UserModel } from 'src/entity/user';
 import { ValuablesModel } from 'src/entity/valuables';
+import { AuthModule } from '../auth/auth.module';
 import * as controllers from './controllers';
 import * as providers from './providers';
 
@@ -23,8 +24,9 @@ import * as providers from './providers';
       InsurancePolicyModel,
       InvestmentModel,
       BusinessInterestModel,
-      ValuablesModel
+      ValuablesModel,
     ]),
+    forwardRef(() => AuthModule)
   ],
   controllers: Object.values(controllers),
   providers: [...Object.values(providers)],
