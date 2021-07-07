@@ -1,4 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { MasterDataModel } from '../master_data';
 import { UserModel } from '../user';
 
 @Entity('executor')
@@ -33,4 +34,8 @@ export class ExecutorModel {
     @ManyToOne(() => UserModel, user => user.executors, { persistence: false })
     @JoinColumn({ name: 'user_id' })
     user!: UserModel;
+
+    @ManyToOne(() => MasterDataModel, masterData => masterData.executors)
+    @JoinColumn({ name: 'relationship_id' })
+    master_data!: MasterDataModel;
 }

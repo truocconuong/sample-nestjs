@@ -110,7 +110,7 @@ export class UserService {
 
     public async getProfileUser (id : string) {
         const user = await this.userRepositoryService.findById(id,{
-            relations : ['executors','beneficiaries','properties','bank_accounts','insurance_policies','investments','business_interests','valuables']
+            relations : ['executors','beneficiaries','properties','bank_accounts','insurance_policies','investments','business_interests','valuables','executors.master_data','beneficiaries.master_data','valuables.master_data']
         });
         return user
     }

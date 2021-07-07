@@ -1,4 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { MasterDataModel } from '../master_data';
 import { UserModel } from '../user';
 
 @Entity('valuables')
@@ -60,4 +61,8 @@ export class ValuablesModel {
     @ManyToOne(() => UserModel, user => user.valuables, { persistence: true })
     @JoinColumn({ name: 'user_id' })
     user!: UserModel;
+
+    @ManyToOne(() => MasterDataModel, masterData => masterData.valuables)
+    @JoinColumn({ name: 'type_id' })
+    master_data!: MasterDataModel;
 }

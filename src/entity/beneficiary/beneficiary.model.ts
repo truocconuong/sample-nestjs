@@ -1,4 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { MasterDataModel } from '../master_data';
 import { UserModel } from '../user';
 
 @Entity('beneficiary')
@@ -36,4 +37,8 @@ export class BeneficiaryModel {
     @ManyToOne(() => UserModel, user => user.beneficiaries, { persistence: true })
     @JoinColumn({ name: 'user_id' })
     user!: UserModel;
+
+    @ManyToOne(() => MasterDataModel, masterData => masterData.beneficiaries)
+    @JoinColumn({ name: 'relationship_id' })
+    master_data!: MasterDataModel;
 }

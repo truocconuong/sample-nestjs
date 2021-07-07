@@ -1,4 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { BeneficiaryModel } from '../beneficiary';
+import { ExecutorModel } from '../executor';
+import { ValuablesModel } from '../valuables';
 
 @Entity('master_data')
 export class MasterDataModel {
@@ -19,4 +22,14 @@ export class MasterDataModel {
 
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
     created_at!: Date;
+
+    @OneToOne(() => ExecutorModel, executor => executor.master_data)
+    executors!: ExecutorModel;
+
+
+    @OneToOne(() => BeneficiaryModel, beneficiary => beneficiary.master_data)
+    beneficiaries!: BeneficiaryModel;
+
+    @OneToOne(() => ValuablesModel, valuable => valuable.master_data)
+    valuables!: ValuablesModel;
 }

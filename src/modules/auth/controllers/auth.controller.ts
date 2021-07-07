@@ -18,8 +18,90 @@ export class AuthController {
     @UseGuards(AuthGuard('jwt'))
     @UseInterceptors(TransformInterceptor)
     public async getProfile(@GetUser() _user: UserModel): Promise<UserModel | undefined> {
-        const profileUser = await this.userService.getProfileUser('2f4824d7-2ad2-4ba6-bd6c-c84409a68380');
-       return profileUser
+        let totalAssets = 0;
+        const profileUser = await this.userService.getProfileUser('fcdea581-1937-4985-892b-8dcbfc7a9c39');
+        const yourLegacy: any = {
+            email: profileUser?.email,
+            full_legal_name: profileUser?.full_legal_name,
+            will_pdf_link: profileUser?.will_pdf_link
+        };
+
+        if (profileUser?.insurance_policies) {
+            const total = _.sum(_.map(profileUser?.insurance_policies, insurance => insurance.current_value))
+            if (_.isNumber(total)) {
+                totalAssets += total
+            }
+            yourLegacy.insurance_policies = {
+                total: _.isNumber(total) ? total : 0,
+                data: profileUser.insurance_policies
+            }
+        }
+
+        if (profileUser?.investments) {
+            const total = _.sum(_.map(profileUser?.investments, investment => investment.current_market_value))
+            if (_.isNumber(total)) {
+                totalAssets += total
+            }
+            yourLegacy.investments = {
+                total: _.isNumber(total) ? total : 0,
+                data: profileUser.investments
+            }
+        }
+
+        if (profileUser?.properties) {
+            const total = _.sum(_.map(profileUser?.properties, property => property.outstanding_loan_amount))
+            if (_.isNumber(total)) {
+                totalAssets += total
+            }
+            yourLegacy.properties = {
+                total: _.isNumber(total) ? total : 0,
+                data: profileUser.properties
+            }
+        }
+
+        if (profileUser?.bank_accounts) {
+            const total = _.sum(_.map(profileUser?.bank_accounts, bankAccount => bankAccount.current_balance))
+            if (_.isNumber(total)) {
+                totalAssets += total
+            }
+            yourLegacy.bank_accounts = {
+                total: _.isNumber(total) ? total : 0,
+                data: profileUser.bank_accounts
+            }
+        }
+
+        if (profileUser?.business_interests) {
+            const total = _.sum(_.map(profileUser?.business_interests, businessInterest => businessInterest.estimated_current_market_value))
+            if (_.isNumber(total)) {
+                totalAssets += total
+            }
+            yourLegacy.business_interests = {
+                total: _.isNumber(total) ? total : 0,
+                data: profileUser.business_interests
+            }
+        }
+
+        if (profileUser?.beneficiaries) {
+            yourLegacy.beneficiaries = {
+                data: profileUser.beneficiaries
+            }
+        }
+
+        if (profileUser?.executors) {
+            yourLegacy.executors = {
+                data: profileUser.executors
+            }
+        }
+
+        if (profileUser?.valuables) {
+            yourLegacy.valuables = {
+                data: profileUser.valuables
+            }
+        }
+
+
+        yourLegacy.totalAssets = totalAssets;
+        return yourLegacy
     }
 
     @Post('send-otp')
