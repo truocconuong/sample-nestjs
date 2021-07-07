@@ -17,9 +17,9 @@ export class AuthController {
     @Get('profile')
     @UseGuards(AuthGuard('jwt'))
     @UseInterceptors(TransformInterceptor)
-    public async getProfile(@GetUser() _user: UserModel): Promise<UserModel | undefined> {
+    public async getProfile(@GetUser() user: UserModel): Promise<UserModel | undefined> {
         let totalAssets = 0;
-        const profileUser = await this.userService.getProfileUser('fcdea581-1937-4985-892b-8dcbfc7a9c39');
+        const profileUser = await this.userService.getProfileUser(user.id);
         const yourLegacy: any = {
             email: profileUser?.email,
             full_legal_name: profileUser?.full_legal_name,
@@ -113,6 +113,7 @@ export class AuthController {
             throw new NotFoundException('Email cannot exists')
         }
         const generateToken = this.otpService.generateTokenByEmail(email);
+        console.log(generateToken,'what the fuck')
         // update token to user
         await this.userService.update(user.id, {
             otp: generateToken.token as string
