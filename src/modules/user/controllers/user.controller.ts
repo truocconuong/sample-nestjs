@@ -168,15 +168,15 @@ export class UserController {
     @Patch('executor/:id')
     @UseGuards(AuthGuard('jwt'))
     @UseInterceptors(TransformInterceptor)
-    public async updateExecutor(@Param('id')id: string, @Body() body: ExecutorDto, @GetUser() user: UserModel){
+    public async updateExecutor(@Param('id')id: string, @Body() body: ExecutorDto, @GetUser() user: UserModel): Promise<boolean>{
         const executor = await this.userService.findExecutor(id)
-        if(executor!.user_id === user.id){
-            const updateExecutor = await this.userService.updateExecutor(id, body)
-            return updateExecutor
+        if(!executor){
+            throw new NotFoundException('Executor Not Found!')
         }
-        else{
-            throw new NotFoundException('Not found !')
+        if(executor!.user_id != user.id){
+            throw new NotFoundException('User unauthorized!')
         }
+        await this.userService.updateExecutor(id, body)
+        return true
     }
-
 }
