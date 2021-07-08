@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { authenticator } from 'otplib';
 
-authenticator.options = { digits: 4 };
+authenticator.options = { digits: 4, step: 120 };
+
 
 
 @Injectable()
