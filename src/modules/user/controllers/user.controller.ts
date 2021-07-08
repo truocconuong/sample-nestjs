@@ -4,7 +4,7 @@ import _ from 'lodash'
 import { TransformInterceptor } from 'src/common/interceptor/transform.interceptor';
 import { UserModel } from 'src/entity/user';
 import { GetUser } from 'src/modules/auth/decorators/get-user.decorators';
-import { CreateUserGuestDto, ExecutorDto, BeneficiaryDto, PropertyDto, BusinessInterestsDto } from '../dto/create-user.dto';
+import { CreateUserGuestDto, ExecutorDto, BeneficiaryDto, PropertyDto, BusinessInterestsDto, InvestmentsDto, ValuablesDto, BankAccountDto, InsurancePoliciesDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserLoggerExceptionsFilter } from '../exceptions/user.exceptions';
 import { UserService } from '../providers/user.service';
@@ -226,6 +226,66 @@ export class UserController {
             throw new NotFoundException('User unauthorized!')
         }
         await this.userService.updateBusinessInterests(id, body)
+        return true
+    }
+
+    @Patch('investment/:id')
+    @UseGuards(AuthGuard('jwt'))
+    @UseInterceptors(TransformInterceptor)
+    public async updateInvestment(@Param('id')id: string, @Body() body: InvestmentsDto, @GetUser() user: UserModel): Promise<boolean>{
+        const investment = await this.userService.findInvestment(id)
+        if(!investment){
+            throw new NotFoundException('investment Not Found!')
+        }
+        if(investment!.user_id !== user.id){
+            throw new NotFoundException('User unauthorized!')
+        }
+        await this.userService.updateInvestment(id, body)
+        return true
+    }
+
+    @Patch('valuables/:id')
+    @UseGuards(AuthGuard('jwt'))
+    @UseInterceptors(TransformInterceptor)
+    public async updateValuables(@Param('id')id: string, @Body() body: ValuablesDto, @GetUser() user: UserModel): Promise<boolean>{
+        const valuables = await this.userService.findValuables(id)
+        if(!valuables){
+            throw new NotFoundException('Valuables Not Found!')
+        }
+        if(valuables!.user_id !== user.id){
+            throw new NotFoundException('User unauthorized!')
+        }
+        await this.userService.updateValuables(id, body)
+        return true
+    }
+
+    @Patch('bank-account/:id')
+    @UseGuards(AuthGuard('jwt'))
+    @UseInterceptors(TransformInterceptor)
+    public async updateBankAccount(@Param('id')id: string, @Body() body: BankAccountDto, @GetUser() user: UserModel): Promise<boolean>{
+        const bankAccount = await this.userService.findBankAccount(id)
+        if(!bankAccount){
+            throw new NotFoundException('Bank Account Not Found!')
+        }
+        if(bankAccount!.user_id !== user.id){
+            throw new NotFoundException('User unauthorized!')
+        }
+        await this.userService.updateBankAccount(id, body)
+        return true
+    }
+    
+    @Patch('insurance-policy/:id')
+    @UseGuards(AuthGuard('jwt'))
+    @UseInterceptors(TransformInterceptor)
+    public async updateInsurancePolicies(@Param('id')id: string, @Body() body: InsurancePoliciesDto, @GetUser() user: UserModel): Promise<boolean>{
+        const insurancePolicy = await this.userService.findInsurancePolicy(id)
+        if(!insurancePolicy){
+            throw new NotFoundException('Insurance Policy Not Found!')
+        }
+        if(insurancePolicy!.user_id !== user.id){
+            throw new NotFoundException('User unauthorized!')
+        }
+        await this.userService.updateInsurancePolicy(id, body)
         return true
     }
 }

@@ -156,4 +156,43 @@ export class UserService {
         return beneficiary
     }
 
+    public async findInvestment(id: string){
+        const investment = await this.repositoryInvestment.findOne(id)
+        return investment
+    }
+
+    public async updateInvestment(id: string, body: Partial<InvestmentModel>){
+        const investment = await this.repositoryInvestment.update(id, body)
+        return investment
+    }
+
+    public async findValuables(id: string){
+        const valuables = await this.repositoryValuables.findOne(id)
+        return valuables
+    }
+
+    public async updateValuables(id: string, body: Partial<ValuablesModel>){
+        const valuables = await this.repositoryValuables.update(id, body)
+        return valuables
+    }
+
+    public async findBankAccount(id: string){
+        const bankAccount = await this.repositoryBankAccount.findOne(id)
+        return bankAccount
+    }
+
+    public async updateBankAccount(id: string, body: Partial<BankAccountModel>){
+        const bankAccount = await this.repositoryBankAccount.update(id, body)
+        return bankAccount
+    }
+
+    public async findInsurancePolicy(id: string){
+        const insurancePolicy = await this.repositoryInsurancePolicy.findOne(id)
+        return insurancePolicy
+    }
+
+    public async updateInsurancePolicy(id: string, body: Partial<InsurancePolicyModel>){
+        const insurancePolicy = await this.repositoryInsurancePolicy.update(id, body)
+        return insurancePolicy
+    }
 }

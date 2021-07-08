@@ -126,19 +126,19 @@ export class PropertyDto {
 
   @IsBoolean()
   @IsOptional()
-  public is_delete!: boolean;
+  is_delete!: boolean;
 
 }
 
 
 export class BankAccountDto {
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   bank_id!: string;
 
   @IsString()
   @Length(1, 255)
-  @IsNotEmpty()
+  @IsOptional()
   account_no!: string;
 
   @IsBoolean()
@@ -156,6 +156,10 @@ export class BankAccountDto {
   @IsString()
   @IsOptional()
   account_holder!: string;
+
+  @IsBoolean()
+  @IsOptional()
+  is_delete!: boolean;
 }
 
 
@@ -166,7 +170,7 @@ export class InsurancePoliciesDto {
 
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   insurance_company!: string
 
   @IsBoolean()
@@ -199,15 +203,19 @@ export class InsurancePoliciesDto {
   @IsNumber()
   @IsOptional()
   converage!: number;
+
+  @IsBoolean()
+  @IsOptional()
+  is_delete!: boolean;
 }
 
 export class InvestmentsDto {
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   type_id!: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   financial_institutions!: string;
 
   @IsString()
@@ -221,6 +229,10 @@ export class InvestmentsDto {
   @IsNumber()
   @IsOptional()
   current_market_value!: number;
+
+  @IsBoolean()
+  @IsOptional()
+  is_delete!: boolean;
 }
 
 
@@ -247,12 +259,12 @@ export class BusinessInterestsDto {
 
   @IsBoolean()
   @IsOptional()
-  public is_delete!: boolean;
+  is_delete!: boolean;
 }
 
 export class ValuablesDto {
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   type_id!: string;
 
   @IsString()
@@ -302,6 +314,10 @@ export class ValuablesDto {
   @IsString()
   @IsOptional()
   safe_box_detail!: string;
+
+  @IsBoolean()
+  @IsOptional()
+  is_delete!: boolean;
 }
 
 
