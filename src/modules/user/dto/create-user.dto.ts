@@ -29,12 +29,12 @@ export class ExecutorDto {
 
 export class BeneficiaryDto {
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @Length(1, 255)
   public full_legal_name!: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @Length(1, 255)
   public relationship_id!: string;
 
@@ -51,6 +51,10 @@ export class BeneficiaryDto {
   @IsNumber()
   @IsOptional()
   public percent!: number;
+
+  @IsBoolean()
+  @IsOptional()
+  public is_delete!: boolean;
 }
 
 
