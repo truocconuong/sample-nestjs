@@ -4,7 +4,7 @@ import _ from 'lodash'
 import { TransformInterceptor } from 'src/common/interceptor/transform.interceptor';
 import { UserModel } from 'src/entity/user';
 import { GetUser } from 'src/modules/auth/decorators/get-user.decorators';
-import { CreateUserGuestDto, ExecutorDto, BeneficiaryDto, PropertyDto } from '../dto/create-user.dto';
+import { CreateUserGuestDto, ExecutorDto, BeneficiaryDto, PropertyDto, BusinessInterestsDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserLoggerExceptionsFilter } from '../exceptions/user.exceptions';
 import { UserService } from '../providers/user.service';
@@ -211,6 +211,21 @@ export class UserController {
             throw new NotFoundException('User unauthorized!')
         }
         await this.userService.updateBeneficiary(id, body)
+        return true
+    }
+
+    @Patch('business-interests/:id')
+    @UseGuards(AuthGuard('jwt'))
+    @UseInterceptors(TransformInterceptor)
+    public async updateBusinessInterests(@Param('id')id: string, @Body() body: BusinessInterestsDto, @GetUser() user: UserModel): Promise<boolean>{
+        const businessInterests = await this.userService.findBusinessInterests(id)
+        if(!businessInterests){
+            throw new NotFoundException('Business Interests Not Found!')
+        }
+        if(businessInterests!.user_id !== user.id){
+            throw new NotFoundException('User unauthorized!')
+        }
+        await this.userService.updateBusinessInterests(id, body)
         return true
     }
 }

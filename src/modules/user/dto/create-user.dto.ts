@@ -226,11 +226,11 @@ export class InvestmentsDto {
 
 export class BusinessInterestsDto {
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   company_name!: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   company_uen!: string;
 
   @IsString()
@@ -244,6 +244,10 @@ export class BusinessInterestsDto {
   @IsNumber()
   @IsOptional()
   percentage_share!: number;
+
+  @IsBoolean()
+  @IsOptional()
+  public is_delete!: boolean;
 }
 
 export class ValuablesDto {
