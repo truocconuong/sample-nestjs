@@ -4,6 +4,7 @@ import { BankAccountModel } from 'src/entity/bank-account';
 import { BeneficiaryModel } from 'src/entity/beneficiary';
 import { BusinessInterestModel } from 'src/entity/business_interest';
 import { ExecutorModel } from 'src/entity/executor';
+import { ExecutorDto } from '../dto/create-user.dto'
 import { InsurancePolicyModel } from 'src/entity/insurance_policy';
 import { InvestmentModel } from 'src/entity/investment';
 import { PropertyModel } from 'src/entity/property';
@@ -115,4 +116,13 @@ export class UserService {
         return user
     }
 
+    public async findExecutor(id: string){
+        const executor = await this.repositoryExecutor.findOne(id)
+        return executor
+    }
+
+    public async updateExecutor(id: string, body: ExecutorDto){
+        const executor = await this.repositoryExecutor.update(id, body)
+        return executor
+    }
 }

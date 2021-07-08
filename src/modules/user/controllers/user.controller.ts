@@ -4,7 +4,7 @@ import _ from 'lodash'
 import { TransformInterceptor } from 'src/common/interceptor/transform.interceptor';
 import { UserModel } from 'src/entity/user';
 import { GetUser } from 'src/modules/auth/decorators/get-user.decorators';
-import { CreateUserGuestDto } from '../dto/create-user.dto';
+import { CreateUserGuestDto, ExecutorDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserLoggerExceptionsFilter } from '../exceptions/user.exceptions';
 import { UserService } from '../providers/user.service';
@@ -165,4 +165,18 @@ export class UserController {
         return true
     }
 
+    @Patch('executor/:id')
+    @UseGuards(AuthGuard('jwt'))
+    @UseInterceptors(TransformInterceptor)
+    public async updateExecutor(@Param('id')id: string, @Body() body: ExecutorDto, @GetUser() user: UserModel): Promise<boolean>{
+        const executor = await this.userService.findExecutor(id)
+        if(!executor){
+            throw new NotFoundException('Executor Not Found!')
+        }
+        if(executor!.user_id != user.id){
+            throw new NotFoundException('User unauthorized!')
+        }
+        await this.userService.updateExecutor(id, body)
+        return true
+    }
 }

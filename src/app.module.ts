@@ -21,6 +21,10 @@ import { AuthModule } from './modules/auth/auth.module';
     }),
     // Database
     // https://docs.nestjs.com/techniques/database
+    // app.useGlobalPipes(new ValidationPipe({
+    //   transform: true,      
+    //   whitelist: true,
+    // })),
     TypeOrmModule.forRootAsync({
       useFactory: (config: ConfigService) => ({
         entities: [`${__dirname}/entity/**/*.{js,ts}`],
@@ -30,6 +34,8 @@ import { AuthModule } from './modules/auth/auth.module';
       }),
       inject: [ConfigService],
     }),
+
+
     // Static Folder
     // https://docs.nestjs.com/recipes/serve-static
     // https://docs.nestjs.com/techniques/mvc
