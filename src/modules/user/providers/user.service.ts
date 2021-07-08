@@ -125,4 +125,14 @@ export class UserService {
         const executor = await this.repositoryExecutor.update(id, body)
         return executor
     }
+
+    public async findProperty(id: string){
+        const property = await this.repositoryProperty.findOne(id)
+        return property
+    }
+
+    public async updateProperty(id: string, body: Partial<PropertyModel>){
+        const property = await this.repositoryProperty.update(id, body)
+        return property
+    }
 }

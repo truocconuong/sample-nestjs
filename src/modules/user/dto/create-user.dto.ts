@@ -25,7 +25,6 @@ export class ExecutorDto {
   @IsBoolean()
   @IsOptional()
   public is_delete!: boolean;
-
 }
 
 export class BeneficiaryDto {
@@ -56,8 +55,8 @@ export class BeneficiaryDto {
 
 
 export class PropertyDto {
-  @IsNotEmpty()
   @IsString()
+  @IsOptional()
   @Length(1, 45)
   country!: string;
 
@@ -120,6 +119,11 @@ export class PropertyDto {
   @IsNumber()
   @IsOptional()
   outstanding_loan_amount!: number;
+
+  @IsBoolean()
+  @IsOptional()
+  public is_delete!: boolean;
+
 }
 
 
