@@ -8,6 +8,9 @@ import { CreateUserGuestDto, ExecutorDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserLoggerExceptionsFilter } from '../exceptions/user.exceptions';
 import { UserService } from '../providers/user.service';
+import { PropertyDto } from './../dto/create-user.dto';
+
+
 @Controller('users')
 export class UserController {
     constructor(private userService: UserService) { }
@@ -173,10 +176,26 @@ export class UserController {
         if(!executor){
             throw new NotFoundException('Executor Not Found!')
         }
-        if(executor!.user_id != user.id){
+        if(executor!.user_id !== user.id){
             throw new NotFoundException('User unauthorized!')
         }
         await this.userService.updateExecutor(id, body)
         return true
     }
+
+    @Patch('property/:id')
+    @UseGuards(AuthGuard('jwt'))
+    @UseInterceptors(TransformInterceptor)
+    public async updateProperty(@Param('id')id: string, @Body() body: PropertyDto, @GetUser() user: UserModel): Promise<boolean>{
+        const executor = await this.userService.findProperty(id)
+        if(!executor){
+            throw new NotFoundException('Property Not Found!')
+        }
+        if(executor!.user_id !== user.id){
+            throw new NotFoundException('User unauthorized!')
+        }
+        await this.userService.updateProperty(id, body)
+        return true
+    }
+
 }
