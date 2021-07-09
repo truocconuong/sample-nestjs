@@ -135,4 +135,14 @@ export class UserService {
         const property = await this.repositoryProperty.update(id, body)
         return property
     }
+        
+    public async findBeneficiary(id: string){
+        const beneficiary = await this.repositoryBeneficiary.findOne(id)
+        return beneficiary
+    }
+
+    public async updateBeneficiary(id: string, body: Partial<BeneficiaryModel>){
+        const beneficiary = await this.repositoryBeneficiary.update(id, body)
+        return beneficiary
+    }
 }
