@@ -12,6 +12,7 @@ import { ContactModule } from './modules/contact/contact.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { StripeModule } from 'nestjs-stripe';
 import { TransactionsModule } from './modules/transactions/transactions.module';
+import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
 
 
 @Module({
@@ -58,7 +59,9 @@ import { TransactionsModule } from './modules/transactions/transactions.module';
       apiKey: process.env.SECRET_KEY_STRIPE ? process.env.SECRET_KEY_STRIPE : '',
       apiVersion: '2020-08-27',
     }),
-    TransactionsModule
+    TransactionsModule,
+    StripeModule,
+    SubscriptionsModule
   ],
   providers: [
     // Global Guard, Authentication check on all routers
