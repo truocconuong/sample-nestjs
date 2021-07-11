@@ -13,6 +13,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { StripeModule } from 'nestjs-stripe';
 import { TransactionsModule } from './modules/transactions/transactions.module';
 import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
+import { WebhookModule } from './modules/webhook/webhook.module';
+import { OrdersModule } from './modules/orders/orders.module';
 
 
 @Module({
@@ -61,7 +63,9 @@ import { SubscriptionsModule } from './modules/subscriptions/subscriptions.modul
     }),
     TransactionsModule,
     StripeModule,
-    SubscriptionsModule
+    SubscriptionsModule,
+    WebhookModule,
+    OrdersModule
   ],
   providers: [
     // Global Guard, Authentication check on all routers

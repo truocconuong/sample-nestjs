@@ -1,27 +1,26 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-
-@Entity('subscriptions')
-export class SubscriptionsModel {
+@Entity('orders')
+export class OrdersModel {
     @PrimaryGeneratedColumn("uuid")
     id!: string;
 
     @Column("uuid", { nullable: false })
     user_id?: string;
 
-    @Column({ length: 45, nullable: true })
-    subscription_id?: string;
+    @Column({ length: 45, nullable: false })
+    order_id?: string;
 
-    @Column({ length: 45, nullable: true })
-    coupons?: string;
+    @Column({ nullable: false })
+    paid?: boolean;
 
-    @Column({ nullable: true })
-    next_invoice?: Date;
+    @Column({ nullable: false })
+    paid_date?: Date;
 
-    @Column({ nullable: true })
+    @Column({ nullable: false, length: '45' })
     status?: string;
 
-    @Column({ nullable: true })
-    is_delete?: boolean;
+    @Column({ nullable: false, type: 'float' })
+    amount?: number;
 
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'updated_at' })
     updated_at!: Date;

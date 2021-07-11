@@ -1,7 +1,9 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SubscriptionsModel } from 'src/entity/subscriptions';
+import { StripeModule } from 'src/shared/stripe/stripe.module';
 import { AuthModule } from '../auth/auth.module';
+import { UserModule } from '../user/user.module';
 import * as controllers from './controllers';
 import * as providers from './providers';
 
@@ -10,7 +12,10 @@ import * as providers from './providers';
     TypeOrmModule.forFeature([
       SubscriptionsModel
     ]),
-    forwardRef(() => AuthModule)
+    forwardRef(() => AuthModule),
+    StripeModule,
+    AuthModule,
+    UserModule
   ],
   controllers: Object.values(controllers),
   providers: [...Object.values(providers)],

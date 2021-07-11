@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { SubscriptionsModel } from 'src/entity/subscriptions';
 import { UpdateResult, DeleteResult } from 'typeorm';
-import { SubscriptionsRepository} from './subscriptions-repository.service';
+import { SubscriptionsRepository } from './subscriptions-repository.service';
 
 @Injectable()
 export class SubscripionsService {
@@ -28,6 +28,12 @@ export class SubscripionsService {
 
     public async remove(id: string): Promise<DeleteResult> {
         return this.subscriptionsRepository.remove(id);
+    }
+
+    public async findSubscriptionById(subscription_id: string): Promise<SubscriptionsModel | undefined> {
+        return this.subscriptionsRepository.findOne({
+            subscription_id
+        })
     }
 
 
