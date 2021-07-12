@@ -9,6 +9,7 @@ import { InsurancePolicyModel } from 'src/entity/insurance_policy';
 import { InvestmentModel } from 'src/entity/investment';
 import { PropertyModel } from 'src/entity/property';
 import { UserModel } from 'src/entity/user';
+import { BlackListModel } from 'src/entity/black_list';
 import { ValuablesModel } from 'src/entity/valuables';
 import { UpdateResult, DeleteResult, Repository } from 'typeorm';
 import { UserRepositoryService } from './user-repository.service';
@@ -40,6 +41,9 @@ export class UserService {
 
         @InjectRepository(ValuablesModel)
         private repositoryValuables: Repository<ValuablesModel>,
+
+        @InjectRepository(BlackListModel)
+        private repositoryBlackList: Repository<BlackListModel>,
 
     ) { }
 
@@ -194,5 +198,18 @@ export class UserService {
     public async updateInsurancePolicy(id: string, body: Partial<InsurancePolicyModel>){
         const insurancePolicy = await this.repositoryInsurancePolicy.update(id, body)
         return insurancePolicy
+    }
+
+    public async createBlackList(token: string) {
+        const blackList = await this.repositoryBlackList.insert({token: token})
+        return blackList
+    }
+
+    public async validateToken(token: string){
+        const blackList = await this.repositoryBlackList.count({token: token})  
+        if(blackList > 0){
+            return false
+        } 
+        return true
     }
 }

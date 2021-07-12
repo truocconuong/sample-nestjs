@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, NotFoundException, Post, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, NotFoundException, Post, UseGuards, UseInterceptors, Req } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import _ from 'lodash'
 import { TransformInterceptor } from 'src/common/interceptor/transform.interceptor';
@@ -9,6 +9,7 @@ import { GetUser } from '../decorators/get-user.decorators';
 import { SendOtpDto } from '../dto/send-otp.dto';
 import { VerifyOtpDto } from '../dto/verify-otp.dto';
 import { AuthService } from '../providers';
+import { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -142,6 +143,15 @@ export class AuthController {
         })
         const token = this.authService.signJwt(user)
         return token
+    }
+
+    @Post('logout')
+    @UseGuards(AuthGuard('jwt'))
+    @UseInterceptors(TransformInterceptor)
+    public async logOut(@Req() request: Request){
+        const jwt = await request.headers.authorization;
+        await this.userService.createBlackList(jwt!)    
+        return true
     }
 
 }

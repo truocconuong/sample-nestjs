@@ -10,6 +10,8 @@ import { PropertyModel } from 'src/entity/property';
 import { UserModel } from 'src/entity/user';
 import { ValuablesModel } from 'src/entity/valuables';
 import { AuthModule } from '../auth/auth.module';
+import { BlackListModel } from 'src/entity/black_list'
+
 import * as controllers from './controllers';
 import * as providers from './providers';
 
@@ -25,6 +27,7 @@ import * as providers from './providers';
       InvestmentModel,
       BusinessInterestModel,
       ValuablesModel,
+      BlackListModel,
     ]),
     forwardRef(() => AuthModule)
   ],
