@@ -20,4 +20,18 @@ export class StripeService {
             throw new HttpException(error, HttpStatus.UNPROCESSABLE_ENTITY)
         }
     }
+    public async createCoupon(data: Stripe.CouponCreateParams) {
+        try {
+            return this.stripeClient.coupons.create(data);
+        } catch (error) {
+            throw new HttpException(error, HttpStatus.UNPROCESSABLE_ENTITY)
+        }
+    }
+    public async createProduct(data: Stripe.ProductCreateParams) {
+        try {
+            return this.stripeClient.products.create(data);
+        } catch (error) {
+            throw new HttpException(error, HttpStatus.UNPROCESSABLE_ENTITY)
+        }
+    }
 }
