@@ -11,6 +11,7 @@ import { PropertyModel } from 'src/entity/property';
 import { UserModel } from 'src/entity/user';
 import { BlackListModel } from 'src/entity/black_list';
 import { ValuablesModel } from 'src/entity/valuables';
+import { RoleModel } from 'src/entity/role'
 import { UpdateResult, DeleteResult, Repository } from 'typeorm';
 import { UserRepositoryService } from './user-repository.service';
 
@@ -44,6 +45,9 @@ export class UserService {
 
         @InjectRepository(BlackListModel)
         private repositoryBlackList: Repository<BlackListModel>,
+
+        @InjectRepository(RoleModel)
+        private repositoryRole: Repository<RoleModel>,
 
     ) { }
 
@@ -212,4 +216,10 @@ export class UserService {
         } 
         return true
     }
+
+    public async findByRoleTitle(id: string){
+        const role = await this.repositoryRole.findOne(id)  
+        return role
+    }
+    
 }

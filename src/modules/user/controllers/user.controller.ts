@@ -9,7 +9,6 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserLoggerExceptionsFilter } from '../exceptions/user.exceptions';
 import { UserService } from '../providers/user.service';
 
-
 @Controller('users')
 export class UserController {
     constructor(private userService: UserService) { }
