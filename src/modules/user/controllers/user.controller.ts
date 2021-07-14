@@ -292,8 +292,8 @@ export class UserController {
     @UseGuards(AuthGuard('jwt'))
     @UseInterceptors(TransformInterceptor)
     async getUserDetail(@Param('id') id: string){
-        const UserDetail = await this.userService.findUserCategoriesDetail(id)
-        return UserDetail
+        const userDetail = await this.userService.findUserCategoriesDetail(id)
+        return userDetail
     }
 
 }
