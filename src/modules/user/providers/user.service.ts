@@ -222,8 +222,8 @@ export class UserService {
         return true
     }
 
-    public async findByRoleTitle(id: string){
-        const role = await this.repositoryRole.findOne(id)  
+    public async findRole(option: any){
+        const role = await this.repositoryRole.findOne(option)  
         return role
     }
     
