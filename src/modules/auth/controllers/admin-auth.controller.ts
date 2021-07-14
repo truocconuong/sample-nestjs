@@ -1,11 +1,13 @@
-import { Body, Controller, Post, UseInterceptors} from '@nestjs/common';
+import { Body, Controller, Post, UseInterceptors, NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { TransformInterceptor } from 'src/common/interceptor/transform.interceptor';
 import { UserService } from 'src/modules/user/providers';
 import { ROLE_ADMIN_TITLE } from 'src/common/constants/index'; 
+import { AuthService } from '../providers';
+
 @Controller('admin/auth')
 export class AdminController {
-    constructor(private userService: UserService) { }
+    constructor(private userService: UserService, private authService: AuthService) { }
 
     @Post('sign-up')
     @UseInterceptors(TransformInterceptor)
@@ -22,5 +24,19 @@ export class AdminController {
         return user
     }
 
+    @Post('sign-in')
+    @UseInterceptors(TransformInterceptor)
+    public async signIn(@Body() body: any){
+        const user = await this.userService.findOne({ email: body.email })
+        if(!user){
+            throw new NotFoundException('Email incorrect')
+        }
+        const isMatch = await bcrypt.compare(body.password, user!.password);
+        if(!isMatch){
+            throw new NotFoundException('Password incorrect')
+        }
+        const token = this.authService.signJwt(user)
+        return token
+    }
 
 }
