@@ -2001,6 +2001,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-15.12.0.tgz#6a459d261450a300e6865faeddb5af01c3389bb3"
   integrity sha512-+aHJvoCsVhO2ZCuT4o5JtcPrCPyDE3+1nvbDprYes+pPkEsbjH7AGUCNtjMOXS0fqH14t+B7yLzaqSz92FPWyw==
 
+"@types/node@>=8.1.0":
+  version "16.0.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.0.1.tgz#70cedfda26af7a2ca073fdcc9beb2fff4aa693f8"
+  integrity sha512-hBOx4SUlEPKwRi6PrXuTGw1z6lz0fjsibcWCM378YxsSu/6+C30L6CR49zIBKHiwNWCYIcOLjg4OHKZaFeLAug==
+
 "@types/node@^10.1.0":
   version "10.17.60"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.60.tgz#35f3d6213daed95da7f0f73e75bcc6980e90597b"
@@ -4206,6 +4211,11 @@ date-utils@*:
   version "1.2.21"
   resolved "https://registry.yarnpkg.com/date-utils/-/date-utils-1.2.21.tgz#61fb16cdc1274b3c9acaaffe9fc69df8720a2b64"
   integrity sha1-YfsWzcEnSzyayq/+n8ad+HIKK2Q=
+
+dayjs@^1.10.6:
+  version "1.10.6"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.6.tgz#288b2aa82f2d8418a6c9d4df5898c0737ad02a63"
+  integrity sha512-AztC/IOW4L1Q41A86phW5Thhcrco3xuAA+YX/BLpLWWjRcTj5TOt/QImBLmCKlrF7u7k47arTnOyL6GnbG8Hvw==
 
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.9:
   version "2.6.9"
@@ -8084,6 +8094,11 @@ nest-router@^1.0.9:
   resolved "https://registry.yarnpkg.com/nest-router/-/nest-router-1.0.9.tgz#cbe814dadf90b765e0a5b77c562479d5d523a485"
   integrity sha512-ZyRdSVs9GczI+39B7tNXsxfBXQOYnEF6l/q2aLYG8wSEvRHRDXAlzZ1SIosDibM02pLahGkDNLFC+nZ8uzJGDQ==
 
+nestjs-stripe@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/nestjs-stripe/-/nestjs-stripe-0.4.1.tgz#0ff34a8eaaa66f84d804f5de8af3044618f41307"
+  integrity sha512-+Ay8oqguLJ/oMPNYwPIfc4wnMG2EakcZ0EWSttS9etzrmAUjJCoYpvVYEOgOQndIAh+yIMzWPVrHOMpkeabjeg==
+
 next-tick@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
@@ -9091,7 +9106,7 @@ qs@6.7.0:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.7.0.tgz#41dc1a015e3d581f1621776be31afb2876a9b1bc"
   integrity sha512-VCdBRNFTX1fyE7Nb6FYoURo/SPe62QCaAyzJvUjwRaIsc+NePBEniHlvxFmmX56+HZphIGtV0XeCirBtpDrTyQ==
 
-qs@^6.9.4:
+qs@^6.6.0, qs@^6.9.4:
   version "6.10.1"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.10.1.tgz#4931482fa8d647a5aab799c5271d2133b981fb6a"
   integrity sha512-M528Hph6wsSVOBiYUnGf+K/7w0hNshs/duGsNXPUCLH5XAqjEtiPGwNONLV0tBH8NoGb0mvD5JubnUTrujKDTg==
@@ -10158,6 +10173,14 @@ strip-json-comments@^3.1.0, strip-json-comments@^3.1.1:
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
 
+stripe@^8.161.0:
+  version "8.161.0"
+  resolved "https://registry.yarnpkg.com/stripe/-/stripe-8.161.0.tgz#ed8a9e7ba4954ed4ae493563a797e017b1ccafd6"
+  integrity sha512-fvlN+JIGBDzyvybVkHku6p/qCUx7fQwqhAgNJjFv9MEqSxE+NpVRLK/nTf71snOeeLziYobLXfC2VzGQAei+BQ==
+  dependencies:
+    "@types/node" ">=8.1.0"
+    qs "^6.6.0"
+
 subscriptions-transport-ws@^0.9.11, subscriptions-transport-ws@^0.9.16, subscriptions-transport-ws@^0.9.18:
   version "0.9.18"
   resolved "https://registry.yarnpkg.com/subscriptions-transport-ws/-/subscriptions-transport-ws-0.9.18.tgz#bcf02320c911fbadb054f7f928e51c6041a37b97"
@@ -10775,7 +10798,7 @@ typeorm-model-generator@^0.4.5-no-engines:
     typeorm "^0.2.29"
     yargs "^16.2.0"
 
-typeorm@^0.2.29, typeorm@^0.2.33:
+typeorm@^0.2.29, typeorm@^0.2.34:
   version "0.2.34"
   resolved "https://registry.yarnpkg.com/typeorm/-/typeorm-0.2.34.tgz#637b3cec2de54ee7f423012b813a2022c0aacc8b"
   integrity sha512-FZAeEGGdSGq7uTH3FWRQq67JjKu0mgANsSZ04j3kvDYNgy9KwBl/6RFgMVgiSgjf7Rqd7NrhC2KxVT7I80qf7w==

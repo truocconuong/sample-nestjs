@@ -10,6 +10,12 @@ import { UserModule } from './modules/user/user.module';
 import { MasterdataModule } from './modules/masterdata/masterdata.module';
 import { ContactModule } from './modules/contact/contact.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { StripeModule } from 'nestjs-stripe';
+import { TransactionsModule } from './modules/transactions/transactions.module';
+import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
+import { WebhookModule } from './modules/webhook/webhook.module';
+import { OrdersModule } from './modules/orders/orders.module';
+
 
 @Module({
   imports: [
@@ -51,6 +57,15 @@ import { AuthModule } from './modules/auth/auth.module';
     MasterdataModule,
     ContactModule,
     AuthModule,
+    StripeModule.forRoot({
+      apiKey: process.env.SECRET_KEY_STRIPE ? process.env.SECRET_KEY_STRIPE : '',
+      apiVersion: '2020-08-27',
+    }),
+    TransactionsModule,
+    StripeModule,
+    SubscriptionsModule,
+    WebhookModule,
+    OrdersModule
   ],
   providers: [
     // Global Guard, Authentication check on all routers

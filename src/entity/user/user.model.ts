@@ -53,6 +53,9 @@ export class UserModel {
     @Column({ length: 4, nullable: true })
     otp!: string;
 
+    @Column({ length: 45, nullable: true })
+    customer_stripe_id!: string;
+
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'updated_at' })
     updated_at!: Date;
 
