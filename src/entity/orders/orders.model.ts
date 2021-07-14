@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+
 @Entity('orders')
 export class OrdersModel {
     @PrimaryGeneratedColumn("uuid")
@@ -27,4 +28,7 @@ export class OrdersModel {
 
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
     created_at!: Date;
+
+    @Column("uuid", { nullable: false })
+    subscription_id!: string;
 }

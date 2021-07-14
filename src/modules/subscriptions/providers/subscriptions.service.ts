@@ -4,7 +4,7 @@ import { UpdateResult, DeleteResult } from 'typeorm';
 import { SubscriptionsRepository } from './subscriptions-repository.service';
 
 @Injectable()
-export class SubscripionsService {
+export class SubscripionsService {  
     constructor(
         private readonly subscriptionsRepository: SubscriptionsRepository,
     ) { }
@@ -30,10 +30,8 @@ export class SubscripionsService {
         return this.subscriptionsRepository.remove(id);
     }
 
-    public async findSubscriptionById(subscription_id: string): Promise<SubscriptionsModel | undefined> {
-        return this.subscriptionsRepository.findOne({
-            subscription_id
-        })
+    public async findOne(options: any): Promise<SubscriptionsModel | undefined> {
+        return this.subscriptionsRepository.findOne(options)
     }
 
 

@@ -8,7 +8,7 @@ export class SubscriptionsModel {
     @Column("uuid", { nullable: false })
     user_id?: string;
 
-    @Column({ length: 45, nullable: true })
+    @Column("uuid", { nullable: false })
     subscription_id?: string;
 
     @Column({ length: 45, nullable: true })
@@ -28,4 +28,5 @@ export class SubscriptionsModel {
 
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
     created_at!: Date;
+
 }
