@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn, JoinColumn, ManyToOne } from 'typeorm';
 import { BankAccountModel } from '../bank-account';
 import { BeneficiaryModel } from '../beneficiary';
 import { BusinessInterestModel } from '../business_interest';
@@ -6,6 +6,7 @@ import { ExecutorModel } from '../executor';
 import { InsurancePolicyModel } from '../insurance_policy';
 import { InvestmentModel } from '../investment';
 import { PropertyModel } from '../property';
+import { RoleModel } from '../role';
 import { ValuablesModel } from '../valuables';
 
 @Entity('user')
@@ -18,6 +19,9 @@ export class UserModel {
 
     @Column({ length: 32, nullable: true })
     password!: string;
+
+    @Column("uuid", { nullable: false })
+    role_id!: string;
 
     @Column({ length: 255, nullable: true })
     nric!: string;
@@ -80,4 +84,7 @@ export class UserModel {
     @OneToMany(() => ValuablesModel, valuable => valuable.user, { persistence: true })
     valuables!: ValuablesModel[];
 
+    @ManyToOne(() => RoleModel, roles => roles.users, { persistence: true })
+    @JoinColumn({ name: 'role_id' })
+    role!: RoleModel;
 }
