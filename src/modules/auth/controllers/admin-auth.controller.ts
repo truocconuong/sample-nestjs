@@ -7,10 +7,11 @@ import { AuthService } from '../providers';
 import { AuthGuard } from '@nestjs/passport';
 import { RoleGuard } from '../guards/role.guard';
 import { SubscripionsService } from '../../subscriptions/providers';
+import { OrdersService } from '../../orders/providers';
 
 @Controller('admin/auth')
 export class AdminController {
-    constructor(private userService: UserService, private authService: AuthService, private subscripionsService: SubscripionsService) { }
+    constructor(private userService: UserService, private authService: AuthService, private subscripionsService: SubscripionsService, private orderService: OrdersService) { }
 
     @Post('sign-up')
     @UseInterceptors(TransformInterceptor)
@@ -56,6 +57,20 @@ export class AdminController {
     ){
       limit = limit > 100 ? 100 : limit;
       return this.subscripionsService.getAll({
+        page,
+        limit,
+      });
+    }
+
+    @Get('order')
+    @UseGuards(AuthGuard('jwt'), RoleGuard(['admin']))
+    @UseInterceptors(TransformInterceptor)
+    async getAllOrder(
+      @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
+      @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
+    ){
+      limit = limit > 100 ? 100 : limit;
+      return this.orderService.getAll({
         page,
         limit,
       });

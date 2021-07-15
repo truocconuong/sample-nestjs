@@ -9,6 +9,7 @@ import { PropertyModel } from '../property';
 import { RoleModel } from '../role';
 import { ValuablesModel } from '../valuables';
 import { SubscriptionsModel } from '../subscriptions';
+import { OrdersModel } from '../orders';
 
 @Entity('user')
 export class UserModel {
@@ -94,4 +95,7 @@ export class UserModel {
 
     @OneToMany(() => SubscriptionsModel, subscription => subscription.user, { persistence: true })
     subscriptions!: SubscriptionsModel[];
+
+    @OneToMany(() => OrdersModel, order => order.user, { persistence: true })
+    orders!: OrdersModel[];
 }
