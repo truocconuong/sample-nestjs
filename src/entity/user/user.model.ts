@@ -8,6 +8,7 @@ import { InvestmentModel } from '../investment';
 import { PropertyModel } from '../property';
 import { RoleModel } from '../role';
 import { ValuablesModel } from '../valuables';
+import { SubscriptionsModel } from '../subscriptions';
 
 @Entity('user')
 export class UserModel {
@@ -17,7 +18,7 @@ export class UserModel {
     @Column({ length: 255, nullable: false })
     email!: string;
 
-    @Column({ length: 255, nullable: true })
+    @Column({ length: 255, nullable: true, select: false })
     password!: string;
 
     @Column("uuid", { nullable: false })
@@ -50,7 +51,7 @@ export class UserModel {
     @Column({ nullable: true })
     is_verify!: boolean;
 
-    @Column({ length: 4, nullable: true })
+    @Column({ length: 4, nullable: true})
     otp!: string;
 
     @Column({ length: 45, nullable: true })
@@ -90,4 +91,7 @@ export class UserModel {
     @ManyToOne(() => RoleModel, roles => roles.users, { persistence: true })
     @JoinColumn({ name: 'role_id' })
     role!: RoleModel;
+
+    @OneToMany(() => SubscriptionsModel, subscription => subscription.user, { persistence: true })
+    subscriptions!: SubscriptionsModel[];
 }

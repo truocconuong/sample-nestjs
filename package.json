@@ -48,6 +48,7 @@
     "nanoid": "^3.1.23",
     "nest-router": "^1.0.9",
     "nestjs-stripe": "^0.4.1",
+    "nestjs-typeorm-paginate": "^2.5.3",
     "otplib": "^12.0.1",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",

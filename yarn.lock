@@ -8164,6 +8164,11 @@ nestjs-stripe@^0.4.1:
   resolved "https://registry.yarnpkg.com/nestjs-stripe/-/nestjs-stripe-0.4.1.tgz#0ff34a8eaaa66f84d804f5de8af3044618f41307"
   integrity sha512-+Ay8oqguLJ/oMPNYwPIfc4wnMG2EakcZ0EWSttS9etzrmAUjJCoYpvVYEOgOQndIAh+yIMzWPVrHOMpkeabjeg==
 
+nestjs-typeorm-paginate@^2.5.3:
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/nestjs-typeorm-paginate/-/nestjs-typeorm-paginate-2.5.3.tgz#9feae2131f854f20f0ff513aff0c7dca8f7ad43a"
+  integrity sha512-FHm+XZ0tt5v3ZH53mJi+A1dwGh0xZHPSiAakCZKSfgyH5OoHSSShQ7gB5vDtSmJ1iF4VTM6pKYmoBwGsAdNfDg==
+
 next-tick@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"

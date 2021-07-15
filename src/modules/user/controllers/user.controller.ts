@@ -43,7 +43,7 @@ export class UserController {
             id: string,
             full_legal_name: string
         }[] = [];
-        const checkEmailExists = await this.userService.findByEmail(email);
+        const checkEmailExists = await this.userService.findOne({email: email});
         if (checkEmailExists) {
             throw new HttpException('Conflict', HttpStatus.FORBIDDEN);
         }

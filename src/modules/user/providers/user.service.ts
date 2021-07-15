@@ -72,11 +72,6 @@ export class UserService {
         return this.userRepositoryService.remove(id);
     }
 
-    public async findByEmail(email: string): Promise<UserModel | undefined> {
-        const user = await this.userRepositoryService.findOne({ email })
-        return user
-    }
-
     public async findOne(options: {}): Promise<UserModel | undefined> {
         const user = await this.userRepositoryService.findOne(options)
         return user

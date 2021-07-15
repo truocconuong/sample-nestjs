@@ -109,7 +109,7 @@ export class AuthController {
     @UseInterceptors(TransformInterceptor)
     public async sendOtpEmail(@Body() body: SendOtpDto): Promise<boolean> {
         const { email } = body;
-        const user = await this.userService.findByEmail(email);
+        const user = await this.userService.findOne({email: email});
         if (!user) {
             throw new NotFoundException('Email cannot exists')
         }
@@ -126,7 +126,7 @@ export class AuthController {
     @UseInterceptors(TransformInterceptor)
     public async verifyOtpEmail(@Body() body: VerifyOtpDto): Promise<{ access_token: string }> {
         const { email, otp } = body;
-        const user = await this.userService.findByEmail(email);
+        const user = await this.userService.findOne({email: email});
         if (!user) {
             throw new NotFoundException('Email cannot exists')
         }

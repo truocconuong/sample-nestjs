@@ -2,6 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SubscriptionsModel } from 'src/entity/subscriptions';
 import { Repository, UpdateResult, DeleteResult } from 'typeorm';
+import {
+    paginate,
+    IPaginationOptions,
+} from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class SubscriptionsRepository {
@@ -33,6 +37,21 @@ export class SubscriptionsRepository {
 
     public async findOne(options: any): Promise<SubscriptionsModel | undefined> {
         return this.repository.findOne(options);
-
     }
+
+    public async getAll(){
+        const result = await this.repository
+          .createQueryBuilder('subscriptions')
+          .innerJoinAndSelect('subscriptions.user','user')
+          .getMany();
+        return result
+    }
+
+    async paginate(options: IPaginationOptions){
+        const queryBuilder = await this.repository
+        .createQueryBuilder('subscriptions')
+        .innerJoinAndSelect('subscriptions.user','user')
+        return await paginate<SubscriptionsModel>(queryBuilder, options)
+    }
+
 }

@@ -10,13 +10,15 @@ import * as controllers from './controllers';
 import { AuthService } from './providers';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
+import { SubscriptionsModule } from '../subscriptions/subscriptions.module'; 
 
 @Module({
   imports: [
     forwardRef(() => UserModule),
     TypeOrmModule.forFeature([
-      ContactModel
+      ContactModel,
     ]),
+    forwardRef(() => SubscriptionsModule),
     OtpModule,
     PassportModule.register({
       defaultStrategy: 'jwt',

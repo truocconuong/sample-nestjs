@@ -1,13 +1,16 @@
-import { Body, Controller, Post, UseInterceptors, NotFoundException } from '@nestjs/common';
+import { Body, Controller, Post, UseInterceptors, NotFoundException, Get, DefaultValuePipe, ParseIntPipe, Query, UseGuards} from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { TransformInterceptor } from 'src/common/interceptor/transform.interceptor';
 import { UserService } from 'src/modules/user/providers';
 import { ROLE_ADMIN_TITLE } from 'src/common/constants/index'; 
 import { AuthService } from '../providers';
+import { AuthGuard } from '@nestjs/passport';
+import { RoleGuard } from '../guards/role.guard';
+import { SubscripionsService } from '../../subscriptions/providers';
 
 @Controller('admin/auth')
 export class AdminController {
-    constructor(private userService: UserService, private authService: AuthService) { }
+    constructor(private userService: UserService, private authService: AuthService, private subscripionsService: SubscripionsService) { }
 
     @Post('sign-up')
     @UseInterceptors(TransformInterceptor)
@@ -27,7 +30,11 @@ export class AdminController {
     @Post('sign-in')
     @UseInterceptors(TransformInterceptor)
     public async signIn(@Body() body: any){
-        const user = await this.userService.findOne({ email: body.email })
+        const user = await this.userService.findOne({
+            email : body.email
+        },{
+            select :['password', 'id', 'email', 'otp']
+        })
         if(!user){
             throw new NotFoundException('Email incorrect')
         }
@@ -39,4 +46,18 @@ export class AdminController {
         return token
     }
 
+
+    @Get('subscription')
+    @UseGuards(AuthGuard('jwt'), RoleGuard(['admin']))
+    @UseInterceptors(TransformInterceptor)
+    async index(
+      @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
+      @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
+    ){
+      limit = limit > 100 ? 100 : limit;
+      return this.subscripionsService.getAll({
+        page,
+        limit,
+      });
+    }
 }
