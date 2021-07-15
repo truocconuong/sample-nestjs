@@ -14,6 +14,10 @@ import { ValuablesModel } from 'src/entity/valuables';
 import { RoleModel } from 'src/entity/role'
 import { UpdateResult, DeleteResult, Repository } from 'typeorm';
 import { UserRepositoryService } from './user-repository.service';
+import {
+    IPaginationOptions,
+    
+  } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class UserService {
@@ -226,4 +230,9 @@ export class UserService {
         const user = await this.userRepositoryService.findUserCategoriesDetail(id)
         return user
     }
+    
+    public async getAll(options: IPaginationOptions, role_id: any){
+        return this.userRepositoryService.paginate(options, role_id)
+    }    
 }
+

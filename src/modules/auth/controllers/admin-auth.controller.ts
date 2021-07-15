@@ -2,7 +2,7 @@ import { Body, Controller, Post, UseInterceptors, NotFoundException, Get, Defaul
 import * as bcrypt from 'bcrypt';
 import { TransformInterceptor } from 'src/common/interceptor/transform.interceptor';
 import { UserService } from 'src/modules/user/providers';
-import { ROLE_ADMIN_TITLE } from 'src/common/constants/index'; 
+import { ROLE_ADMIN_TITLE, ROLE_USER_TITLE } from 'src/common/constants/index'; 
 import { AuthService } from '../providers';
 import { AuthGuard } from '@nestjs/passport';
 import { RoleGuard } from '../guards/role.guard';
@@ -74,5 +74,20 @@ export class AdminController {
         page,
         limit,
       });
+    }
+
+    @Get('user')
+    @UseGuards(AuthGuard('jwt'), RoleGuard(['admin']))
+    @UseInterceptors(TransformInterceptor)
+    async getAllUser(
+        @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
+        @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
+      ){
+        const role = await this.userService.findRole({title: ROLE_USER_TITLE})
+        limit = limit > 100 ? 100 : limit;
+        return this.userService.getAll({
+          page,
+          limit,
+        },role!.id);
     }
 }
