@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseInterceptors, NotFoundException, Get, DefaultValuePipe, ParseIntPipe, Query, UseGuards} from '@nestjs/common';
+import { Body, Controller, Post, UseInterceptors, NotFoundException, Get, DefaultValuePipe, ParseIntPipe, Query, UseGuards, Param} from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { TransformInterceptor } from 'src/common/interceptor/transform.interceptor';
 import { UserService } from 'src/modules/user/providers';
@@ -89,5 +89,13 @@ export class AdminController {
           page,
           limit,
         },role!.id);
+    }
+
+    @Get('user/:id')
+    @UseGuards(AuthGuard('jwt'), RoleGuard(['admin']))
+    @UseInterceptors(TransformInterceptor)
+    async getUserDetail(@Param('id') id: string){
+        const UserDetail = await this.userService.findUserDetail(id)
+        return UserDetail
     }
 }
