@@ -15,6 +15,7 @@ import { TransactionsModule } from './modules/transactions/transactions.module';
 import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
 import { WebhookModule } from './modules/webhook/webhook.module';
 import { OrdersModule } from './modules/orders/orders.module';
+import { SystemParameterModule } from './modules/system_parameter/system_parameter.module';
 
 
 @Module({
@@ -65,7 +66,8 @@ import { OrdersModule } from './modules/orders/orders.module';
     StripeModule,
     SubscriptionsModule,
     WebhookModule,
-    OrdersModule
+    OrdersModule,
+    SystemParameterModule
   ],
   providers: [
     // Global Guard, Authentication check on all routers
