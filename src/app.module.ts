@@ -15,6 +15,8 @@ import { TransactionsModule } from './modules/transactions/transactions.module';
 import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
 import { WebhookModule } from './modules/webhook/webhook.module';
 import { OrdersModule } from './modules/orders/orders.module';
+import { SystemParameterModule } from './modules/system_parameter/system_parameter.module';
+import { ScheduleModule } from '@nestjs/schedule'
 
 
 @Module({
@@ -61,11 +63,13 @@ import { OrdersModule } from './modules/orders/orders.module';
       apiKey: process.env.SECRET_KEY_STRIPE ? process.env.SECRET_KEY_STRIPE : '',
       apiVersion: '2020-08-27',
     }),
+    ScheduleModule.forRoot(),
     TransactionsModule,
     StripeModule,
     SubscriptionsModule,
     WebhookModule,
-    OrdersModule
+    OrdersModule,
+    SystemParameterModule
   ],
   providers: [
     // Global Guard, Authentication check on all routers

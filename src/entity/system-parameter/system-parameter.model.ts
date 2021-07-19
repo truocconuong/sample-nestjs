@@ -8,7 +8,7 @@ export class SystemParameterModel {
     @Column({ length: 45, nullable: false })
     type?: string;
 
-    @Column({ length: 45, nullable: false })
+    @Column({ length: 255, nullable: false })
     value?: string;
 
     @Column({ nullable: true })
