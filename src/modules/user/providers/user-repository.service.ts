@@ -35,8 +35,8 @@ export class UserRepositoryService {
         return this.repository.delete(id);
     }
 
-    public async findOne(options: any): Promise<UserModel | undefined> {
-        return this.repository.findOne(options);
+    public async findOne(query:any, options?: any): Promise<UserModel | undefined> {
+        return this.repository.findOne(query,options);
     }
 
     async findUserCategoriesDetail(id: string){

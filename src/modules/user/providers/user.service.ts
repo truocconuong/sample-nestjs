@@ -16,7 +16,6 @@ import { UpdateResult, DeleteResult, Repository } from 'typeorm';
 import { UserRepositoryService } from './user-repository.service';
 import {
     IPaginationOptions,
-
   } from 'nestjs-typeorm-paginate';
 
 @Injectable()
@@ -76,8 +75,8 @@ export class UserService {
         return this.userRepositoryService.remove(id);
     }
 
-    public async findOne(options: {}): Promise<UserModel | undefined> {
-        const user = await this.userRepositoryService.findOne(options)
+    public async findOne(query: any, options?: {}): Promise<UserModel | undefined> {
+        const user = await this.userRepositoryService.findOne(query,options)
         return user
     }
 
@@ -230,7 +229,7 @@ export class UserService {
         const user = await this.userRepositoryService.findUserCategoriesDetail(id)
         return user
     }
-    
+
     public async getAll(options: IPaginationOptions, role_id: any){
         return this.userRepositoryService.paginate(options, role_id)
     }    
