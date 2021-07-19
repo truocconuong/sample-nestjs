@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseInterceptors, NotFoundException, Get, DefaultValuePipe, ParseIntPipe, Query, UseGuards, Param} from '@nestjs/common';
+import { Body, Controller, Post, UseInterceptors, NotFoundException, Get, DefaultValuePipe, ParseIntPipe, Query, UseGuards, Param, Patch} from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { TransformInterceptor } from 'src/common/interceptor/transform.interceptor';
 import { UserService } from 'src/modules/user/providers';
@@ -8,6 +8,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { RoleGuard } from '../guards/role.guard';
 import { SubscripionsService } from '../../subscriptions/providers';
 import { OrdersService } from '../../orders/providers';
+import { UpdateUserDto } from '../../user/dto/update-user.dto';
 
 @Controller('admin/auth')
 export class AdminController {
@@ -98,4 +99,24 @@ export class AdminController {
         const UserDetail = await this.userService.findUserDetail(id)
         return UserDetail
     }
+
+    @Patch('user/:id')
+    @UseGuards(AuthGuard('jwt'), RoleGuard(['admin']))
+    @UseInterceptors(TransformInterceptor)
+    public async updateUserDetail(@Param('id')id: string, @Body() body: UpdateUserDto){
+        const user = await this.userService.findById(id)
+        if(!user){
+            throw new NotFoundException('User Not Found!')
+        }
+        return await this.userService.update(id, body)
+    }
+
+    @Get('subscription/:id')
+    @UseGuards(AuthGuard('jwt'), RoleGuard(['admin']))
+    @UseInterceptors(TransformInterceptor)
+    async getSubscriptionDetail(@Param('id') id: string){
+        const subscription = await this.subscripionsService.findById(id)
+        return subscription
+    }  
+
 }
