@@ -2,6 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { OrdersModel } from 'src/entity/orders';
 import { Repository, UpdateResult, DeleteResult } from 'typeorm';
+import {
+    paginate,
+    IPaginationOptions,
+} from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class OrdersRepository {
@@ -15,7 +19,6 @@ export class OrdersRepository {
     }
 
     public async create(data: OrdersModel): Promise<OrdersModel> {
-        console.log('hôh')
         return this.orderRepository.save(data);
     }
 
@@ -36,6 +39,12 @@ export class OrdersRepository {
 
     public async findOne(options: any): Promise<OrdersModel | undefined> {
         return this.orderRepository.findOne(options);
+    }
 
+    async paginate(options: IPaginationOptions){
+        const queryBuilder = await this.orderRepository
+        .createQueryBuilder('orders')
+        .innerJoinAndSelect('orders.user','user')
+        return await paginate<OrdersModel>(queryBuilder, options)
     }
 }

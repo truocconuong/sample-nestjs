@@ -13,7 +13,7 @@ export const RoleGuard = (roles: Array<string>) => {
             const request = context.switchToHttp().getRequest();
             const user = request.user;      
             const userDetail = await this.userService.findById(user.id);
-            const role = await this.userService.findByRoleTitle(userDetail!.role_id);
+            const role = await this.userService.findRole({id: userDetail!.role_id});
             return roles.includes(role!.title)
         }  
     }

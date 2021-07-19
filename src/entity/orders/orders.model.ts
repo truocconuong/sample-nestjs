@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { UserModel } from '../user'
 
 @Entity('orders')
 export class OrdersModel {
@@ -31,4 +32,9 @@ export class OrdersModel {
 
     @Column("uuid", { nullable: false })
     subscription_id!: string;
+
+    @ManyToOne(() => UserModel, user => user.orders, { persistence: true })
+    @JoinColumn({ name: 'user_id' })
+    user!: UserModel;
+
 }

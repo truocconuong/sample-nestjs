@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { OrdersModel } from 'src/entity/orders';
 import { UpdateResult, DeleteResult } from 'typeorm';
 import { OrdersRepository } from './orders-repository.service';
+import {
+    IPaginationOptions,
+  } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class OrdersService {
@@ -32,5 +35,9 @@ export class OrdersService {
 
     public async remove(id: string): Promise<DeleteResult> {
         return this.ordersRepository.remove(id);
+    }
+
+    public async getAll(options: IPaginationOptions){
+        return this.ordersRepository.paginate(options)
     }
 }

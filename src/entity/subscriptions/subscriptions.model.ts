@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { UserModel } from '../user';
 
 @Entity('subscriptions')
 export class SubscriptionsModel {
@@ -28,5 +29,9 @@ export class SubscriptionsModel {
 
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
     created_at!: Date;
+
+    @ManyToOne(() => UserModel, user => user.subscriptions, { persistence: true })
+    @JoinColumn({ name: 'user_id' })
+    user!: UserModel;
 
 }

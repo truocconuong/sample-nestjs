@@ -14,6 +14,9 @@ import { ValuablesModel } from 'src/entity/valuables';
 import { RoleModel } from 'src/entity/role'
 import { UpdateResult, DeleteResult, Repository } from 'typeorm';
 import { UserRepositoryService } from './user-repository.service';
+import {
+    IPaginationOptions,
+  } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class UserService {
@@ -72,13 +75,8 @@ export class UserService {
         return this.userRepositoryService.remove(id);
     }
 
-    public async findByEmail(email: string): Promise<UserModel | undefined> {
-        const user = await this.userRepositoryService.findOne({ email })
-        return user
-    }
-
-    public async findOne(options: {}): Promise<UserModel | undefined> {
-        const user = await this.userRepositoryService.findOne(options)
+    public async findOne(query: any, options?: {}): Promise<UserModel | undefined> {
+        const user = await this.userRepositoryService.findOne(query,options)
         return user
     }
 
@@ -222,8 +220,8 @@ export class UserService {
         return true
     }
 
-    public async findByRoleTitle(id: string){
-        const role = await this.repositoryRole.findOne(id)  
+    public async findRole(option: any){
+        const role = await this.repositoryRole.findOne(option)  
         return role
     }
     
@@ -231,4 +229,14 @@ export class UserService {
         const user = await this.userRepositoryService.findUserCategoriesDetail(id)
         return user
     }
+
+    public async getAll(options: IPaginationOptions, role_id: any){
+        return this.userRepositoryService.paginate(options, role_id)
+    }    
+
+    public async findUserDetail(id: string){
+        return this.userRepositoryService.findUserDetail(id)
+    }
+    
 }
+
