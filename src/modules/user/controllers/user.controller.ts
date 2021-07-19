@@ -287,4 +287,13 @@ export class UserController {
         await this.userService.updateInsurancePolicy(id, body)
         return true
     }
+
+    @Get(':id/categories')
+    @UseGuards(AuthGuard('jwt'))
+    @UseInterceptors(TransformInterceptor)
+    async getUserDetail(@Param('id') id: string){
+        const UserDetail = await this.userService.findUserCategoriesDetail(id)
+        return UserDetail
+    }
+
 }

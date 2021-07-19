@@ -33,6 +33,22 @@ export class UserRepositoryService {
 
     public async findOne(options: any): Promise<UserModel | undefined> {
         return this.repository.findOne(options);
-
     }
+
+    async findUserCategoriesDetail(id: string){
+        const queryBuilder = await this.repository
+                                   .createQueryBuilder('user')
+                                   .leftJoinAndSelect('user.investments', 'investments')
+                                   .leftJoinAndSelect('user.insurance_policies', 'insurance_policies')
+                                   .leftJoinAndSelect('user.properties', 'properties')
+                                   .leftJoinAndSelect('user.business_interests', 'business_interests')
+                                   .leftJoinAndSelect('user.valuables', 'valuables')
+                                   .leftJoinAndSelect('user.executors', 'executors')
+                                   .leftJoinAndSelect('user.beneficiaries', 'beneficiaries')
+                                   .leftJoinAndSelect('user.bank_accounts', 'bank_accounts')
+                                   .where('user.id = :id', { id: id})
+                                   .getOne()
+        return queryBuilder
+    }
+
 }

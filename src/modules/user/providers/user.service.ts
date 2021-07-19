@@ -227,4 +227,8 @@ export class UserService {
         return role
     }
     
+    public async findUserCategoriesDetail(id: string){
+        const user = await this.userRepositoryService.findUserCategoriesDetail(id)
+        return user
+    }
 }
