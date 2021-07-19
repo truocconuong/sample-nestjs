@@ -2,6 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserModel } from 'src/entity/user';
 import { Repository, UpdateResult, DeleteResult } from 'typeorm';
+import {
+    paginate,
+    IPaginationOptions,
+} from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class UserRepositoryService {
@@ -51,4 +55,20 @@ export class UserRepositoryService {
         return queryBuilder
     }
 
+    async paginate(options: IPaginationOptions, role_id: any){
+        const queryBuilder = await this.repository
+        .createQueryBuilder('user')
+        .where("user.role_id = :role_id", { role_id: role_id })
+        return await paginate<UserModel>(queryBuilder, options)
+    }
+
+    async findUserDetail(id: string){
+        const queryBuilder = await this.repository
+                                   .createQueryBuilder('user')
+                                   .innerJoinAndSelect('user.subscriptions','subscriptions')
+                                   .innerJoinAndSelect('user.orders', 'orders')
+                                   .where('user.id = :id', { id: id})
+                                   .getOne()
+        return queryBuilder
+    }
 }

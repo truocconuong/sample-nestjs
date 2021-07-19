@@ -43,7 +43,7 @@ export class UserController {
             id: string,
             full_legal_name: string
         }[] = [];
-        const checkEmailExists = await this.userService.findByEmail(email);
+        const checkEmailExists = await this.userService.findOne({email: email});
         if (checkEmailExists) {
             throw new HttpException('Conflict', HttpStatus.FORBIDDEN);
         }
@@ -292,8 +292,8 @@ export class UserController {
     @UseGuards(AuthGuard('jwt'))
     @UseInterceptors(TransformInterceptor)
     async getUserDetail(@Param('id') id: string){
-        const UserDetail = await this.userService.findUserCategoriesDetail(id)
-        return UserDetail
+        const userDetail = await this.userService.findUserCategoriesDetail(id)
+        return userDetail
     }
 
 }

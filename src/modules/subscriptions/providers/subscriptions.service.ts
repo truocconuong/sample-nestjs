@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { SubscriptionsModel } from 'src/entity/subscriptions';
 import { UpdateResult, DeleteResult } from 'typeorm';
 import { SubscriptionsRepository } from './subscriptions-repository.service';
+import {
+    IPaginationOptions,
+  } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class SubscripionsService {  
@@ -34,5 +37,7 @@ export class SubscripionsService {
         return this.subscriptionsRepository.findOne(options)
     }
 
-
+    public async getAll(options: IPaginationOptions){
+        return this.subscriptionsRepository.paginate(options)
+    }
 }
