@@ -1,0 +1,1 @@
+export const STRIPE_TYPE = "stripe secret key";

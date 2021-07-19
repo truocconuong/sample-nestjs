@@ -30,4 +30,8 @@ export class SystemParameterService {
     public async remove(id: string): Promise<DeleteResult> {
         return this.SystemParameterRepositoryService.remove(id);
     }
+
+    public async findOne(option: {}){
+        return this.SystemParameterRepositoryService.findOne(option)
+    }
 }

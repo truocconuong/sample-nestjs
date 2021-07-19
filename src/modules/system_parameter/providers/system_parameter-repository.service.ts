@@ -32,4 +32,8 @@ export class SystemParameterRepositoryService {
     public async remove(id: string): Promise<DeleteResult> {
         return this.repository.delete(id);
     }
+
+    public async findOne(option: {}){
+        return this.repository.findOne(option)
+    }
 }
