@@ -55,6 +55,7 @@ export class UserController {
             address_line_2: address_line_2 ? address_line_2 : '',
             unit_number: unit_number,
             full_legal_name,
+            role_id : '4fb6acb5-e22c-4c2e-b7a1-fde533a80324'
         }
         // create user
         const user = await this.userService.create(information)
