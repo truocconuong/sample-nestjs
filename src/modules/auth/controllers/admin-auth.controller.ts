@@ -4,12 +4,14 @@ import { TransformInterceptor } from 'src/common/interceptor/transform.intercept
 import { UserService } from 'src/modules/user/providers';
 import { ROLE_ADMIN_TITLE } from 'src/common/constants/index'; 
 import { AuthService } from '../providers';
+import { ApiExcludeEndpoint } from '@nestjs/swagger';
 
 @Controller('admin/auth')
 export class AdminController {
     constructor(private userService: UserService, private authService: AuthService) { }
 
     @Post('sign-up')
+    @ApiExcludeEndpoint()
     @UseInterceptors(TransformInterceptor)
     public async signUp(@Body() body: any){
         const role = await this.userService.findRole({title: ROLE_ADMIN_TITLE})
@@ -25,6 +27,7 @@ export class AdminController {
     }
 
     @Post('sign-in')
+    @ApiExcludeEndpoint()
     @UseInterceptors(TransformInterceptor)
     public async signIn(@Body() body: any){
         const user = await this.userService.findOne({

@@ -1,5 +1,6 @@
 import { Body, Controller, Post, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiExcludeEndpoint } from '@nestjs/swagger';
 import _ from 'lodash'
 import { TransformInterceptor } from 'src/common/interceptor/transform.interceptor';
 import { UserModel } from 'src/entity/user';
@@ -11,6 +12,7 @@ export class TransactionsController {
     constructor(private transactionsService: TransactionsService, private userService: UserService) { }
 
     @Post('order')
+    @ApiExcludeEndpoint()
     @UseGuards(AuthGuard('jwt'))
     @UseInterceptors(TransformInterceptor)
     public async createOrder(@Body() _body: any, @GetUser() user: UserModel): Promise<boolean> {

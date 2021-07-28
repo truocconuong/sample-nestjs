@@ -10,8 +10,8 @@ export class MasterDataRepositoryService {
         private repository: Repository<MasterDataModel>,
     ) { }
 
-    public async findAll(): Promise<MasterDataModel[]> {
-        return this.repository.find()
+    public async findAll(where : any): Promise<MasterDataModel[]> {
+        return this.repository.find(where)
     }
 
     public async create(data: Partial<MasterDataModel>): Promise<MasterDataModel> {

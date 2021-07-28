@@ -4,12 +4,14 @@ import { TransformInterceptor } from 'src/common/interceptor/transform.intercept
 import { RoleGuard } from 'src/modules/auth/guards/role.guard';
 import { SubscripionsService } from '../providers/subscriptions.service';
 import { LIMIT_SUBSCRIPTIONS } from 'src/common/constants/index';
+import { ApiExcludeEndpoint } from '@nestjs/swagger';
 
 @Controller('subscriptions')
 export class SubscriptionsAdminController {
     constructor(private subscripionsService: SubscripionsService) { }
     
     @Get()
+    @ApiExcludeEndpoint()
     @UseGuards(AuthGuard('jwt'), RoleGuard(['admin']))
     @UseInterceptors(TransformInterceptor)
     async index(
@@ -24,6 +26,7 @@ export class SubscriptionsAdminController {
     }
 
     @Get(':id')
+    @ApiExcludeEndpoint()
     @UseGuards(AuthGuard('jwt'), RoleGuard(['admin']))
     @UseInterceptors(TransformInterceptor)
     async getSubscriptionDetail(@Param('id') id: string){

@@ -5,12 +5,14 @@ import { RoleGuard } from 'src/modules/auth/guards/role.guard';
 import { UserService } from '../providers/user.service';
 import { ROLE_USER_TITLE, LIMIT_USER } from 'src/common/constants/index';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { ApiExcludeEndpoint } from '@nestjs/swagger';
 
 @Controller('admin')
 export class SubscriptionsAdminController {
     constructor( private userService: UserService ) { }
     
     @Get('user')
+    @ApiExcludeEndpoint()
     @UseGuards(AuthGuard('jwt'), RoleGuard(['admin']))
     @UseInterceptors(TransformInterceptor)
     async getAllUser(
@@ -26,6 +28,7 @@ export class SubscriptionsAdminController {
     }
 
     @Get('user/:id')
+    @ApiExcludeEndpoint()
     @UseGuards(AuthGuard('jwt'), RoleGuard(['admin']))
     @UseInterceptors(TransformInterceptor)
     async getUserDetail(@Param('id') id: string){
@@ -34,6 +37,7 @@ export class SubscriptionsAdminController {
     }
 
     @Patch('user/:id')
+    @ApiExcludeEndpoint()
     @UseGuards(AuthGuard('jwt'), RoleGuard(['admin']))
     @UseInterceptors(TransformInterceptor)
     public async updateUserDetail(@Param('id')id: string, @Body() body: UpdateUserDto){

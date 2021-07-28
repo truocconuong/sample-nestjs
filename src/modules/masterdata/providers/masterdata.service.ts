@@ -10,8 +10,9 @@ export class MasterdataService {
 
     ) { }
 
-    public async findAll(): Promise<MasterDataModel[]> {
-        return this.MasterDataRepositoryService.findAll();
+    public async findAll(query: any): Promise<MasterDataModel[]> {
+        const where = query.value ? query : {}
+        return this.MasterDataRepositoryService.findAll(where);
     }
 
     public async create(data: Partial<MasterDataModel>): Promise<MasterDataModel> {

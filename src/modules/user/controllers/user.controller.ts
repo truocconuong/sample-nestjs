@@ -1,5 +1,6 @@
 import { Body, Controller, Get, HttpException, HttpStatus, NotFoundException, Param, Patch, Post, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiExcludeEndpoint } from '@nestjs/swagger';
 import _ from 'lodash'
 import { TransformInterceptor } from 'src/common/interceptor/transform.interceptor';
 import { UserModel } from 'src/entity/user';
@@ -12,7 +13,9 @@ import { UserService } from '../providers/user.service';
 @Controller('users')
 export class UserController {
     constructor(private userService: UserService) { }
+
     @Get()
+    @ApiExcludeEndpoint()
     @UseInterceptors(TransformInterceptor)
     @UseFilters(UserLoggerExceptionsFilter)
     public async getAll(): Promise<UserModel[]> {
@@ -21,6 +24,8 @@ export class UserController {
     }
 
     @Get(':id')
+    @ApiExcludeEndpoint()
+    @UseGuards(AuthGuard('jwt'))
     @UseInterceptors(TransformInterceptor)
     public async getUserById(@Param('id') id: string): Promise<UserModel> {
         try {
@@ -161,6 +166,7 @@ export class UserController {
 
     @Patch()
     @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth()
     @UseInterceptors(TransformInterceptor)
     public async update(@Body() body: UpdateUserDto, @GetUser() user: UserModel): Promise<boolean> {
         await this.userService.update(user.id, body)
@@ -169,6 +175,7 @@ export class UserController {
 
     @Patch('executor/:id')
     @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth()
     @UseInterceptors(TransformInterceptor)
     public async updateExecutor(@Param('id')id: string, @Body() body: ExecutorDto, @GetUser() user: UserModel): Promise<boolean>{
         const executor = await this.userService.findExecutor(id)
@@ -184,6 +191,7 @@ export class UserController {
 
     @Patch('property/:id')
     @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth()
     @UseInterceptors(TransformInterceptor)
     public async updateProperty(@Param('id')id: string, @Body() body: PropertyDto, @GetUser() user: UserModel): Promise<boolean>{
         const executor = await this.userService.findProperty(id)
@@ -201,6 +209,7 @@ export class UserController {
     
     @Patch('beneficiary/:id')
     @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth()
     @UseInterceptors(TransformInterceptor)
     public async updateBeneficiary(@Param('id')id: string, @Body() body: BeneficiaryDto, @GetUser() user: UserModel): Promise<boolean>{
         const beneficiary = await this.userService.findBeneficiary(id)
@@ -216,6 +225,7 @@ export class UserController {
 
     @Patch('business-interests/:id')
     @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth()
     @UseInterceptors(TransformInterceptor)
     public async updateBusinessInterests(@Param('id')id: string, @Body() body: BusinessInterestsDto, @GetUser() user: UserModel): Promise<boolean>{
         const businessInterests = await this.userService.findBusinessInterests(id)
@@ -231,6 +241,7 @@ export class UserController {
 
     @Patch('investment/:id')
     @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth()
     @UseInterceptors(TransformInterceptor)
     public async updateInvestment(@Param('id')id: string, @Body() body: InvestmentsDto, @GetUser() user: UserModel): Promise<boolean>{
         const investment = await this.userService.findInvestment(id)
@@ -246,6 +257,7 @@ export class UserController {
 
     @Patch('valuables/:id')
     @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth()
     @UseInterceptors(TransformInterceptor)
     public async updateValuables(@Param('id')id: string, @Body() body: ValuablesDto, @GetUser() user: UserModel): Promise<boolean>{
         const valuables = await this.userService.findValuables(id)
@@ -261,6 +273,7 @@ export class UserController {
 
     @Patch('bank-account/:id')
     @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth()
     @UseInterceptors(TransformInterceptor)
     public async updateBankAccount(@Param('id')id: string, @Body() body: BankAccountDto, @GetUser() user: UserModel): Promise<boolean>{
         const bankAccount = await this.userService.findBankAccount(id)
@@ -276,6 +289,7 @@ export class UserController {
     
     @Patch('insurance-policy/:id')
     @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth()
     @UseInterceptors(TransformInterceptor)
     public async updateInsurancePolicies(@Param('id')id: string, @Body() body: InsurancePoliciesDto, @GetUser() user: UserModel): Promise<boolean>{
         const insurancePolicy = await this.userService.findInsurancePolicy(id)
@@ -289,11 +303,12 @@ export class UserController {
         return true
     }
 
-    @Get(':id/categories')
+    @Get('detail/categories')
+    @ApiBearerAuth()
     @UseGuards(AuthGuard('jwt'))
     @UseInterceptors(TransformInterceptor)
-    async getUserDetail(@Param('id') id: string){
-        const userDetail = await this.userService.findUserCategoriesDetail(id)
+    async getUserDetail(@GetUser() user: UserModel){
+        const userDetail = await this.userService.findUserCategoriesDetail(user.id)
         return userDetail
     }
 

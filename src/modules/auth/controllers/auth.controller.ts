@@ -10,12 +10,14 @@ import { SendOtpDto } from '../dto/send-otp.dto';
 import { VerifyOtpDto } from '../dto/verify-otp.dto';
 import { AuthService } from '../providers';
 import { Request } from 'express';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
     constructor(private userService: UserService, private otpService: OtpService, private authService: AuthService) { }
 
     @Get('profile')
+    @ApiBearerAuth()
     @UseGuards(AuthGuard('jwt'))
     @UseInterceptors(TransformInterceptor)
     public async getProfile(@GetUser() user: UserModel): Promise<UserModel | undefined> {
@@ -104,6 +106,7 @@ export class AuthController {
         yourLegacy.totalAssets = totalAssets;
         return yourLegacy
     }
+    
 
     @Post('send-otp')
     @UseInterceptors(TransformInterceptor)
@@ -146,6 +149,7 @@ export class AuthController {
     }
 
     @Post('logout')
+    @ApiBearerAuth()
     @UseGuards(AuthGuard('jwt'))
     @UseInterceptors(TransformInterceptor)
     public async logOut(@Req() request: Request){

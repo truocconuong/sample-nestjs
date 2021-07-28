@@ -4,12 +4,14 @@ import { UpdateResult } from "typeorm";
 import { OrdersService } from "../orders/providers";
 import { UserService } from "../user/providers";
 import { SubscripionsService } from "../subscriptions/providers";
+import { ApiExcludeEndpoint } from "@nestjs/swagger";
 
 @Controller('webhook')
 export class WebhookController {
     constructor(private userService: UserService, private orderService: OrdersService, private subscriptionService: SubscripionsService) { }
 
     @Post('create-invoice')
+    @ApiExcludeEndpoint()
     async createInvoice(@Body() body: any) {
         const user = await this.userService.findOne({ customer_stripe_id: body.customer })
         if (!user) {
@@ -30,6 +32,7 @@ export class WebhookController {
     }
 
     @Post('update-invoice')
+    @ApiExcludeEndpoint()
     async updateInvoice(@Body() body: any): Promise<UpdateResult> {
         const order = await this.orderService.findOne({
             order_id: body
@@ -46,6 +49,7 @@ export class WebhookController {
     }
 
     @Post('payment_intent-canceled')
+    @ApiExcludeEndpoint()
     async paymentIntentCanceled(@Body() body: any) {
         const order = await this.orderService.findOne({
             order_id: body.invoice
@@ -63,6 +67,7 @@ export class WebhookController {
     }
 
     @Post('invoice-voided')
+    @ApiExcludeEndpoint()
     async invoiceVoided(@Body() body: any){
         const order = await this.orderService.findOne({
             order_id: body.id

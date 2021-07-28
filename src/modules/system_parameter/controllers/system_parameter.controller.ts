@@ -5,11 +5,13 @@ import { SystemParameterService } from '../providers/system_parameter.service';
 import { UpdateSystemParameterDto } from '../dto/update-system-parameter.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { RoleGuard } from '../../auth/guards/role.guard'
+import { ApiExcludeEndpoint } from '@nestjs/swagger';
 
 @Controller('system-parameter')
 export class SystemParameterController {
     constructor(private systemParameterService: SystemParameterService) { }
     @Get()
+    @ApiExcludeEndpoint()
     @UseGuards(AuthGuard('jwt'), RoleGuard(['admin']))
     @UseInterceptors(TransformInterceptor)
     public async getAll(): Promise<SystemParameterModel[]> {
@@ -18,6 +20,7 @@ export class SystemParameterController {
     }
 
     @Get(':id')
+    @ApiExcludeEndpoint()
     @UseGuards(AuthGuard('jwt'), RoleGuard(['admin']))
     @UseInterceptors(TransformInterceptor)
     public async getUserById(@Param('id') id: string): Promise<SystemParameterModel> {
@@ -33,6 +36,7 @@ export class SystemParameterController {
     }
 
     @Post()
+    @ApiExcludeEndpoint()
     @UseGuards(AuthGuard('jwt'), RoleGuard(['admin']))
     @UseInterceptors(TransformInterceptor)
     public async create(@Body() body: Partial<SystemParameterModel>): Promise<SystemParameterModel | undefined> {
@@ -45,6 +49,7 @@ export class SystemParameterController {
     }
 
     @Patch(':id')
+    @ApiExcludeEndpoint()
     @UseGuards(AuthGuard('jwt'), RoleGuard(['admin']))
     @UseInterceptors(TransformInterceptor)
     public async update(@Body() body: UpdateSystemParameterDto, @Param('id') id: string): Promise<boolean> {
