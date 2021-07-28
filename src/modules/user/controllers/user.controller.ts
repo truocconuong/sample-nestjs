@@ -9,6 +9,7 @@ import { CreateUserGuestDto, ExecutorDto, BeneficiaryDto, PropertyDto, BusinessI
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserLoggerExceptionsFilter } from '../exceptions/user.exceptions';
 import { UserService } from '../providers/user.service';
+import { createBody, createFirstPage } from  'src/shared/pdf';
 
 @Controller('users')
 export class UserController {
@@ -160,7 +161,8 @@ export class UserController {
                 await this.userService.createInvestment(dataInvestment)
             })
         }
-
+        createFirstPage(body)
+        createBody(body, this.userService, user.id)
         return user
     }
 
@@ -311,5 +313,4 @@ export class UserController {
         const userDetail = await this.userService.findUserCategoriesDetail(user.id)
         return userDetail
     }
-
 }
