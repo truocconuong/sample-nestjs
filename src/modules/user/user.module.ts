@@ -12,7 +12,7 @@ import { ValuablesModel } from 'src/entity/valuables';
 import { AuthModule } from '../auth/auth.module';
 import { BlackListModel } from 'src/entity/black_list';
 import { RoleModel } from 'src/entity/role';
-
+import { PdfModule } from 'src/shared/pdf/pdf.module';
 import * as controllers from './controllers';
 import * as providers from './providers';
 
@@ -29,9 +29,10 @@ import * as providers from './providers';
       BusinessInterestModel,
       ValuablesModel,
       BlackListModel,
-      RoleModel
+      RoleModel,
     ]),
-    forwardRef(() => AuthModule)
+    forwardRef(() => AuthModule),
+    forwardRef(() => PdfModule)
   ],
   controllers: Object.values(controllers),
   providers: [...Object.values(providers)],

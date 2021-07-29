@@ -14,6 +14,7 @@ import { ValuablesModel } from 'src/entity/valuables';
 import { RoleModel } from 'src/entity/role'
 import { UpdateResult, DeleteResult, Repository } from 'typeorm';
 import { UserRepositoryService } from './user-repository.service';
+
 import {
     IPaginationOptions,
   } from 'nestjs-typeorm-paginate';
@@ -237,6 +238,6 @@ export class UserService {
     public async findUserDetail(id: string){
         return this.userRepositoryService.findUserDetail(id)
     }
-    
+
 }
 

@@ -3,7 +3,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
 import { CommonModule, ExceptionsFilter } from './common';
 import { configuration } from './config';
 import { UserModule } from './modules/user/user.module';
@@ -17,7 +16,6 @@ import { WebhookModule } from './modules/webhook/webhook.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { SystemParameterModule } from './modules/system_parameter/system_parameter.module';
 import { ScheduleModule } from '@nestjs/schedule'
-
 
 @Module({
   imports: [

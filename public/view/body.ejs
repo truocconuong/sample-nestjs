@@ -220,19 +220,19 @@ tr {page-break-inside:avoid !important;}
 					<% if(index % 2 === 0) { %>
 						<tr>
 							<td class="first" style="width: 120px"><%= user.joint_name %></td>
-							<td class="first" style="width: 120px"><% if(user.is_joint) {%>jointc<%}%> <% if(user.is_solely) {%>solely<%}%></td>
+							<td class="first" style="width: 120px"><% if(user.is_joint) {%>joint<%}%> <% if(user.is_solely) {%>solely<%}%></td>
 							<td class="first" style="width: 120px"><%= user.address_line_1 %></td>
-							<td class="first" style="width: 120px"><% if(user.is_joint) {%>jointc<%}%> <% if(user.is_solely) {%>solely<%}%></td>
-							<td class="first" style="width: 120px"><%= user.outstanding_loan_amount %></td>
+							<td class="first" style="width: 120px"><% if(user.is_joint) {%>joint<%}%> <% if(user.is_solely) {%>solely<%}%></td>
+							<td class="first" style="width: 120px"><%= currency.format(user.outstanding_loan_amount) %></td>
 						</tr>
 						<%}%>
 						<% if(index % 2 !== 0) {%>
 						<tr>
 							<td class="second" style="width: 120px"><%= user.joint_name %></td>
-							<td class="second" style="width: 120px"><% if(user.is_joint) {%>jointc<%}%> <% if(user.is_solely) {%>solely<%}%></td>
+							<td class="second" style="width: 120px"><% if(user.is_joint) {%>joint<%}%> <% if(user.is_solely) {%>solely<%}%></td>
 							<td class="second" style="width: 120px"><%= user.address_line_1 %></td>
-							<td class="second" style="width: 120px"><% if(user.is_joint) {%>jointc<%}%> <% if(user.is_solely) {%>solely<%}%></td>
-							<td class="second" style="width: 120px"><%= user.outstanding_loan_amount %></td>
+							<td class="second" style="width: 120px"><% if(user.is_joint) {%>joint<%}%> <% if(user.is_solely) {%>solely<%}%></td>
+							<td class="second" style="width: 120px"><%= currency.format(user.outstanding_loan_amount) %></td>
 						</tr>
 						<%}%>
 			<%	});%>
@@ -257,7 +257,7 @@ tr {page-break-inside:avoid !important;}
 							<tr>
 								<td class="first"><%= user.account_holder %></td>
 								<td class="first"><%= user.account_no %></td>
-								<td class="first"><% if(user.is_joint) {%>jointc<%}%> <% if(user.is_solely) {%>solely<%}%></td>
+								<td class="first"><% if(user.is_joint) {%>joint<%}%> <% if(user.is_solely) {%>solely<%}%></td>
 								<td class="first" style="width: 152px"><%= currency.format(user.current_balance) %></td>
 							</tr>
 							<%}%>
@@ -265,7 +265,7 @@ tr {page-break-inside:avoid !important;}
 								<tr>
 									<td class="second"><%= user.account_holder %></td>
 									<td class="second"><%= user.account_no %></td>
-									<td class="second"><% if(user.is_joint) {%>jointc<%}%> <% if(user.is_solely) {%>solely<%}%></td>
+									<td class="second"><% if(user.is_joint) {%>joint<%}%> <% if(user.is_solely) {%>solely<%}%></td>
 									<td class="second" style="width: 152px"><%= currency.format(user.current_balance) %></td>
 								</tr>
 							<%}%>
@@ -294,7 +294,7 @@ tr {page-break-inside:avoid !important;}
 							<td class="first" style="width: 120px"><% if(user.is_nominated) {%>nominated<%}%> <% if(user.is_non_nomivated) {%>non nomivated<%}%></td>
 							<td class="first" style="width: 120px"><%= user.policy_name %></td>
 							<td class="first" style="width: 120px"><%= user.policy_no %></td>
-							<td class="first" style="width: 120px"><%= user.converage %></td>
+							<td class="first" style="width: 120px"><%= currency.format(user.converage) %></td>
 						</tr>
 						<%}%>
 						<% if(index % 2 !== 0) {%>
@@ -303,7 +303,7 @@ tr {page-break-inside:avoid !important;}
 								<td class="second" style="width: 120px"><% if(user.is_nominated) {%>nomivated<%}%> <% if(user.is_non_nomivated) {%>non nomivated<%}%></td>
 								<td class="second" style="width: 120px"><%= user.policy_name %></td>
 								<td class="second" style="width: 120px"><%= user.policy_no %></td>
-								<td class="second" style="width: 120px"><%= user.converage %></td>
+								<td class="second" style="width: 120px"><%= currency.format(user.converage) %></td>
 							</tr>
 					<%}%>
 			<%	});%>
@@ -326,7 +326,7 @@ tr {page-break-inside:avoid !important;}
 					<% user.investments.forEach((user,index) => {%>
 						<% if(index % 2 === 0) { %>
 							<tr>
-								<td class="first"><%= user.type_id %></td>
+								<td class="first"><%= user.investmentType %></td>
 								<td class="first"><%= user.financial_institutions %></td>
 								<td class="first"><%= user.account_no %></td>
 								<td class="first" style="width: 152px"><%= currency.format(user.current_market_value) %></td>
@@ -334,7 +334,7 @@ tr {page-break-inside:avoid !important;}
 							<%}%>
 							<% if(index % 2 !== 0) {%>
 							<tr>
-								<td class= "second"> <%= user.type_id %></td>  
+								<td class= "second"> <%= user.investmentType %></td>  
 								<td class= "second"> <%= user.financial_institutions %></td>
 								<td class= "second"> <%= user.account_no %></td>
 								<td class= "second" style="width: 152px"><%= currency.format(user.current_market_value) %> </td>
