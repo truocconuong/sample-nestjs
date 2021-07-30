@@ -1,4 +1,4 @@
-import { Body, Controller, Get,  NotFoundException, HttpException, HttpStatus, Param, Patch, Post, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get,  NotFoundException, HttpException, HttpStatus, Param, Patch, Post, UseFilters, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiExcludeEndpoint } from '@nestjs/swagger';
 import _ from 'lodash'
@@ -10,7 +10,9 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserLoggerExceptionsFilter } from '../exceptions/user.exceptions';
 import { UserService } from '../providers/user.service';
 import { PdfService } from 'src/shared/pdf/pdf.service';
-
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { editFileName, imageFileFilter } from '../../../common/file-upload.utils'
 
 @Controller('users')
 export class UserController {
@@ -311,5 +313,20 @@ export class UserController {
     async getUserDetail(@GetUser() user: UserModel){
         const userDetail = await this.userService.findUserCategoriesDetail(user.id)
         return userDetail
+    }
+
+    @Post('upload-pdf')
+    @UseGuards(AuthGuard('jwt'))
+    @UseInterceptors(FileInterceptor("file",{
+        storage: diskStorage({
+          destination: 'public/upload-pdf',
+          filename: editFileName,
+        }),
+        fileFilter: imageFileFilter,
+        limits: { fileSize: 3145728 }
+    }))
+    async uploadPdf(@UploadedFile() file: any, @GetUser() user: UserModel){
+        await this.userService.update(user.id, {pdf_upload_url: file.path.slice(6)})
+        throw new HttpException('done', HttpStatus.ACCEPTED);
     }
 }

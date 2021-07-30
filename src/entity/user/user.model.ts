@@ -59,7 +59,7 @@ export class UserModel {
     customer_stripe_id!: string;
 
     @Column({ length: 255, nullable: true })
-    pdf_link!: string;
+    pdf_upload_url!: string;
 
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'updated_at' })
     updated_at!: Date;
