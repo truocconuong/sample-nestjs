@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, NotFoundException, Param, Patch, Post, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get,  NotFoundException, HttpException, HttpStatus, Param, Patch, Post, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiExcludeEndpoint } from '@nestjs/swagger';
 import _ from 'lodash'
@@ -9,11 +9,12 @@ import { CreateUserGuestDto, ExecutorDto, BeneficiaryDto, PropertyDto, BusinessI
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserLoggerExceptionsFilter } from '../exceptions/user.exceptions';
 import { UserService } from '../providers/user.service';
+import { PdfService } from 'src/shared/pdf/pdf.service';
+
 
 @Controller('users')
 export class UserController {
-    constructor(private userService: UserService) { }
-
+    constructor(private userService: UserService, private pdfService: PdfService) { }
     @Get()
     @ApiExcludeEndpoint()
     @UseInterceptors(TransformInterceptor)
@@ -160,7 +161,7 @@ export class UserController {
                 await this.userService.createInvestment(dataInvestment)
             })
         }
-
+        this.pdfService.createPdf(body,user.id)
         return user
     }
 
@@ -311,5 +312,4 @@ export class UserController {
         const userDetail = await this.userService.findUserCategoriesDetail(user.id)
         return userDetail
     }
-
 }

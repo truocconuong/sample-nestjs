@@ -5,6 +5,7 @@ dist/*
 .env
 /tmp
 /out-tsc
+public/pdf
 
 # dependencies
 /node_modules

@@ -2,6 +2,7 @@
   "sourceRoot": "src",
   "entryFile": "app",
   "compilerOptions": {
+    "assets":["**/*.ejs", "**/*.ttf"],
     "tsConfigPath": "tsconfig.build.json",
     "plugins": [{
       "name": "@nestjs/graphql",
