@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { ContactModel } from 'src/entity/contact';
 import { UpdateResult, DeleteResult } from 'typeorm';
+import { CreateContactDto } from '../dto/create-contact.dto';
 import { ContactRepositoryService } from './contact-repository.service';
 
 @Injectable()
 export class ContactService {
     constructor(
-        @InjectRepository(ContactModel)
         private readonly contactRepositoryService: ContactRepositoryService,
 
     ) { }
@@ -16,8 +15,8 @@ export class ContactService {
         return this.contactRepositoryService.findAll();
     }
 
-    public async create(data: Partial<ContactModel>): Promise<ContactModel> {
-        return this.contactRepositoryService.create(data);
+    public async create(data: CreateContactDto): Promise<ContactModel> {
+        return  this.contactRepositoryService.create(data);
     }
 
 
