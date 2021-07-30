@@ -15,6 +15,7 @@ import { RoleModel } from 'src/entity/role';
 import { PdfModule } from 'src/shared/pdf/pdf.module';
 import * as controllers from './controllers';
 import * as providers from './providers';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -30,7 +31,10 @@ import * as providers from './providers';
       ValuablesModel,
       BlackListModel,
       RoleModel,
-    ]),
+    ]), 
+    MulterModule.register({
+      dest: 'public/upload-pdf',
+    }),
     forwardRef(() => AuthModule),
     forwardRef(() => PdfModule)
   ],
