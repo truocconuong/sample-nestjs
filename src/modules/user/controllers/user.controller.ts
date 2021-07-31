@@ -5,7 +5,7 @@ import _ from 'lodash'
 import { TransformInterceptor } from 'src/common/interceptor/transform.interceptor';
 import { UserModel } from 'src/entity/user';
 import { GetUser } from 'src/modules/auth/decorators/get-user.decorators';
-import { CreateUserGuestDto, ExecutorDto, BeneficiaryDto, PropertyDto, BusinessInterestsDto, InvestmentsDto, ValuablesDto, BankAccountDto, InsurancePoliciesDto } from '../dto/create-user.dto';
+import { CreateUserGuestDto, ExecutorDto, BeneficiaryDto, PropertyDto, BusinessInterestsDto, InvestmentsDto, ValuablesDto, BankAccountDto, InsurancePoliciesDto, InformationDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserLoggerExceptionsFilter } from '../exceptions/user.exceptions';
 import { UserService } from '../providers/user.service';
@@ -303,6 +303,19 @@ export class UserController {
             throw new NotFoundException('User unauthorized!')
         }
         await this.userService.updateInsurancePolicy(id, body)
+        return true
+    }
+
+    @Patch('information/:id')
+    @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth()
+    @UseInterceptors(TransformInterceptor)
+    public async updateInformation(@Param('id')id: string, @Body() body: InformationDto): Promise<boolean>{
+        const information = await this.userService.findById(id)
+        if(!information){
+            throw new NotFoundException('Insurance Policy Not Found!')
+        }
+        await this.userService.update(id, body)
         return true
     }
 

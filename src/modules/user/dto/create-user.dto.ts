@@ -1,6 +1,47 @@
 import { Type } from "class-transformer";
 import { IsArray, IsBoolean, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, Length, ValidateNested } from "class-validator";
 
+export class InformationDto {
+  @IsEmail()
+  @Length(1, 255)
+  @IsOptional()
+
+  public email!: string;
+
+  @IsString()
+  @IsOptional()
+
+  public full_legal_name!: string;
+
+  @IsString()
+  @IsOptional()
+
+  @Length(1, 255)
+  public nric!: string;
+
+
+  @IsString()
+  @IsOptional()
+  @Length(1, 6)
+  public postal_code!: string
+
+  @IsString()
+  @IsOptional()
+  @Length(1, 255)
+  public address_line_1!: string
+
+
+  @IsString()
+  @IsOptional()
+  @Length(1, 255)
+  public address_line_2!: string
+
+  @IsString()
+  @IsOptional()
+  @Length(1, 20)
+  public unit_number!: string
+}
+
 export class ExecutorDto {
   @IsString()
   @IsOptional()
