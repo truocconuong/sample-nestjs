@@ -63,7 +63,7 @@ export class ExecutorDto {
   @Length(1, 45)
   public nric!: string;
 
-  @IsBoolean()
+  @IsString()
   @IsOptional()
   @Length(1, 45)
   public type!: string;
