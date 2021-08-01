@@ -23,6 +23,9 @@ export class ExecutorModel {
     nric!: string;
 
     @Column({ nullable: true })
+    type!: boolean;
+
+    @Column({ nullable: true })
     is_delete!: boolean;
 
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'updated_at' })

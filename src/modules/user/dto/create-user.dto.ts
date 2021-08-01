@@ -65,6 +65,11 @@ export class ExecutorDto {
 
   @IsBoolean()
   @IsOptional()
+  @Length(1, 45)
+  public type!: boolean;
+
+  @IsBoolean()
+  @IsOptional()
   public is_delete!: boolean;
 }
 
