@@ -58,6 +58,12 @@ export class PropertyModel {
     @Column({ nullable: true, type: 'float' })
     outstanding_loan_amount!: number;
 
+    @Column({ nullable: true})
+    type_id!: string;
+
+    @Column({ nullable: true})
+    remaining_loan_tenure!: string;
+
     @Column({ nullable: true })
     is_delete!: boolean;
 

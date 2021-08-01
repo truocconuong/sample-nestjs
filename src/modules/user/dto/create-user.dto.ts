@@ -144,6 +144,14 @@ export class PropertyDto {
 
   @IsString()
   @IsOptional()
+  type_id!: string;
+
+  @IsString()
+  @IsOptional()
+  remaining_loan_tenure!: string;
+
+  @IsString()
+  @IsOptional()
   joint_name!: string;
 
   @IsString()
