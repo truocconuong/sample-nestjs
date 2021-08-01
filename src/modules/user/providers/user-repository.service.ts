@@ -35,40 +35,40 @@ export class UserRepositoryService {
         return this.repository.delete(id);
     }
 
-    public async findOne(query:any, options?: any): Promise<UserModel | undefined> {
-        return this.repository.findOne(query,options);
+    public async findOne(query: any, options?: any): Promise<UserModel | undefined> {
+        return this.repository.findOne(query, options);
     }
 
-    async findUserCategoriesDetail(id: string){
+    async findUserCategoriesDetail(id: string) {
         const queryBuilder = await this.repository
-                                   .createQueryBuilder('user')
-                                   .leftJoinAndSelect('user.investments', 'investments')
-                                   .leftJoinAndSelect('user.insurance_policies', 'insurance_policies')
-                                   .leftJoinAndSelect('user.properties', 'properties')
-                                   .leftJoinAndSelect('user.business_interests', 'business_interests')
-                                   .leftJoinAndSelect('user.valuables', 'valuables')
-                                   .leftJoinAndSelect('user.executors', 'executors')
-                                   .leftJoinAndSelect('user.beneficiaries', 'beneficiaries')
-                                   .leftJoinAndSelect('user.bank_accounts', 'bank_accounts')
-                                   .where('user.id = :id', { id: id})
-                                   .getOne()
+            .createQueryBuilder('user')
+            .leftJoinAndSelect('user.investments', 'investments','investments.is_delete = false')
+            .leftJoinAndSelect('user.insurance_policies', 'insurance_policies' ,'insurance_policies.is_delete = false')
+            .leftJoinAndSelect('user.properties', 'properties','properties.is_delete = false')
+            .leftJoinAndSelect('user.business_interests', 'business_interests','business_interests.is_delete = false')
+            .leftJoinAndSelect('user.valuables', 'valuables','valuables.is_delete = false')
+            .leftJoinAndSelect('user.executors', 'executors','executors.is_delete = false')
+            .leftJoinAndSelect('user.beneficiaries', 'beneficiaries','beneficiaries.is_delete = false')
+            .leftJoinAndSelect('user.bank_accounts', 'bank_accounts','bank_accounts.is_delete = false')
+            .where('user.id = :id', { id: id })
+            .getOne()
         return queryBuilder
     }
 
-    async paginate(options: IPaginationOptions, role_id: any){
+    async paginate(options: IPaginationOptions, role_id: any) {
         const queryBuilder = await this.repository
-        .createQueryBuilder('user')
-        .where("user.role_id = :role_id", { role_id: role_id })
+            .createQueryBuilder('user')
+            .where("user.role_id = :role_id", { role_id: role_id })
         return await paginate<UserModel>(queryBuilder, options)
     }
 
-    async findUserDetail(id: string){
+    async findUserDetail(id: string) {
         const queryBuilder = await this.repository
-                                   .createQueryBuilder('user')
-                                   .innerJoinAndSelect('user.subscriptions','subscriptions')
-                                   .innerJoinAndSelect('user.orders', 'orders')
-                                   .where('user.id = :id', { id: id})
-                                   .getOne()
+            .createQueryBuilder('user')
+            .innerJoinAndSelect('user.subscriptions', 'subscriptions')
+            .innerJoinAndSelect('user.orders', 'orders')
+            .where('user.id = :id', { id: id })
+            .getOne()
         return queryBuilder
     }
 }
