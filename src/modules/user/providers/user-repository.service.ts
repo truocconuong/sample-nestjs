@@ -42,14 +42,14 @@ export class UserRepositoryService {
     async findUserCategoriesDetail(id: string) {
         const queryBuilder = await this.repository
             .createQueryBuilder('user')
-            .leftJoinAndSelect('user.investments', 'investments','investments.is_delete = false')
-            .leftJoinAndSelect('user.insurance_policies', 'insurance_policies' ,'insurance_policies.is_delete = false')
-            .leftJoinAndSelect('user.properties', 'properties','properties.is_delete = false')
-            .leftJoinAndSelect('user.business_interests', 'business_interests','business_interests.is_delete = false')
-            .leftJoinAndSelect('user.valuables', 'valuables','valuables.is_delete = false')
-            .leftJoinAndSelect('user.executors', 'executors','executors.is_delete = false')
-            .leftJoinAndSelect('user.beneficiaries', 'beneficiaries','beneficiaries.is_delete = false')
-            .leftJoinAndSelect('user.bank_accounts', 'bank_accounts','bank_accounts.is_delete = false')
+            .leftJoinAndSelect('user.investments', 'investments','investments.is_delete is not true')
+            .leftJoinAndSelect('user.insurance_policies', 'insurance_policies' ,'insurance_policies.is_delete is not true')
+            .leftJoinAndSelect('user.properties', 'properties','properties.is_delete is not true')
+            .leftJoinAndSelect('user.business_interests', 'business_interests','business_interests.is_delete is not true')
+            .leftJoinAndSelect('user.valuables', 'valuables','valuables.is_delete is not true')
+            .leftJoinAndSelect('user.executors', 'executors','executors.is_delete is not true')
+            .leftJoinAndSelect('user.beneficiaries', 'beneficiaries','beneficiaries.is_delete is not true')
+            .leftJoinAndSelect('user.bank_accounts', 'bank_accounts','bank_accounts.is_delete is not true')
             .where('user.id = :id', { id: id })
             .getOne()
         return queryBuilder
