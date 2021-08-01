@@ -1,4 +1,4 @@
-import { Body, Controller, Get,  NotFoundException, HttpException, HttpStatus, Param, Patch, Post, UseFilters, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, HttpException, HttpStatus, Param, Patch, Post, UseFilters, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiExcludeEndpoint } from '@nestjs/swagger';
 import _ from 'lodash'
@@ -51,7 +51,7 @@ export class UserController {
             id: string,
             full_legal_name: string
         }[] = [];
-        const checkEmailExists = await this.userService.findOne({email: email});
+        const checkEmailExists = await this.userService.findOne({ email: email });
         if (checkEmailExists) {
             throw new HttpException('Conflict', HttpStatus.FORBIDDEN);
         }
@@ -63,7 +63,7 @@ export class UserController {
             address_line_2: address_line_2 ? address_line_2 : '',
             unit_number: unit_number,
             full_legal_name,
-            role_id : '4fb6acb5-e22c-4c2e-b7a1-fde533a80324'
+            role_id: '4fb6acb5-e22c-4c2e-b7a1-fde533a80324'
         }
         // create user
         const user = await this.userService.create(information)
@@ -163,7 +163,7 @@ export class UserController {
                 await this.userService.createInvestment(dataInvestment)
             })
         }
-        this.pdfService.createPdf(body,user.id)
+        this.pdfService.createPdf(body, user.id)
         return user
     }
 
@@ -180,139 +180,220 @@ export class UserController {
     @UseGuards(AuthGuard('jwt'))
     @ApiBearerAuth()
     @UseInterceptors(TransformInterceptor)
-    public async updateExecutor(@Param('id')id: string, @Body() body: ExecutorDto, @GetUser() user: UserModel): Promise<boolean>{
+    public async updateExecutor(@Param('id') id: string, @Body() body: ExecutorDto, @GetUser() user: UserModel): Promise<boolean> {
         const executor = await this.userService.findExecutor(id)
-        if(!executor){
+        if (!executor) {
             throw new NotFoundException('Executor Not Found!')
         }
-        if(executor!.user_id !== user.id){
+        if (executor!.user_id !== user.id) {
             throw new NotFoundException('User unauthorized!')
         }
         await this.userService.updateExecutor(id, body)
         return true
     }
 
+    @Post('executor')
+    @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth()
+    @UseInterceptors(TransformInterceptor)
+    public async createExecutor(@Body() body: ExecutorDto, @GetUser() user: UserModel) {
+        const dataCreate = { ...body, user_id: user.id }
+        const executor = await this.userService.createExecutor(dataCreate)
+        return executor
+    }
+
     @Patch('property/:id')
     @UseGuards(AuthGuard('jwt'))
     @ApiBearerAuth()
     @UseInterceptors(TransformInterceptor)
-    public async updateProperty(@Param('id')id: string, @Body() body: PropertyDto, @GetUser() user: UserModel): Promise<boolean>{
+    public async updateProperty(@Param('id') id: string, @Body() body: PropertyDto, @GetUser() user: UserModel): Promise<boolean> {
         const executor = await this.userService.findProperty(id)
-        if(!executor){
+        if (!executor) {
             throw new NotFoundException('Property Not Found!')
         }
-        if(executor!.user_id !== user.id){
+        if (executor!.user_id !== user.id) {
             throw new NotFoundException('User unauthorized!')
         }
         await this.userService.updateProperty(id, body)
-        
+
         return true
     }
 
-    
+    @Post('property')
+    @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth()
+    @UseInterceptors(TransformInterceptor)
+    public async createProperty(@Body() body: PropertyDto, @GetUser() user: UserModel) {
+        const dataCreate = { ...body, user_id: user.id }
+        const property = await this.userService.createProperty(dataCreate)
+        return property
+    }
+
     @Patch('beneficiary/:id')
     @UseGuards(AuthGuard('jwt'))
     @ApiBearerAuth()
     @UseInterceptors(TransformInterceptor)
-    public async updateBeneficiary(@Param('id')id: string, @Body() body: BeneficiaryDto, @GetUser() user: UserModel): Promise<boolean>{
+    public async updateBeneficiary(@Param('id') id: string, @Body() body: BeneficiaryDto, @GetUser() user: UserModel): Promise<boolean> {
         const beneficiary = await this.userService.findBeneficiary(id)
-        if(!beneficiary){
+        if (!beneficiary) {
             throw new NotFoundException('Beneficiary Not Found!')
         }
-        if(beneficiary!.user_id !== user.id){
+        if (beneficiary!.user_id !== user.id) {
             throw new NotFoundException('User unauthorized!')
         }
         await this.userService.updateBeneficiary(id, body)
         return true
     }
 
+    @Post('beneficiary')
+    @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth()
+    @UseInterceptors(TransformInterceptor)
+    public async createBeneficiary(@Body() body: BeneficiaryDto, @GetUser() user: UserModel) {
+        const dataCreate = { ...body, user_id: user.id }
+        const beneficiary = await this.userService.createBeneficiary(dataCreate)
+        return beneficiary
+    }
+
     @Patch('business-interests/:id')
     @UseGuards(AuthGuard('jwt'))
     @ApiBearerAuth()
     @UseInterceptors(TransformInterceptor)
-    public async updateBusinessInterests(@Param('id')id: string, @Body() body: BusinessInterestsDto, @GetUser() user: UserModel): Promise<boolean>{
+    public async updateBusinessInterests(@Param('id') id: string, @Body() body: BusinessInterestsDto, @GetUser() user: UserModel): Promise<boolean> {
         const businessInterests = await this.userService.findBusinessInterests(id)
-        if(!businessInterests){
+        if (!businessInterests) {
             throw new NotFoundException('Business Interests Not Found!')
         }
-        if(businessInterests!.user_id !== user.id){
+        if (businessInterests!.user_id !== user.id) {
             throw new NotFoundException('User unauthorized!')
         }
         await this.userService.updateBusinessInterests(id, body)
         return true
     }
 
+    @Post('business-interests')
+    @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth()
+    @UseInterceptors(TransformInterceptor)
+    public async createBusinessInterests(@Body() body: BusinessInterestsDto, @GetUser() user: UserModel) {
+        const dataCreate = { ...body, user_id: user.id }
+        const businessInterests = await this.userService.createBeneficiary(dataCreate)
+        return businessInterests
+    }
+
     @Patch('investment/:id')
     @UseGuards(AuthGuard('jwt'))
     @ApiBearerAuth()
     @UseInterceptors(TransformInterceptor)
-    public async updateInvestment(@Param('id')id: string, @Body() body: InvestmentsDto, @GetUser() user: UserModel): Promise<boolean>{
+    public async updateInvestment(@Param('id') id: string, @Body() body: InvestmentsDto, @GetUser() user: UserModel): Promise<boolean> {
         const investment = await this.userService.findInvestment(id)
-        if(!investment){
+        if (!investment) {
             throw new NotFoundException('investment Not Found!')
         }
-        if(investment!.user_id !== user.id){
+        if (investment!.user_id !== user.id) {
             throw new NotFoundException('User unauthorized!')
         }
         await this.userService.updateInvestment(id, body)
         return true
     }
 
+    @Post('investment')
+    @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth()
+    @UseInterceptors(TransformInterceptor)
+    public async createInvestment(@Body() body: InvestmentsDto, @GetUser() user: UserModel) {
+        const dataCreate = { ...body, user_id: user.id }
+        const investment = await this.userService.createInvestment(dataCreate)
+        return investment
+    }
+
     @Patch('valuables/:id')
     @UseGuards(AuthGuard('jwt'))
     @ApiBearerAuth()
     @UseInterceptors(TransformInterceptor)
-    public async updateValuables(@Param('id')id: string, @Body() body: ValuablesDto, @GetUser() user: UserModel): Promise<boolean>{
+    public async updateValuables(@Param('id') id: string, @Body() body: ValuablesDto, @GetUser() user: UserModel): Promise<boolean> {
         const valuables = await this.userService.findValuables(id)
-        if(!valuables){
+        if (!valuables) {
             throw new NotFoundException('Valuables Not Found!')
         }
-        if(valuables!.user_id !== user.id){
+        if (valuables!.user_id !== user.id) {
             throw new NotFoundException('User unauthorized!')
         }
         await this.userService.updateValuables(id, body)
         return true
     }
 
+    @Post('valuables')
+    @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth()
+    @UseInterceptors(TransformInterceptor)
+    public async createValuables(@Body() body: ValuablesDto, @GetUser() user: UserModel) {
+        const dataCreate = { ...body, user_id: user.id }
+        const valuables = await this.userService.createValuables(dataCreate)
+        return valuables
+    }
+
     @Patch('bank-account/:id')
     @UseGuards(AuthGuard('jwt'))
     @ApiBearerAuth()
     @UseInterceptors(TransformInterceptor)
-    public async updateBankAccount(@Param('id')id: string, @Body() body: BankAccountDto, @GetUser() user: UserModel): Promise<boolean>{
+    public async updateBankAccount(@Param('id') id: string, @Body() body: BankAccountDto, @GetUser() user: UserModel): Promise<boolean> {
         const bankAccount = await this.userService.findBankAccount(id)
-        if(!bankAccount){
+        if (!bankAccount) {
             throw new NotFoundException('Bank Account Not Found!')
         }
-        if(bankAccount!.user_id !== user.id){
+        if (bankAccount!.user_id !== user.id) {
             throw new NotFoundException('User unauthorized!')
         }
         await this.userService.updateBankAccount(id, body)
         return true
     }
-    
+
+    @Post('bank-account')
+    @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth()
+    @UseInterceptors(TransformInterceptor)
+    public async createBankAccount(@Body() body: BankAccountDto, @GetUser() user: UserModel) {
+        const dataCreate = { ...body, user_id: user.id }
+        const bankAccount = await this.userService.createBankAccount(dataCreate)
+        return bankAccount
+    }
+
+
     @Patch('insurance-policy/:id')
     @UseGuards(AuthGuard('jwt'))
     @ApiBearerAuth()
     @UseInterceptors(TransformInterceptor)
-    public async updateInsurancePolicies(@Param('id')id: string, @Body() body: InsurancePoliciesDto, @GetUser() user: UserModel): Promise<boolean>{
+    public async updateInsurancePolicies(@Param('id') id: string, @Body() body: InsurancePoliciesDto, @GetUser() user: UserModel): Promise<boolean> {
         const insurancePolicy = await this.userService.findInsurancePolicy(id)
-        if(!insurancePolicy){
+        if (!insurancePolicy) {
             throw new NotFoundException('Insurance Policy Not Found!')
         }
-        if(insurancePolicy!.user_id !== user.id){
+        if (insurancePolicy!.user_id !== user.id) {
             throw new NotFoundException('User unauthorized!')
         }
         await this.userService.updateInsurancePolicy(id, body)
         return true
     }
 
+
+    @Post('insurance-policy')
+    @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth()
+    @UseInterceptors(TransformInterceptor)
+    public async createInsurancePolicy(@Body() body: InsurancePoliciesDto, @GetUser() user: UserModel) {
+        const dataCreate = { ...body, user_id: user.id }
+        const insurancePolicy = await this.userService.createInsurancePolicy(dataCreate)
+        return insurancePolicy
+    }
+
     @Patch('information/:id')
     @UseGuards(AuthGuard('jwt'))
     @ApiBearerAuth()
     @UseInterceptors(TransformInterceptor)
-    public async updateInformation(@Param('id')id: string, @Body() body: InformationDto): Promise<boolean>{
+    public async updateInformation(@Param('id') id: string, @Body() body: InformationDto): Promise<boolean> {
         const information = await this.userService.findById(id)
-        if(!information){
+        if (!information) {
             throw new NotFoundException('Insurance Policy Not Found!')
         }
         await this.userService.update(id, body)
@@ -323,23 +404,23 @@ export class UserController {
     @ApiBearerAuth()
     @UseGuards(AuthGuard('jwt'))
     @UseInterceptors(TransformInterceptor)
-    async getUserDetail(@GetUser() user: UserModel){
+    async getUserDetail(@GetUser() user: UserModel) {
         const userDetail = await this.userService.findUserCategoriesDetail(user.id)
         return userDetail
     }
 
     @Post('upload-pdf')
     @UseGuards(AuthGuard('jwt'))
-    @UseInterceptors(FileInterceptor("file",{
+    @UseInterceptors(FileInterceptor("file", {
         storage: diskStorage({
-          destination: 'public/upload-pdf',
-          filename: editFileName,
+            destination: 'public/upload-pdf',
+            filename: editFileName,
         }),
         fileFilter: imageFileFilter,
         limits: { fileSize: 3145728 }
     }))
-    async uploadPdf(@UploadedFile() file: any, @GetUser() user: UserModel){
-        await this.userService.update(user.id, {pdf_upload_url: file.path.slice(6)})
+    async uploadPdf(@UploadedFile() file: any, @GetUser() user: UserModel) {
+        await this.userService.update(user.id, { pdf_upload_url: file.path.slice(6) })
         throw new HttpException('done', HttpStatus.ACCEPTED);
     }
 }
