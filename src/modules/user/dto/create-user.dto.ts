@@ -66,7 +66,7 @@ export class ExecutorDto {
   @IsBoolean()
   @IsOptional()
   @Length(1, 45)
-  public type!: boolean;
+  public type!: string;
 
   @IsBoolean()
   @IsOptional()

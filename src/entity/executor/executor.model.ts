@@ -23,7 +23,7 @@ export class ExecutorModel {
     nric!: string;
 
     @Column({ nullable: true })
-    type!: boolean;
+    type!: string;
 
     @Column({ nullable: true })
     is_delete!: boolean;
