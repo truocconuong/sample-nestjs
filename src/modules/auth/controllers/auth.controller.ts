@@ -136,10 +136,10 @@ export class AuthController {
         if (user.otp !== otp) {
             throw new NotFoundException('Otp cannot exists');
         }
-        const isValid = this.otpService.checkValidToken(user.otp, email)
-        if (!isValid) {
-            throw new HttpException('Otp expired', HttpStatus.UNAUTHORIZED);
-        }
+        // const isValid = this.otpService.checkValidToken(user.otp, email)
+        // if (!isValid) {
+        //     throw new HttpException('Otp expired', HttpStatus.UNAUTHORIZED);
+        // }
 
         await this.userService.update(user.id, {
             is_verify: true
