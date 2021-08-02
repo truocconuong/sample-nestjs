@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, NotFoundException, Post, UseGuards, UseInterceptors, Req } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Post, UseGuards, UseInterceptors, Req } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import _ from 'lodash'
 import { TransformInterceptor } from 'src/common/interceptor/transform.interceptor';
