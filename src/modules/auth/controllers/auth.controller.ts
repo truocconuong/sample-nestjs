@@ -129,6 +129,7 @@ export class AuthController {
     @UseInterceptors(TransformInterceptor)
     public async verifyOtpEmail(@Body() body: VerifyOtpDto): Promise<{ access_token: string }> {
         const { email, otp } = body;
+        console.log(otp)
         const user = await this.userService.findOne({email: email});
         if (!user) {
             throw new NotFoundException('Email cannot exists')
