@@ -133,9 +133,9 @@ export class AuthController {
         if (!user) {
             throw new NotFoundException('Email cannot exists')
         }
-        if (user.otp !== otp) {
-            throw new NotFoundException('Otp cannot exists');
-        }
+        // if (user.otp !== otp) {
+        //     throw new NotFoundException('Otp cannot exists');
+        // }
         // const isValid = this.otpService.checkValidToken(user.otp, email)
         // if (!isValid) {
         //     throw new HttpException('Otp expired', HttpStatus.UNAUTHORIZED);
