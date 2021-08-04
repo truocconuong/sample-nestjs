@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsArray, IsBoolean, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, Length, ValidateNested } from "class-validator";
+import { IsArray, IsBoolean, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, Length, ValidateNested } from "class-validator";
 
 export class InformationDto {
   @IsEmail()
@@ -459,4 +459,12 @@ export class CreateUserGuestDto {
   @ValidateNested({ each: true })
   @Type(() => ValuablesDto)
   public valuables!: ValuablesDto[]
+}
+
+export class BenefitciaryPercent {
+  @IsUUID()
+  public id!: string
+
+  @IsNumber()
+  public percent!: number
 }

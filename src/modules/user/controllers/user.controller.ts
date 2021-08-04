@@ -1,11 +1,11 @@
 import { Body, Controller, Get, NotFoundException, HttpException, HttpStatus, Param, Patch, Post, UseFilters, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth, ApiExcludeEndpoint } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiExcludeEndpoint, ApiProperty } from '@nestjs/swagger';
 import _ from 'lodash'
 import { TransformInterceptor } from 'src/common/interceptor/transform.interceptor';
 import { UserModel } from 'src/entity/user';
 import { GetUser } from 'src/modules/auth/decorators/get-user.decorators';
-import { CreateUserGuestDto, ExecutorDto, BeneficiaryDto, PropertyDto, BusinessInterestsDto, InvestmentsDto, ValuablesDto, BankAccountDto, InsurancePoliciesDto, InformationDto } from '../dto/create-user.dto';
+import { CreateUserGuestDto, ExecutorDto, BeneficiaryDto, PropertyDto, BusinessInterestsDto, InvestmentsDto, ValuablesDto, BankAccountDto, InsurancePoliciesDto, InformationDto, BenefitciaryPercent } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserLoggerExceptionsFilter } from '../exceptions/user.exceptions';
 import { UserService } from '../providers/user.service';
@@ -13,10 +13,30 @@ import { PdfService } from 'src/shared/pdf/pdf.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from '../../../common/file-upload.utils'
-
 @Controller('users')
 export class UserController {
     constructor(private userService: UserService, private pdfService: PdfService) { }
+
+
+    @Patch('beneficiary/percent')
+    @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth()
+    @ApiProperty({ type: () => BenefitciaryPercent[], isArray: true, required: true })
+    @UseInterceptors(TransformInterceptor)
+    public async updateAllPercentBeneficiaries(@Body() body: BenefitciaryPercent[], @GetUser() user: UserModel): Promise<boolean> {
+        const items = body;
+        for (const item of items) {
+            const beneficiary = await this.userService.findBeneficiary(item.id)
+            if (beneficiary && beneficiary.user_id === user.id) {
+                await this.userService.updateBeneficiary(beneficiary.id, {
+                    percent: item.percent
+                })
+            }
+        }
+        return true
+    }
+
+
     @Get()
     @ApiExcludeEndpoint()
     @UseInterceptors(TransformInterceptor)
@@ -423,4 +443,5 @@ export class UserController {
         await this.userService.update(user.id, { pdf_upload_url: file.path.slice(6) })
         throw new HttpException('done', HttpStatus.ACCEPTED);
     }
+
 }
