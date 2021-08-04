@@ -1,6 +1,6 @@
 import { Body, Controller, Get, NotFoundException, HttpException, HttpStatus, Param, Patch, Post, UseFilters, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth, ApiExcludeEndpoint, ApiProperty } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiExcludeEndpoint } from '@nestjs/swagger';
 import _ from 'lodash'
 import { TransformInterceptor } from 'src/common/interceptor/transform.interceptor';
 import { UserModel } from 'src/entity/user';
@@ -21,7 +21,6 @@ export class UserController {
     @Patch('beneficiary/percent')
     @UseGuards(AuthGuard('jwt'))
     @ApiBearerAuth()
-    @ApiProperty({ type: () => BenefitciaryPercent[], isArray: true, required: true })
     @UseInterceptors(TransformInterceptor)
     public async updateAllPercentBeneficiaries(@Body() body: BenefitciaryPercent[], @GetUser() user: UserModel): Promise<boolean> {
         const items = body;
