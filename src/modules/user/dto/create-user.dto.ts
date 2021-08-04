@@ -146,9 +146,9 @@ export class PropertyDto {
   @IsOptional()
   type_id!: string;
 
-  @IsString()
+  @IsNumber()
   @IsOptional()
-  remaining_loan_tenure!: string;
+  remaining_loan_tenure!: number;
 
   @IsString()
   @IsOptional()

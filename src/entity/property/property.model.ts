@@ -62,7 +62,7 @@ export class PropertyModel {
     type_id!: string;
 
     @Column({ nullable: true})
-    remaining_loan_tenure!: string;
+    remaining_loan_tenure!: number;
 
     @Column({ nullable: true })
     is_delete!: boolean;
