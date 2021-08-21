@@ -16,6 +16,7 @@ import { WebhookModule } from './modules/webhook/webhook.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { SystemParameterModule } from './modules/system_parameter/system_parameter.module';
 import { ScheduleModule } from '@nestjs/schedule'
+import { SingPassModule } from './modules/singpass/singpass.module';
 
 @Module({
   imports: [
@@ -67,7 +68,8 @@ import { ScheduleModule } from '@nestjs/schedule'
     SubscriptionsModule,
     WebhookModule,
     OrdersModule,
-    SystemParameterModule
+    SystemParameterModule,
+    SingPassModule
   ],
   providers: [
     // Global Guard, Authentication check on all routers

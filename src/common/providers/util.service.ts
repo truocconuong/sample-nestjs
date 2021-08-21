@@ -30,9 +30,5 @@ export class UtilService {
     return (typeof key === 'string') && key in schema;
   }
 
-  public removeUndefined<T>(argv: T): Record<string, unknown> {
-    // https://stackoverflow.com/questions/25421233
-    // JSON.parse(JSON.stringify(args));
-    return Object.fromEntries(Object.entries(argv).filter(([, value]: [string, unknown]) => value !== undefined));
-  }
+  
 }

@@ -53,6 +53,8 @@
     "nest-router": "^1.0.9",
     "nestjs-stripe": "^0.4.1",
     "nestjs-typeorm-paginate": "^2.5.3",
+    "node-jose": "^2.0.0",
+    "nonce": "^1.0.4",
     "number-to-words": "^1.2.4",
     "otplib": "^12.0.1",
     "passport": "^0.4.1",
@@ -63,6 +65,7 @@
     "rxjs": "^6.6.7",
     "slugify": "^1.6.0",
     "stripe": "^8.161.0",
+    "superagent-bluebird-promise": "^4.2.0",
     "swagger-ui-express": "^4.1.6",
     "typeorm": "^0.2.34",
     "upath": "^2.0.1"

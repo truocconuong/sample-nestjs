@@ -6,7 +6,7 @@ const appRoot = require('app-root-path');
 import * as upath from 'upath'
 const converter = require('number-to-words');
 const { merge } = require('merge-pdf-buffers');
-const Promise = require('bluebird');
+const PromiseBlueBird = require('bluebird');
 const slugify = require('slugify');
 const fs = require('fs');
 import { UserService } from 'src/modules/user/providers'
@@ -81,7 +81,7 @@ export class PdfService {
     }
 
 
-    public createBuffer = (html: any, options: any) => new Promise(((resolve: any, reject: any) => {
+    public createBuffer = (html: any, options: any) => new PromiseBlueBird(((resolve: any, reject: any) => {
         pdf.create(html, options).toBuffer((err: any, buffer: any) => {
             if (err !== null) {reject(err);}
             else {resolve(buffer);}

@@ -1,27 +1,30 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\ADMIN\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add …
+  /usr/local/bin/node /usr/local/bin/yarn add uperagent-bluebird-promise
 
 PATH: 
-  C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Users\ADMIN\Downloads\opencv\build\bin;E:\OpenCV346\bin;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Java\jdk-16.0.1\bin;C:\Users\ADMIN\AppData\Local\Microsoft\WindowsApps;C:\Users\ADMIN\AppData\Roaming\npm;C:\Users\ADMIN\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\ADMIN\anaconda3\Library\bin\conda.bat;C:\Users\ADMIN\anaconda3\Scripts\conda.exe;C:\Users\ADMIN\anaconda3\condabin\conda.bat;C:\Program Files\heroku\bin
+  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin
 
 Yarn version: 
-  1.22.10
+  1.16.0
 
 Node version: 
-  14.16.0
+  12.18.3
 
 Platform: 
-  win32 x64
+  darwin x64
 
 Trace: 
-  TypeError [ERR_UNESCAPED_CHARACTERS]: Request path contains unescaped characters
-      at new ClientRequest (_http_client.js:151:13)
-      at Object.request (https.js:313:10)
-      at Request.module.exports.Request.start (C:\Users\ADMIN\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141224:32)
-      at Request.module.exports.Request.end (C:\Users\ADMIN\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141983:10)
-      at end (C:\Users\ADMIN\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141037:14)
-      at Immediate._onImmediate (C:\Users\ADMIN\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141051:7)
-      at processImmediate (internal/timers.js:461:21)
+  Error: https://registry.yarnpkg.com/uperagent-bluebird-promise: Not found
+      at Request.params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:66091:18)
+      at Request.self.callback (/usr/local/lib/node_modules/yarn/lib/cli.js:129590:22)
+      at Request.emit (events.js:315:20)
+      at Request.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:130562:10)
+      at Request.emit (events.js:315:20)
+      at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:130484:12)
+      at Object.onceWrapper (events.js:421:28)
+      at IncomingMessage.emit (events.js:327:22)
+      at endReadableNT (_stream_readable.js:1220:12)
+      at processTicksAndRejections (internal/process/task_queues.js:84:21)
 
 npm manifest: 
   {
@@ -60,6 +63,7 @@ npm manifest:
       "apollo-server-express": "^2.25.2",
       "aws-sdk": "^2.956.0",
       "bcrypt": "^5.0.1",
+      "bluebird": "^3.7.2",
       "class-transformer": "^0.4.0",
       "class-validator": "^0.13.1",
       "compression": "^1.7.4",
@@ -78,6 +82,8 @@ npm manifest:
       "nest-router": "^1.0.9",
       "nestjs-stripe": "^0.4.1",
       "nestjs-typeorm-paginate": "^2.5.3",
+      "node-jose": "^2.0.0",
+      "nonce": "^1.0.4",
       "number-to-words": "^1.2.4",
       "otplib": "^12.0.1",
       "passport": "^0.4.1",
@@ -86,6 +92,7 @@ npm manifest:
       "pdf-merger-js": "^3.2.0",
       "reflect-metadata": "^0.1.13",
       "rxjs": "^6.6.7",
+      "slugify": "^1.6.0",
       "stripe": "^8.161.0",
       "swagger-ui-express": "^4.1.6",
       "typeorm": "^0.2.34",
@@ -102,6 +109,7 @@ npm manifest:
       "@types/express-session": "^1.17.4",
       "@types/helmet": "0.0.48",
       "@types/jest": "^26.0.24",
+      "@types/multer": "^1.4.7",
       "@types/node": "^14.17.6",
       "@types/passport-jwt": "^3.0.6",
       "@types/passport-local": "^1.0.34",
@@ -2963,6 +2971,13 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@types/mime/-/mime-1.3.2.tgz#93e25bf9ee75fe0fd80b594bc4feb0e862111b5a"
     integrity sha512-YATxVxgRqNH6nHEIsvg6k2Boc1JHI9ZbH5iWFFv/MTkchz3b1ieGDa5T0a9RznNdI0KhVbdbWSN+KWWrQZRxTw==
   
+  "@types/multer@^1.4.7":
+    version "1.4.7"
+    resolved "https://registry.yarnpkg.com/@types/multer/-/multer-1.4.7.tgz#89cf03547c28c7bbcc726f029e2a76a7232cc79e"
+    integrity sha512-/SNsDidUFCvqqcWDwxv2feww/yqhNeTRL5CVoL3jU4Goc4kKEL10T7Eye65ZqPNi4HRx8sAEX59pV1aEH7drNA==
+    dependencies:
+      "@types/express" "*"
+  
   "@types/node@*":
     version "15.12.0"
     resolved "https://registry.yarnpkg.com/@types/node/-/node-15.12.0.tgz#6a459d261450a300e6865faeddb5af01c3389bb3"
@@ -4117,6 +4132,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.5.1.tgz#1b1b440160a5bf7ad40b650f095963481903930a"
     integrity sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==
   
+  base64url@^3.0.1:
+    version "3.0.1"
+    resolved "https://registry.yarnpkg.com/base64url/-/base64url-3.0.1.tgz#6399d572e2bc3f90a9a8b22d5dbb0a32d33f788d"
+    integrity sha512-ir1UPr3dkwexU7FdV8qBBbNDRUhMmIekYMFZfi+C/sLNnRESKPl23nB9b2pltqfOQNnGzsDdId90AEtG5tCx4A==
+  
   basic-auth@~2.0.1:
     version "2.0.1"
     resolved "https://registry.yarnpkg.com/basic-auth/-/basic-auth-2.0.1.tgz#b998279bf47ce38344b4f3cf916d4679bbf51e3a"
@@ -4176,6 +4196,11 @@ Lockfile:
     integrity sha1-E+v+d4oDIFz+A3UUgeu0szAMEmo=
     dependencies:
       inherits "~2.0.0"
+  
+  bluebird@^3.7.2:
+    version "3.7.2"
+    resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
+    integrity sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
   
   body-parser@1.19.0, body-parser@^1.18.3:
     version "1.19.0"
@@ -5467,7 +5492,7 @@ Lockfile:
       es6-symbol "~3.1.1"
       event-emitter "~0.3.5"
   
-  es6-promise@^4.0.3:
+  es6-promise@^4.0.3, es6-promise@^4.2.8:
     version "4.2.8"
     resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.8.tgz#4eb21594c972bc40553d276e510539143db53e0a"
     integrity sha512-HJDGx5daxeIvxdBxvG2cb9g4tEvwIk3i8+nhX0yGrYmZUzbkdg8QbDevheDB8gd0//uPj4c1EQua8Q+MViT0/w==
@@ -8032,7 +8057,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/lodash.truncate/-/lodash.truncate-4.4.2.tgz#5a350da0b1113b837ecfffd5812cbe58d6eae193"
     integrity sha1-WjUNoLERO4N+z//VgSy+WNbq4ZM=
   
-  lodash@4.17.21, lodash@4.x, lodash@^4.17.19, lodash@^4.17.21, lodash@^4.7.0:
+  lodash@4.17.21, lodash@4.x, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.21, lodash@^4.7.0:
     version "4.17.21"
     resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
     integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -8475,6 +8500,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
     integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
   
+  node-forge@^0.10.0:
+    version "0.10.0"
+    resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.10.0.tgz#32dea2afb3e9926f02ee5ce8794902691a676bf3"
+    integrity sha512-PPmu8eEeG9saEUvI97fm4OYxXVB6bFvyNTyiUOBichBpFG8A1Ljw3bY62+5oOjDEMHRnd0Y7HQ+x7uzxOzC6JA==
+  
   node-gyp@3.x:
     version "3.8.0"
     resolved "https://registry.yarnpkg.com/node-gyp/-/node-gyp-3.8.0.tgz#540304261c330e80d0d5edce253a68cb3964218c"
@@ -8497,6 +8527,21 @@ Lockfile:
     version "0.4.0"
     resolved "https://registry.yarnpkg.com/node-int64/-/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
     integrity sha1-h6kGXNs1XTGC2PlM4RGIuCXGijs=
+  
+  node-jose@^2.0.0:
+    version "2.0.0"
+    resolved "https://registry.yarnpkg.com/node-jose/-/node-jose-2.0.0.tgz#541c6b52c387a3f18fc06cd502baad759af9c470"
+    integrity sha512-j8zoFze1gijl8+DK/dSXXqX7+o2lMYv1XS+ptnXgGV/eloQaqq1YjNtieepbKs9jBS4WTnMOqyKSaQuunJzx0A==
+    dependencies:
+      base64url "^3.0.1"
+      buffer "^5.5.0"
+      es6-promise "^4.2.8"
+      lodash "^4.17.15"
+      long "^4.0.0"
+      node-forge "^0.10.0"
+      pako "^1.0.11"
+      process "^0.11.10"
+      uuid "^3.3.3"
   
   node-modules-regexp@^1.0.0:
     version "1.0.0"
@@ -8539,6 +8584,11 @@ Lockfile:
     version "1.1.72"
     resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.72.tgz#14802ab6b1039a79a0c7d662b610a5bbd76eacbe"
     integrity sha512-LLUo+PpH3dU6XizX3iVoubUNheF/owjXCZZ5yACDxNnPtgFuludV1ZL3ayK1kVep42Rmm0+R9/Y60NQbZ2bifw==
+  
+  nonce@^1.0.4:
+    version "1.0.4"
+    resolved "https://registry.yarnpkg.com/nonce/-/nonce-1.0.4.tgz#ee7302ade8c1bef476f301b8c91f5cc51a487612"
+    integrity sha1-7nMCrejBvvR28wG4yR9cxRpIdhI=
   
   "nopt@2 || 3":
     version "3.0.6"
@@ -8970,6 +9020,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/pako/-/pako-0.2.9.tgz#f3f7522f4ef782348da8161bad9ecfd51bf83a75"
     integrity sha1-8/dSL073gjSNqBYbrZ7P1Rv4OnU=
   
+  pako@^1.0.11:
+    version "1.0.11"
+    resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.11.tgz#6c9599d340d54dfd3946380252a35705a6b992bf"
+    integrity sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==
+  
   pako@^2.0.3:
     version "2.0.3"
     resolved "https://registry.yarnpkg.com/pako/-/pako-2.0.3.tgz#cdf475e31b678565251406de9e759196a0ea7a43"
@@ -9395,6 +9450,11 @@ Lockfile:
     version "2.0.1"
     resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
     integrity sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==
+  
+  process@^0.11.10:
+    version "0.11.10"
+    resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
+    integrity sha1-czIwDoQBYb2j5podHZGn1LwW8YI=
   
   progress@^1.1.8:
     version "1.1.8"
@@ -10142,6 +10202,11 @@ Lockfile:
     version "1.1.6"
     resolved "https://registry.yarnpkg.com/slide/-/slide-1.1.6.tgz#56eb027d65b4d2dce6cb2e2d32c4d4afc9e1d707"
     integrity sha1-VusCfWW00tzmyy4tMsTUr8nh1wc=
+  
+  slugify@^1.6.0:
+    version "1.6.0"
+    resolved "https://registry.yarnpkg.com/slugify/-/slugify-1.6.0.tgz#6bdf8ed01dabfdc46425b67e3320b698832ff893"
+    integrity sha512-FkMq+MQc5hzYgM86nLuHI98Acwi3p4wX+a5BO9Hhw4JdK4L7WueIiZ4tXEobImPqBz2sVcV0+Mu3GRB30IGang==
   
   snake-case@^3.0.4:
     version "3.0.4"
@@ -11277,7 +11342,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
     integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
   
-  uuid@^3.1.0, uuid@^3.2.1, uuid@^3.3.2, uuid@^3.4.0:
+  uuid@^3.1.0, uuid@^3.2.1, uuid@^3.3.2, uuid@^3.3.3, uuid@^3.4.0:
     version "3.4.0"
     resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
     integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
