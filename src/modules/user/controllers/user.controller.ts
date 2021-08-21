@@ -296,7 +296,7 @@ export class UserController {
     @UseInterceptors(TransformInterceptor)
     public async createBusinessInterests(@Body() body: BusinessInterestsDto, @GetUser() user: UserModel) {
         const dataCreate = { ...body, user_id: user.id }
-        const businessInterests = await this.userService.createBeneficiary(dataCreate)
+        const businessInterests = await this.userService.createBusinessInterest(dataCreate)
         return businessInterests
     }
 
