@@ -16,228 +16,242 @@ import { UpdateResult, DeleteResult, Repository } from 'typeorm';
 import { UserRepositoryService } from './user-repository.service';
 
 import {
-    IPaginationOptions,
-  } from 'nestjs-typeorm-paginate';
+  IPaginationOptions,
+} from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class UserService {
-    constructor(
-        private readonly userRepositoryService: UserRepositoryService,
-        @InjectRepository(ExecutorModel)
+  constructor(
+    private readonly userRepositoryService: UserRepositoryService,
 
-        private repositoryExecutor: Repository<ExecutorModel>,
-        @InjectRepository(BeneficiaryModel)
-        private repositoryBeneficiary: Repository<BeneficiaryModel>,
+    @InjectRepository(ExecutorModel)
+    private repositoryExecutor: Repository<ExecutorModel>,
 
-        @InjectRepository(PropertyModel)
-        private repositoryProperty: Repository<PropertyModel>,
+    @InjectRepository(UserModel)
+    private userRepository: Repository<UserModel>,
 
-        @InjectRepository(BankAccountModel)
-        private repositoryBankAccount: Repository<BankAccountModel>,
 
-        @InjectRepository(InsurancePolicyModel)
-        private repositoryInsurancePolicy: Repository<InsurancePolicyModel>,
+    @InjectRepository(BeneficiaryModel)
+    private repositoryBeneficiary: Repository<BeneficiaryModel>,
 
-        @InjectRepository(InvestmentModel)
-        private repositoryInvestment: Repository<InvestmentModel>,
+    @InjectRepository(PropertyModel)
+    private repositoryProperty: Repository<PropertyModel>,
 
-        @InjectRepository(BusinessInterestModel)
-        private repositoryBusinessInterest: Repository<BusinessInterestModel>,
+    @InjectRepository(BankAccountModel)
+    private repositoryBankAccount: Repository<BankAccountModel>,
 
-        @InjectRepository(ValuablesModel)
-        private repositoryValuables: Repository<ValuablesModel>,
+    @InjectRepository(InsurancePolicyModel)
+    private repositoryInsurancePolicy: Repository<InsurancePolicyModel>,
 
-        @InjectRepository(BlackListModel)
-        private repositoryBlackList: Repository<BlackListModel>,
+    @InjectRepository(InvestmentModel)
+    private repositoryInvestment: Repository<InvestmentModel>,
 
-        @InjectRepository(RoleModel)
-        private repositoryRole: Repository<RoleModel>,
+    @InjectRepository(BusinessInterestModel)
+    private repositoryBusinessInterest: Repository<BusinessInterestModel>,
 
-    ) { }
+    @InjectRepository(ValuablesModel)
+    private repositoryValuables: Repository<ValuablesModel>,
 
-    public async findAll(): Promise<UserModel[]> {
-        return this.userRepositoryService.findAll();
+    @InjectRepository(BlackListModel)
+    private repositoryBlackList: Repository<BlackListModel>,
+
+    @InjectRepository(RoleModel)
+    private repositoryRole: Repository<RoleModel>,
+
+  ) { }
+
+  public async findAll(): Promise<UserModel[]> {
+    return this.userRepositoryService.findAll();
+  }
+
+  public async create(data: Partial<UserModel>): Promise<UserModel> {
+    return this.userRepositoryService.create(data);
+  }
+
+
+  public async update(id: string, data: Partial<UserModel>): Promise<UpdateResult> {
+    return this.userRepositoryService.update(id, data);
+  }
+
+  public async findById(id: string): Promise<UserModel | undefined> {
+    return this.userRepositoryService.findById(id)
+  }
+
+  public async remove(id: string): Promise<DeleteResult> {
+    return this.userRepositoryService.remove(id);
+  }
+
+  public async findOne(query: any, options?: {}): Promise<UserModel | undefined> {
+    const user = await this.userRepositoryService.findOne(query, options)
+    return user
+  }
+
+  public async createExecutor(data: Partial<ExecutorModel>) {
+    const Executor = await this.repositoryExecutor.save(data)
+    return Executor
+  }
+
+  public async createBeneficiary(data: Partial<BeneficiaryModel>) {
+    const Beneficiary = await this.repositoryBeneficiary.save(data)
+    return Beneficiary
+  }
+
+  public async createProperty(data: Partial<PropertyModel>) {
+    const Property = await this.repositoryProperty.save(data)
+    return Property
+  }
+
+  public async createBankAccount(data: Partial<BankAccountModel>) {
+    const BankAccount = await this.repositoryBankAccount.save(data)
+    return BankAccount
+  }
+
+  public async createInsurancePolicy(data: Partial<InsurancePolicyModel>) {
+    const InsurancePolicy = await this.repositoryInsurancePolicy.save(data)
+    return InsurancePolicy
+  }
+
+  public async createInvestment(data: Partial<InvestmentModel>) {
+    const Investment = await this.repositoryInvestment.save(data)
+    return Investment
+  }
+
+  public async createBusinessInterest(data: Partial<BusinessInterestModel>) {
+    const BusinessInterest = await this.repositoryBusinessInterest.save(data)
+    return BusinessInterest
+  }
+
+  public async createValuables(data: Partial<ValuablesModel>) {
+    const Valuables = await this.repositoryValuables.save(data)
+    return Valuables
+  }
+
+  public async getProfileUser(id: string) {
+    const user = await this.userRepository
+      .createQueryBuilder('user')
+      .where('user.id = :id', { id })
+      .leftJoinAndSelect('user.executors', 'executors', 'executors.is_delete != true')
+      .leftJoinAndSelect('user.beneficiaries', 'beneficiaries', 'beneficiaries.is_delete != true')
+      .leftJoinAndSelect('user.properties', 'properties', 'properties.is_delete != true')
+      .leftJoinAndSelect('user.bank_accounts', 'bank_accounts', 'bank_accounts.is_delete != true')
+      .leftJoinAndSelect('user.insurance_policies', 'insurance_policies', 'insurance_policies.is_delete != true')
+      .leftJoinAndSelect('user.investments', 'investments', 'investments.is_delete != true')
+      .leftJoinAndSelect('user.business_interests', 'business_interests', 'business_interests.is_delete != true')
+      .leftJoinAndSelect('user.valuables', 'valuables', 'valuables.is_delete != true')
+      .getOne()
+    return user
+  }
+
+  public async findExecutor(id: string) {
+    const executor = await this.repositoryExecutor.findOne(id)
+    return executor
+  }
+
+  public async updateExecutor(id: string, body: ExecutorDto) {
+    const executor = await this.repositoryExecutor.update(id, body)
+    return executor
+  }
+
+  public async findProperty(id: string) {
+    const property = await this.repositoryProperty.findOne(id)
+    return property
+  }
+
+  public async updateProperty(id: string, body: Partial<PropertyModel>) {
+    const property = await this.repositoryProperty.update(id, body)
+    return property
+  }
+
+  public async findBeneficiary(id: string) {
+    const beneficiary = await this.repositoryBeneficiary.findOne(id)
+    return beneficiary
+  }
+
+  public async updateBeneficiary(id: string, body: Partial<BeneficiaryModel>) {
+    const beneficiary = await this.repositoryBeneficiary.update(id, body)
+    return beneficiary
+  }
+
+  public async findBusinessInterests(id: string) {
+    const beneficiary = await this.repositoryBusinessInterest.findOne(id)
+    return beneficiary
+  }
+
+  public async updateBusinessInterests(id: string, body: Partial<BeneficiaryModel>) {
+    const beneficiary = await this.repositoryBusinessInterest.update(id, body)
+    return beneficiary
+  }
+
+  public async findInvestment(id: string) {
+    const investment = await this.repositoryInvestment.findOne(id)
+    return investment
+  }
+
+  public async updateInvestment(id: string, body: Partial<InvestmentModel>) {
+    const investment = await this.repositoryInvestment.update(id, body)
+    return investment
+  }
+
+  public async findValuables(id: string) {
+    const valuables = await this.repositoryValuables.findOne(id)
+    return valuables
+  }
+
+  public async updateValuables(id: string, body: Partial<ValuablesModel>) {
+    const valuables = await this.repositoryValuables.update(id, body)
+    return valuables
+  }
+
+  public async findBankAccount(id: string) {
+    const bankAccount = await this.repositoryBankAccount.findOne(id)
+    return bankAccount
+  }
+
+  public async updateBankAccount(id: string, body: Partial<BankAccountModel>) {
+    const bankAccount = await this.repositoryBankAccount.update(id, body)
+    return bankAccount
+  }
+
+  public async findInsurancePolicy(id: string) {
+    const insurancePolicy = await this.repositoryInsurancePolicy.findOne(id)
+    return insurancePolicy
+  }
+
+  public async updateInsurancePolicy(id: string, body: Partial<InsurancePolicyModel>) {
+    const insurancePolicy = await this.repositoryInsurancePolicy.update(id, body)
+    return insurancePolicy
+  }
+
+  public async createBlackList(token: string) {
+    const blackList = await this.repositoryBlackList.insert({ token: token })
+    return blackList
+  }
+
+  public async validateToken(token: string) {
+    const blackList = await this.repositoryBlackList.count({ token: token })
+    if (blackList > 0) {
+      return false
     }
+    return true
+  }
 
-    public async create(data: Partial<UserModel>): Promise<UserModel> {
-        return this.userRepositoryService.create(data);
-    }
+  public async findRole(option: any) {
+    const role = await this.repositoryRole.findOne(option)
+    return role
+  }
 
+  public async findUserCategoriesDetail(id: string) {
+    const user = await this.userRepositoryService.findUserCategoriesDetail(id)
+    return user
+  }
 
-    public async update(id: string, data: Partial<UserModel>): Promise<UpdateResult> {
-        return this.userRepositoryService.update(id, data);
-    }
+  public async getAll(options: IPaginationOptions, role_id: any) {
+    return this.userRepositoryService.paginate(options, role_id)
+  }
 
-    public async findById(id: string): Promise<UserModel | undefined> {
-        return this.userRepositoryService.findById(id)
-    }
-
-    public async remove(id: string): Promise<DeleteResult> {
-        return this.userRepositoryService.remove(id);
-    }
-
-    public async findOne(query: any, options?: {}): Promise<UserModel | undefined> {
-        const user = await this.userRepositoryService.findOne(query,options)
-        return user
-    }
-
-    public async createExecutor(data: Partial<ExecutorModel>) {
-        const Executor = await this.repositoryExecutor.save(data)
-        return Executor
-    }
-
-    public async createBeneficiary(data: Partial<BeneficiaryModel>) {
-        const Beneficiary = await this.repositoryBeneficiary.save(data)
-        return Beneficiary
-    }
-
-    public async createProperty(data: Partial<PropertyModel>) {
-        const Property = await this.repositoryProperty.save(data)
-        return Property
-    }
-
-    public async createBankAccount(data: Partial<BankAccountModel>) {
-        const BankAccount = await this.repositoryBankAccount.save(data)
-        return BankAccount
-    }
-
-    public async createInsurancePolicy(data: Partial<InsurancePolicyModel>) {
-        const InsurancePolicy = await this.repositoryInsurancePolicy.save(data)
-        return InsurancePolicy
-    }
-
-    public async createInvestment(data: Partial<InvestmentModel>) {
-        const Investment = await this.repositoryInvestment.save(data)
-        return Investment
-    }
-
-    public async createBusinessInterest(data: Partial<BusinessInterestModel>) {
-        const BusinessInterest = await this.repositoryBusinessInterest.save(data)
-        return BusinessInterest
-    }
-
-    public async createValuables(data: Partial<ValuablesModel>) {
-        const Valuables = await this.repositoryValuables.save(data)
-        return Valuables
-    }
-
-    public async getProfileUser(id: string) {
-        const user = await this.userRepositoryService.findById(id, {
-            relations: ['executors', 'beneficiaries', 'properties', 'bank_accounts', 'insurance_policies', 'investments', 'business_interests', 'valuables', 'executors.master_data', 'beneficiaries.master_data', 'valuables.master_data']
-        });
-        return user
-    }
-
-    public async findExecutor(id: string){
-        const executor = await this.repositoryExecutor.findOne(id)
-        return executor
-    }
-
-    public async updateExecutor(id: string, body: ExecutorDto){
-        const executor = await this.repositoryExecutor.update(id, body)
-        return executor
-    }
-
-    public async findProperty(id: string){
-        const property = await this.repositoryProperty.findOne(id)
-        return property
-    }
-
-    public async updateProperty(id: string, body: Partial<PropertyModel>){
-        const property = await this.repositoryProperty.update(id, body)
-        return property
-    }
-
-    public async findBeneficiary(id: string){
-        const beneficiary = await this.repositoryBeneficiary.findOne(id)
-        return beneficiary
-    }
-
-    public async updateBeneficiary(id: string, body: Partial<BeneficiaryModel>){
-        const beneficiary = await this.repositoryBeneficiary.update(id, body)
-        return beneficiary
-    }
-
-    public async findBusinessInterests(id: string){
-        const beneficiary = await this.repositoryBusinessInterest.findOne(id)
-        return beneficiary
-    }
-
-    public async updateBusinessInterests(id: string, body: Partial<BeneficiaryModel>){
-        const beneficiary = await this.repositoryBusinessInterest.update(id, body)
-        return beneficiary
-    }
-
-    public async findInvestment(id: string){
-        const investment = await this.repositoryInvestment.findOne(id)
-        return investment
-    }
-
-    public async updateInvestment(id: string, body: Partial<InvestmentModel>){
-        const investment = await this.repositoryInvestment.update(id, body)
-        return investment
-    }
-
-    public async findValuables(id: string){
-        const valuables = await this.repositoryValuables.findOne(id)
-        return valuables
-    }
-
-    public async updateValuables(id: string, body: Partial<ValuablesModel>){
-        const valuables = await this.repositoryValuables.update(id, body)
-        return valuables
-    }
-
-    public async findBankAccount(id: string){
-        const bankAccount = await this.repositoryBankAccount.findOne(id)
-        return bankAccount
-    }
-
-    public async updateBankAccount(id: string, body: Partial<BankAccountModel>){
-        const bankAccount = await this.repositoryBankAccount.update(id, body)
-        return bankAccount
-    }
-
-    public async findInsurancePolicy(id: string){
-        const insurancePolicy = await this.repositoryInsurancePolicy.findOne(id)
-        return insurancePolicy
-    }
-
-    public async updateInsurancePolicy(id: string, body: Partial<InsurancePolicyModel>){
-        const insurancePolicy = await this.repositoryInsurancePolicy.update(id, body)
-        return insurancePolicy
-    }
-
-    public async createBlackList(token: string) {
-        const blackList = await this.repositoryBlackList.insert({token: token})
-        return blackList
-    }
-
-    public async validateToken(token: string){
-        const blackList = await this.repositoryBlackList.count({token: token})  
-        if(blackList > 0){
-            return false
-        } 
-        return true
-    }
-
-    public async findRole(option: any){
-        const role = await this.repositoryRole.findOne(option)  
-        return role
-    }
-    
-    public async findUserCategoriesDetail(id: string){
-        const user = await this.userRepositoryService.findUserCategoriesDetail(id)
-        return user
-    }
-
-    public async getAll(options: IPaginationOptions, role_id: any){
-        return this.userRepositoryService.paginate(options, role_id)
-    }    
-
-    public async findUserDetail(id: string){
-        return this.userRepositoryService.findUserDetail(id)
-    }
+  public async findUserDetail(id: string) {
+    return this.userRepositoryService.findUserDetail(id)
+  }
 
 }
 
