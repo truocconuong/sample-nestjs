@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsArray, IsBoolean, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, Length, ValidateNested } from "class-validator";
+import { IsArray, IsBoolean, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, Length } from "class-validator";
 
 export class InformationDto {
   @IsEmail()
@@ -415,48 +415,40 @@ export class CreateUserGuestDto {
 
   //  done
   @IsArray()
-  @ValidateNested({ each: true })
   @Type(() => ExecutorDto)
   public executors!: ExecutorDto[]
 
   // done
   @IsArray()
-  @ValidateNested({ each: true })
   @Type(() => BeneficiaryDto)
   public beneficiaries!: BeneficiaryDto[]
 
   //done
   @IsArray()
-  @ValidateNested({ each: true })
   @Type(() => PropertyDto)
   public properties!: PropertyDto[]
 
   //done
   @IsArray()
-  @ValidateNested({ each: true })
   @Type(() => BankAccountDto)
   public bank_accounts!: BankAccountDto[]
 
   // done
   @IsArray()
-  @ValidateNested({ each: true })
   @Type(() => InsurancePoliciesDto)
   public insurance_policies!: InsurancePoliciesDto[]
 
   //done
   @IsArray()
-  @ValidateNested({ each: true })
   @Type(() => InvestmentsDto)
   public investments!: InvestmentsDto[]
 
   //done
   @IsArray()
-  @ValidateNested({ each: true })
   @Type(() => BusinessInterestsDto)
   public business_interests!: BusinessInterestsDto[]
 
   @IsArray()
-  @ValidateNested({ each: true })
   @Type(() => ValuablesDto)
   public valuables!: ValuablesDto[]
 }

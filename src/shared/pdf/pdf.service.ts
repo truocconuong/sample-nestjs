@@ -14,9 +14,9 @@ import { MasterdataService } from 'src/modules/masterdata/providers';
 
 @Injectable()
 export class PdfService {
-    constructor(private userService: UserService, private masterdataService: MasterdataService) {}
-    public async createPdf(user: any, id: string){
-        for(let i = 0; i < user.investments.length; i++){
+    constructor(private userService: UserService, private masterdataService: MasterdataService) { }
+    public async createPdf(user: any, id: string) {
+        for (let i = 0; i < user.investments.length; i++) {
             const masterData = await this.masterdataService.findById(user.investments[i].type_id)
             user.investments[i].investmentType = masterData!.value
         }
@@ -30,7 +30,7 @@ export class PdfService {
             },
         };
         const bodyLayout = {
-            "border":{
+            "border": {
                 "bottom": "20mm"
             },
             "height": "11.25in",
@@ -49,45 +49,46 @@ export class PdfService {
         ejs.renderFile(path.join('public/view/', "first-page.ejs"), {
             user: user,
             dataSrc: pathSrc
-        },(err: any, data: any) => {
+        }, (err: any, data: any) => {
             if (err) {
                 console.log(err)
             }
-            firstPageFileData = data         
+            firstPageFileData = data
         });
         ejs.renderFile(path.join('public/view/', "body.ejs"), {
             user: user,
             dataSrc: pathSrc,
             convert: converter,
             currency: currency,
-        },(err: any, data: any) => {
+        }, (err: any, data: any) => {
             if (err) {
                 console.log(err)
             }
             bodyPageFileData = data
         });
-        const firstBuffer =  await this.createBuffer(firstPageFileData, firstPageLayout)
-        const bodyBuffer =  await this.createBuffer(bodyPageFileData, bodyLayout)
+        const firstBuffer = await this.createBuffer(firstPageFileData, firstPageLayout)
+        const bodyBuffer = await this.createBuffer(bodyPageFileData, bodyLayout)
         const date = new Date()
         const merged = await merge([firstBuffer, bodyBuffer]);
         const timeStamp = date.getTime()
-        const pdfSrc =  `public\\pdf\\${slugify(user.full_legal_name,{replacement: '_', lower: true})}_${timeStamp}.pdf`
-        const pdfLink = `pdf\\${slugify(user.full_legal_name,{replacement: '_', lower: true})}_${timeStamp}.pdf`
+        const pdfSrc = `public\\pdf\\${slugify(user.full_legal_name, { replacement: '_', lower: true })}_${timeStamp}.pdf`
+        const pdfLink = `pdf\\${slugify(user.full_legal_name, { replacement: '_', lower: true })}_${timeStamp}.pdf`
         await fs.createWriteStream(pdfSrc)
         fs.writeFile(pdfSrc, merged, function (err: any) {
             if (err) throw err;
         })
-        this.userService.update(id, {will_pdf_link: "\\" + pdfLink})
+        console.log("\\" + pdfLink)
+        this.userService.update(id, { will_pdf_link: "\\" + pdfLink })
     }
 
 
     public createBuffer = (html: any, options: any) => new PromiseBlueBird(((resolve: any, reject: any) => {
         pdf.create(html, options).toBuffer((err: any, buffer: any) => {
-            if (err !== null) {reject(err);}
-            else {resolve(buffer);}
+            if (err !== null) { reject(err); }
+            else { resolve(buffer); }
         });
     }));
-    
+
 }
 
 

@@ -182,6 +182,7 @@ export class UserController {
                 await this.userService.createInvestment(dataInvestment)
             })
         }
+        console.log('chay vao day')
         this.pdfService.createPdf(body, user.id)
         return user
     }
