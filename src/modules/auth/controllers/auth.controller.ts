@@ -23,7 +23,6 @@ export class AuthController {
     public async getProfile(@GetUser() user: UserModel): Promise<UserModel | undefined> {
         let totalAssets = 0;
         const profileUser = await this.userService.getProfileUser(user.id);
-        console.log(profileUser)
         const yourLegacy: any = {
             email: profileUser?.email,
             full_legal_name: profileUser?.full_legal_name,

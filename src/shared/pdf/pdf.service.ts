@@ -71,14 +71,13 @@ export class PdfService {
         const date = new Date()
         const merged = await merge([firstBuffer, bodyBuffer]);
         const timeStamp = date.getTime()
-        const pdfSrc = `public\\pdf\\${slugify(user.full_legal_name, { replacement: '_', lower: true })}_${timeStamp}.pdf`
-        const pdfLink = `pdf\\${slugify(user.full_legal_name, { replacement: '_', lower: true })}_${timeStamp}.pdf`
+        const pdfSrc = `public/pdf/${slugify(user.full_legal_name, { replacement: '_', lower: true })}_${timeStamp}.pdf`
+        const pdfLink = `pdf/${slugify(user.full_legal_name, { replacement: '_', lower: true })}_${timeStamp}.pdf`
         await fs.createWriteStream(pdfSrc)
         fs.writeFile(pdfSrc, merged, function (err: any) {
             if (err) throw err;
         })
-        console.log("\\" + pdfLink)
-        this.userService.update(id, { will_pdf_link: "\\" + pdfLink })
+        this.userService.update(id, { will_pdf_link: "/" + pdfLink })
     }
 
 
