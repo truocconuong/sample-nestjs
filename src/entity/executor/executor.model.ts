@@ -25,7 +25,7 @@ export class ExecutorModel {
     @Column({ nullable: true })
     type!: string;
 
-    @Column({ nullable: true })
+    @Column({ nullable: true , default :0 })
     is_delete!: boolean;
 
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'updated_at' })

@@ -64,7 +64,7 @@ export class PropertyModel {
     @Column({ nullable: true})
     remaining_loan_tenure!: number;
 
-    @Column({ nullable: true })
+    @Column({ nullable: true , default :0 })
     is_delete!: boolean;
 
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'updated_at' })

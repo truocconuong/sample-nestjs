@@ -24,7 +24,7 @@ export class BusinessInterestModel {
     @Column({ nullable: true, type: 'float' })
     percentage_share?: number;
 
-    @Column({ nullable: true })
+    @Column({ nullable: true , default :0 })
     is_delete?: boolean;
 
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'updated_at' })
