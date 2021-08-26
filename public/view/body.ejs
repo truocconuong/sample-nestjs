@@ -7,7 +7,7 @@
 	font-family: TheSansPlain;
 	src: url(<%-dataSrc%>); 
 }
-body { font-family: TheSansPlain; font-size: 53.7px; }
+body { font-family: TheSansPlain; font-size: 46px; }
 td { border: 1px solid white;text-align: center; width: 150px; word-wrap:break-word}
 th { background-color: #4472c4; color: white; }
 tr {page-break-inside:avoid !important;}
@@ -16,9 +16,9 @@ tr {page-break-inside:avoid !important;}
 </style>
 </head>
 <body>
-	<div style="padding-left: 20mm; padding-right: 30mm; width: 615px;">
+	<div style="padding-left: 10mm; padding-right: 10mm">
 		<div>
-				<p  style="font-size:17.2px; color:#000000;padding-bottom: 15px;">
+				<p  style="font-size:14px; color:#000000;padding-bottom: 15px;">
 					THIS IS THE LAST WILL AND TESTAMENT of (&#147;<%= user.full_legal_name %>&#148;) (NRIC No. <%= user.nric %> )
 					of <%= user.address_line_1 %> <%= user.address_line_2 %> whereby I revoke all former 
 					Wills, Codicils and Testamentary dispositions heretofore made by me and 
@@ -26,14 +26,14 @@ tr {page-break-inside:avoid !important;}
 				</p>
 		</div>
 		<div>
-			<p  style="font-size:17.2px; color:#000000;padding-bottom: 15px;">
+			<p  style="font-size:14px; color:#000000;padding-bottom: 15px;">
 				1. I appoint <%= user.full_legal_name %> ( 1. NRIC No. <%= user.nric %> ) of <%= user.address_line_1 %>
 				<%= user.address_line_2 %> to be the Executor and Trustee of this
 				Will (collectively &#147;my Trustee&#148;).
 			</p>
 		</div>
 		<div>
-			<p id="_15.6" style=" font-size:17.2px; color:#000000;padding-bottom: 15px;">
+			<p id="_15.6" style=" font-size:14px; color:#000000;padding-bottom: 15px;">
 			2. In the event my Trustee (&#147;<%= user.full_legal_name %>&#148;) shall become incapacitated within the
 			meaning of the Mental Capacity Act Cap 177A or shall for any reason be
 			incapable of acting as the Trustee of my estate, I appoint <%= user.full_legal_name %> NRIC No.
@@ -41,7 +41,7 @@ tr {page-break-inside:avoid !important;}
 			</p>
 		</div>
 		<div>
-			<p style=" font-size:17.2px; color:#000000">
+			<p style=" font-size:14px; color:#000000">
 			3. I DECLARE that in the interpretation of this Will, the expression &#147;my Trustee&#148; 
 			shall (where the context permits) mean the trustee or trustees for the time
 			being hereof whether original or substituted, and if there be no such trustee it
@@ -51,21 +51,21 @@ tr {page-break-inside:avoid !important;}
 			</p>
 		</div>
 		<div>
-			<p  style=" font-size:17.2px; color:#000000">
+			<p  style=" font-size:14px; color:#000000">
 			4.I direct my Trustee to pay all my just debts and testamentary expenses upon
 			my death and to spend such sum as my Trustee shall think fit for my funeral 
 			expenses.
 			</p>
 		</div>
 		<div>	
-			<p style=" font-size:17.2px; color:#000000;">
+			<p style=" font-size:14px; color:#000000;">
 			5.Unless otherwise stipulated, all bequests and gifts made herein shall be
 			subject to payment of my just debts, funeral and testamentary expenses and
 			estate duty, if any, payable on my death.
 			</p>
 		</div>
 		<div>
-			<p style=" font-size:17.2px; color:#000000">
+			<p style=" font-size:14px; color:#000000">
 			6.I GIVE, DEVISE AND BEQUEATH all of my moveable and immovable properties
 			whatsoever and wheresoever situate not hereby or by any codicil heretofore
 			specifically disposed (including any property over which I may have a general
@@ -75,14 +75,14 @@ tr {page-break-inside:avoid !important;}
 			<% if (user.beneficiaries.length > 0) { %>
 				<ol type="a" style="padding-top:0px; padding-bottom: 0px ; margin: 0;">
 					<% user.beneficiaries.forEach(user => {%>
-						<li style="font-size:17.2px; color:#000000"><%= convert.toWords(user.percent) %> percent(<%= user.percent %> %) to <%= user.full_legal_name %> (NRIC No. <%= user.nric %>);<br></li>
+						<li style="font-size:14px; color:#000000"><%= convert.toWords(user.percent) %> percent(<%= user.percent %> %) to <%= user.full_legal_name %> (NRIC No. <%= user.nric %>);<br></li>
 					<%	});%>
 					<% 
 				}%>
 			</p>
 		</div>	
 		<div>
-			<p style=" font-size:17.2px; color:#000000">
+			<p style=" font-size:14px; color:#000000">
 			7.In the event any of the beneficiaries referred to in Clause 6 shall predecease 
 			me, then the share which such deceased beneficiary of mine would have been
 			entitled to had [he/ she] been alive shall lapse absolutely and shall be given to
@@ -90,7 +90,7 @@ tr {page-break-inside:avoid !important;}
 			</p>
 		</div>
 		<div>	
-			<p  style=" font-size:17.2px; color:#000000">
+			<p  style=" font-size:14px; color:#000000">
 			8.In the event that it is not practicable or possible for my Trustee to distribute 
 			any of my moveable and immovable properties situate whatsoever and 
 			wheresoever situate to the beneficiaries in the manner as directed under this 
@@ -108,7 +108,7 @@ tr {page-break-inside:avoid !important;}
 			</p>
 		</div>	
 		<div>
-			<p  style=" font-size:17.2px; color:#000000">	
+			<p  style=" font-size:14px; color:#000000">	
 			9.I DIRECT that in the carrying out and discharge of the trusts and duties 
 			hereof, my Trustee shall not be liable for any loss arising as a result of my 
 			Trustee concurring or refusing or failing to concur in any exercise of any 
@@ -120,7 +120,7 @@ tr {page-break-inside:avoid !important;}
 			</p>
 		</div>	
 		<div>
-			<p style="font-size:17.2px; color:#000000;page-break-before: always;">
+			<p style="font-size:14px; color:#000000;page-break-before: always;">
 			IN WITNESS WHEREOF I have hereunto set my hand to this Will this 13th of 
 			July 2021 SIGNED by the abovenamed <%= user.full_legal_name %> as his Last Will and Testament 
 			in the presence of us both present at the same time who at his request and in 
@@ -133,28 +133,28 @@ tr {page-break-inside:avoid !important;}
 		<div>
             <p>
             <hr style="height:1px;border-width:0;color:gray;background-color:black;width:40%;text-align:left;margin-left:0; margin-bottom: 0">
-            <p style="font-weight:bold; font-size:17.2px; color:#000000; margin-top: 0;">
+            <p style="font-weight:bold; font-size:14px; color:#000000; margin-top: 0;">
 				<%= user.full_legal_name %>
             </p>
             </p>
         </div>
 	<div style="height: 20px; "></div>
-	<div style="width: 615px;">
-			<div style="width: 50%; float:left;">
+	<div>
+			<div style="float:left;">
 			<p>
 				<hr style="height:1px;border-width:0;color:gray;background-color:black;width:80%;text-align:left;margin-left:0; margin-bottom: 0">
-				<p style="font-weight:bold; font-size:17.2px; color:#000000; margin-top: 0;">
+				<p style="font-weight:bold; font-size:14px; color:#000000; margin-top: 0;">
 				Signed by Witness
 				</p>
-				<p style="font-size:17.2px; color:#000000; margin-top: 0;">
+				<p style="font-size:14px; color:#000000; margin-top: 0;">
 					Name:
 				</p>
 				<hr style="height:1px;border-width:0;color:gray;background-color:black;width:80%;text-align:left;margin-left:0; margin-bottom: 0">
-				<p style=" font-size:17.2px; color:#000000">
+				<p style=" font-size:14px; color:#000000">
 				NRIC / Passport No. / ID No. :
 				</p>
 				<hr style="height:1px;border-width:0;color:gray;background-color:black; width:80%;text-align:left;margin-left:0; margin-bottom: 0">
-				<p style=" font-size:17.2px; color:#000000;">
+				<p style=" font-size:14px; color:#000000;">
 				Address:
 				</p> 
 				<hr style="height:1px;border-width:0;color:gray;background-color:black;width:80%;text-align:left;margin-left:0; margin-bottom: 0">
@@ -162,21 +162,21 @@ tr {page-break-inside:avoid !important;}
 				<hr style="height:1px;border-width:0;color:gray;background-color:black;width:80%;text-align:left;margin-left:0; margin-bottom: 0">
 			</p>
 		</div>
-		<div style="width: 50%; float:right;">
+		<div style="float:right;">
 			<p>
 				<hr style="height:1px;border-width:0;color:gray;background-color:black;width:80%;text-align:right;margin-right:0; margin-bottom: 0">
-				<p style="font-weight:bold; font-size:17.2px; color:#000000; margin-top: 0;margin-left: 62px">
+				<p style="font-weight:bold; font-size:14px; color:#000000; margin-top: 0;margin-left: 62px">
 				Signed by Witness
 				</p>
-				<p style="font-size:17.2px; color:#000000; margin-top: 0;margin-left: 62px">
+				<p style="font-size:14px; color:#000000; margin-top: 0;margin-left: 62px">
 					Name:
 				</p>
 				<hr style="height:1px;border-width:0;color:gray;background-color:black;width:80%;text-align:right;margin-right:0; margin-bottom: 0">
-				<p style=" font-size:17.2px; color:#000000;margin-left: 62px">
+				<p style=" font-size:14px; color:#000000;margin-left: 62px">
 				NRIC / Passport No. / ID No. :
 				</p>
 				<hr style="height:1px;border-width:0;color:gray;background-color:black; width:80%;text-align:right;margin-right:0; margin-bottom: 0">
-				<p style=" font-size:17.2px; color:#000000;margin-left: 62px">
+				<p style=" font-size:14px; color:#000000;margin-left: 62px">
 				Address:
 				</p> 
 				<hr style="height:1px;border-width:0;color:gray;background-color:black;width:80%;text-align:right;margin-right:0; margin-bottom: 0">
@@ -186,26 +186,26 @@ tr {page-break-inside:avoid !important;}
 		</div>
     </div>
     <div style="clear: right;page-break-before: always;">
-		<p style="font-size:17.2px; color:#000000">APPENDIX</p>
-        <p style=" font-size:17.2px; color:#000000; margin-bottom: 0;">
+		<p style="font-size:14px; color:#000000">APPENDIX</p>
+        <p style=" font-size:14px; color:#000000; margin-bottom: 0;">
             Schedule Of Assets
         </p> 
         <hr style="height:1px;border-width:0;color:gray;background-color:black; margin-top: 0">
-		<p style="font-size:17.2px; color:#000000">
+		<p style="font-size:14px; color:#000000">
             This appendix is not legally binding, the information has been added to help 
             the executor. 
 		</p>
-        <p style="font-size:17.2px; color:#000000; margin-top: 40px;">LIST OF ASSETS</p>
-        <p style="font-size:17.2px; color:#000000">
+        <p style="font-size:14px; color:#000000; margin-top: 40px;">LIST OF ASSETS</p>
+        <p style="font-size:14px; color:#000000">
 			The following is a list of financial assets to help my executor administer my
             estate. While this is accurate at the time of writing, it is not necessarily
             exhaustive. Effort should still be made to locate additional assets that may not
             be listed here.
 		</p>
 	</div>
-    <div style="width: 40%">
+    <div >
 		<p style="font-size:14.2px; color:#000000">PROPERTY</p>
-            <table style="text-align : center; font-family: TheSansPlain;border-collapse: collapse;width: 600px;font-size: 10px; table-layout:fixed;">
+            <table style="text-align : center; font-family: TheSansPlain;border-collapse: collapse;font-size: 10px; table-layout:fixed;">
                 <tr>
                     <th style=" border: 1px solid #dddddd;text-align: center; width: 120px">Development Name</th>
                     <th style=" border: 1px solid #dddddd;text-align: center; width: 120px">Property Type</th>
@@ -214,7 +214,7 @@ tr {page-break-inside:avoid !important;}
                     <th style=" border: 1px solid #dddddd;text-align: center; width: 120px">Approximate Value</th>
                   </tr>
             </table>
-			<table style="text-align : center; font-family: TheSansPlain;border-collapse: collapse;width: 600px;font-size: 10px; table-layout:fixed;">	
+			<table style="text-align : center; font-family: TheSansPlain;border-collapse: collapse;font-size: 10px; table-layout:fixed;">	
 			<% if (user.properties.length > 0) { %>
 				<% user.properties.forEach((user,index) => {%>
 					<% if(index % 2 === 0) { %>
@@ -240,9 +240,9 @@ tr {page-break-inside:avoid !important;}
 		</table>
     </div>
 
-	<div style="width: 40%">
+	<div style="">
 		<p style="font-size:14.2px; color:#000000">BANK ACCOUNTS</p>
-            <table style="text-align : center; font-family: TheSansPlain;border-collapse: collapse;width: 600px;font-size: 10px; table-layout:fixed;">
+            <table style="text-align : center; font-family: TheSansPlain;border-collapse: collapse;font-size: 10px; table-layout:fixed;">
                 <tr>
                     <th style=" border: 1px solid #dddddd;text-align: center; width: 150px">Bank Name</th>
                     <th style=" border: 1px solid #dddddd;text-align: center; width: 150px">Account Number</th>
@@ -250,7 +250,7 @@ tr {page-break-inside:avoid !important;}
                     <th style=" border: 1px solid #dddddd;text-align: center; width: 152px">Approximate Balance</th>
                   </tr>
             </table>	
-			<table style="text-align : center; font-family: TheSansPlain;border-collapse: collapse;width: 600px;font-size: 10px; table-layout:fixed;">
+			<table style="text-align : center; font-family: TheSansPlain;border-collapse: collapse;font-size: 10px; table-layout:fixed;">
 				<% if (user.bank_accounts.length > 0) { %>
 					<% user.bank_accounts.forEach((user,index) => {%>
 						<% if(index % 2 === 0) { %>
@@ -274,9 +274,9 @@ tr {page-break-inside:avoid !important;}
 			</table>
     </div>
 
-	<div style="width: 40%">
+	<div style="">
 		<p style="font-size:14.2px; color:#000000">INSURANCE POLICY</p>
-            <table style="text-align : center; font-family: TheSansPlain;border-collapse: collapse;width: 600px;font-size: 10px; table-layout:fixed;">
+            <table style="text-align : center; font-family: TheSansPlain;border-collapse: collapse;font-size: 10px; table-layout:fixed;">
                 <tr>
                     <th style=" border: 1px solid #dddddd;text-align: center; width: 120px">Insurance Company</th>
                     <th style=" border: 1px solid #dddddd;text-align: center; width: 120px">Policy Type</th>
@@ -285,7 +285,7 @@ tr {page-break-inside:avoid !important;}
                     <th style=" border: 1px solid #dddddd;text-align: center; width: 120px">Death Coverage</th>
                   </tr>
             </table>	
-			<table style="text-align : center; font-family: TheSansPlain;border-collapse: collapse;width: 600px;font-size: 10px; table-layout:fixed;">	
+			<table style="text-align : center; font-family: TheSansPlain;border-collapse: collapse;font-size: 10px; table-layout:fixed;">	
 			<% if (user.insurance_policies.length > 0) { %>
 				<% user.insurance_policies.forEach((user, index) => {%>
 					<% if(index % 2 === 0) { %>
@@ -311,9 +311,9 @@ tr {page-break-inside:avoid !important;}
 		</table>
     </div>
 
-	<div style="width: 40%">
+	<div style="">
 		<p style="font-size:14.2px; color:#000000; ">INVESTMENTS</p>
-            <table style="text-align: center; font-family: TheSansPlain;border-collapse: collapse;width: 600px;font-size: 10px; table-layout:fixed">
+            <table style="text-align: center; font-family: TheSansPlain;border-collapse: collapse;font-size: 10px; table-layout:fixed">
                 <tr>
                     <th style=" border: 1px solid #dddddd;text-align: center; width: 150px">Investment Type</th>
                     <th style=" border: 1px solid #dddddd;text-align: center; width: 150px">financial Institution</th>
@@ -321,7 +321,7 @@ tr {page-break-inside:avoid !important;}
                     <th style=" border: 1px solid #dddddd;text-align: center; width: 152px">Approximate Market Value</th>
                   </tr>
             </table>	
-			<table style="text-align : center; font-family: TheSansPlain;border-collapse: collapse;width: 600px;font-size: 10px; table-layout:fixed;">
+			<table style="text-align : center; font-family: TheSansPlain;border-collapse: collapse;font-size: 10px; table-layout:fixed;">
 				<% if (user.investments.length > 0) { %>
 					<% user.investments.forEach((user,index) => {%>
 						<% if(index % 2 === 0) { %>
@@ -345,9 +345,9 @@ tr {page-break-inside:avoid !important;}
 			</table>
     </div>
 
-	<div style="width: 40%">
+	<div style="">
 			<p style="font-size:14.2px; color:#000000">BUSINESS INTERESTS</p>
-            <table style="text-align : center; font-family: TheSansPlain;border-collapse: collapse;width: 600px;font-size: 10px; table-layout:fixed;">
+            <table style="text-align : center; font-family: TheSansPlain;border-collapse: collapse;font-size: 10px; table-layout:fixed;">
                 <tr>
                     <th style=" border: 1px solid #dddddd;text-align: center; width: 150px">Company Name</th>
                     <th style=" border: 1px solid #dddddd;text-align: center; width: 150px">Company UEN</th>
@@ -355,7 +355,7 @@ tr {page-break-inside:avoid !important;}
                     <th style=" border: 1px solid #dddddd;text-align: center; width: 152px">Approximate Market Value</th>
                   </tr>
             </table>	
-			<table style="text-align : center; font-family: TheSansPlain;border-collapse: collapse;width: 600px;font-size: 10px; table-layout:fixed;">
+			<table style="text-align : center; font-family: TheSansPlain;border-collapse: collapse;font-size: 10px; table-layout:fixed;">
 				<% if (user.business_interests.length > 0) { %>
 					<% user.business_interests.forEach( (user, index) => {%>
 						<% if(index % 2 === 0) { %>
@@ -382,49 +382,49 @@ tr {page-break-inside:avoid !important;}
 <div id="pageFooter" style="width: 615px; margin-left: 20mm; margin-right: 25mm;padding-top: 40mm;">
 	<div style="width: 50%; float:right;">
 		<hr style="height:1px;border-width:0;color:white;background-color:white;width:60%;text-align:left;margin-left:0; margin-bottom: 0">
-		<p style="font-family:TheSansPlain; font-size:17.2px; color:#000000; float: right; margin-top: 0;right: 0; bottom: 0;">
+		<p style="font-family:TheSansPlain; font-size:14px; color:#000000; float: right; margin-top: 0;right: 0; bottom: 0;">
 			Page {{page}} of {{pages}}
 		</p>
 	</div>
 </div>
-<div id="pageFooter-2" style="width: 615px; margin-left: 20mm; margin-right: 25mm;padding-top: 40mm;">
-	<div style="width: 50%; float:left;">
+<div id="pageFooter-2" style="margin-left: 10mm; margin-right: 10mm;padding-top: 40mm;">
+	<div style="float:left;">
 		<hr style="height:1px;border-width:0;color:gray;background-color:black;width:60%;text-align:left;margin-left:0; margin-bottom: 0">
-		<p style="font-family:TheSansPlain; font-size:17.2px; color:#000000; margin-top: 0;">
+		<p style="font-family:TheSansPlain; font-size:14px; color:#000000; margin-top: 0;">
 			Signed by <%= user.full_legal_name %>	
 		</p>
 	</div>
-	<div style="width: 50%; float:right;">
+	<div style="float:right;">
 		<hr style="height:1px;border-width:0;color:white;background-color:white;width:60%;text-align:left;margin-left:0; margin-bottom: 0">
-		<p style="font-family:TheSansPlain; font-size:17.2px; color:#000000; float: right; margin-top: 0;right: 0; bottom: 0;">
+		<p style="font-family:TheSansPlain; font-size:14px; color:#000000; float: right; margin-top: 0;right: 0; bottom: 0;">
 			Page {{page}} of {{pages}}
 		</p>
 	</div>
 </div>
-<div id="pageFooter-first" style="width: 615px; margin-left: 20mm; margin-right: 25mm;padding-top: 40mm;">
-	<div style="width: 50%; float:left;">
+<div id="pageFooter-first" style=" margin-left: 10mm; margin-right: 10mm;padding-top: 40mm;">
+	<div style=" float:left;">
 		<hr style="height:1px;border-width:0;color:gray;background-color:black;width:60%;text-align:left;margin-left:0; margin-bottom: 0">
-		<p style="font-family:TheSansPlain; font-size:17.2px; color:#000000; margin-top: 0;">
+		<p style="font-family:TheSansPlain; font-size:14px; color:#000000; margin-top: 0;">
 			Signed by <%= user.full_legal_name %>	
 		</p>
 	</div>
-	<div style="width: 50%; float:right;">
+	<div style=" float:right;">
 		<hr style="height:1px;border-width:0;color:white;background-color:white;width:60%;text-align:left;margin-left:0; margin-bottom: 0">
-		<p style="font-family:TheSansPlain; font-size:17.2px; color:#000000; float: right; margin-top: 0;right: 0; bottom: 0;">
+		<p style="font-family:TheSansPlain; font-size:14px; color:#000000; float: right; margin-top: 0;right: 0; bottom: 0;">
 			Page {{page}} of {{pages}}
 		</p>
 	</div>
 </div>
-<div id="pageFooter-3" style="width: 615px; margin-left: 20mm; margin-right: 25mm;padding-top: 40mm;">
-	<div style="width: 50%; float:left;">
+<div id="pageFooter-3" style=" margin-left: 10mm; margin-right: 10mm;padding-top: 40mm;">
+	<div style="float:left;">
 		<hr style="height:1px;border-width:0;color:gray;background-color:black;width:60%;text-align:left;margin-left:0; margin-bottom: 0">
-		<p style="font-family:TheSansPlain; font-size:17.2px; color:#000000; margin-top: 0;">
+		<p style="font-family:TheSansPlain; font-size:14px; color:#000000; margin-top: 0;">
 			Signed by <%= user.full_legal_name %>	
 		</p>
 	</div>
-	<div style="width: 50%; float:right;">
+	<div style="float:right;">
 		<hr style="height:1px;border-width:0;color:white;background-color:white;width:60%;text-align:left;margin-left:0; margin-bottom: 0">
-		<p style="font-family:TheSansPlain; font-size:17.2px; color:#000000; float: right; margin-top: 0;right: 0; bottom: 0;">
+		<p style="font-family:TheSansPlain; font-size:14px; color:#000000; float: right; margin-top: 0;right: 0; bottom: 0;">
 			Page {{page}} of {{pages}}
 		</p>
 	</div>
