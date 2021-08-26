@@ -9,7 +9,7 @@ export class AuthService {
     public signJwt(user: UserModel): { access_token: string } {
         const payload = { email: user.email, otp: user.otp, id: user.id };
         return {
-            access_token: `Bearer ${this.jwt.sign(payload)}`,
+            access_token: `${this.jwt.sign(payload)}`,
         };
     }
 }
