@@ -12,8 +12,8 @@ export class InsurancePolicyModel {
     @Column("uuid", { nullable: true })
     beneficiary_id?: string;
 
-    @Column({ length: 255, nullable: true })
-    insurance_company?: string;
+    @Column("uuid", { nullable: true })
+    insurance_company_id?: string;
 
     @Column({ nullable: true })
     is_non_nomivated?: boolean;
@@ -33,7 +33,7 @@ export class InsurancePolicyModel {
     @Column({ nullable: true, type: 'float' })
     converage?: number;
 
-    @Column({ nullable: true , default :0 })
+    @Column({ nullable: true, default: 0 })
     is_delete?: boolean;
 
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'updated_at' })

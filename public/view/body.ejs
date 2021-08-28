@@ -290,7 +290,7 @@ tr {page-break-inside:avoid !important;}
 				<% user.insurance_policies.forEach((user, index) => {%>
 					<% if(index % 2 === 0) { %>
 						<tr>
-							<td class="first" style="width: 120px"><%= user.insurance_company %></td>
+							<!-- <td class="first" style="width: 120px"><%= user.insurance_company %></td> -->
 							<td class="first" style="width: 120px"><% if(user.is_nominated) {%>nominated<%}%> <% if(user.is_non_nomivated) {%>non nomivated<%}%></td>
 							<td class="first" style="width: 120px"><%= user.policy_name %></td>
 							<td class="first" style="width: 120px"><%= user.policy_no %></td>
@@ -299,7 +299,7 @@ tr {page-break-inside:avoid !important;}
 						<%}%>
 						<% if(index % 2 !== 0) {%>
 							<tr>
-								<td class="second" style="width: 120px"><%= user.insurance_company %></td>
+								<!-- <td class="second" style="width: 120px"><%= user.insurance_company %></td> -->
 								<td class="second" style="width: 120px"><% if(user.is_nominated) {%>nomivated<%}%> <% if(user.is_non_nomivated) {%>non nomivated<%}%></td>
 								<td class="second" style="width: 120px"><%= user.policy_name %></td>
 								<td class="second" style="width: 120px"><%= user.policy_no %></td>

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Query, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseInterceptors } from '@nestjs/common';
 import _ from 'lodash'
 import { TransformInterceptor } from 'src/common/interceptor/transform.interceptor';
 import { MasterDataModel } from 'src/entity/master_data';
@@ -16,7 +16,7 @@ export class MasterdataController {
     }
 
     @Post()
-    public async addMassterData(@Query() body : any): Promise<any> {
+    public async addMassterData(@Body() body : any): Promise<any> {
         const result = await this.MasterdataService.create(body);
         return result;
     }

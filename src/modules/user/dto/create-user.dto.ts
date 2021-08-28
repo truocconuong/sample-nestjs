@@ -225,7 +225,7 @@ export class InsurancePoliciesDto {
 
   @IsString()
   @IsOptional()
-  insurance_company!: string
+  insurance_company_id!: string
 
   @IsBoolean()
   @IsOptional()
