@@ -1,4 +1,4 @@
-import { Body, Controller, Get, NotFoundException, Post, UseGuards, UseInterceptors, Req } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Post, UseGuards, UseInterceptors, Req, HttpException, HttpStatus } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import _ from 'lodash'
 import { TransformInterceptor } from 'src/common/interceptor/transform.interceptor';
@@ -11,6 +11,8 @@ import { VerifyOtpDto } from '../dto/verify-otp.dto';
 import { AuthService } from '../providers';
 import { Request } from 'express';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { SendOtpConfirmDto } from '../dto/send-otp-confirm.dto';
+import { VerifyOtpUserUpdateDto } from '../dto/verify-otp-user-update.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -106,24 +108,57 @@ export class AuthController {
         yourLegacy.totalAssets = totalAssets;
         return yourLegacy
     }
-    
+
 
     @Post('send-otp')
     @UseInterceptors(TransformInterceptor)
     public async sendOtpEmail(@Body() body: SendOtpDto): Promise<boolean> {
         const { email } = body;
-        const user = await this.userService.findOne({email: email});
+        const user = await this.userService.findOne({ email: email });
         if (!user) {
             throw new NotFoundException('Email cannot exists')
         }
         const generateToken = this.otpService.generateTokenByEmail(email);
         // update token to user
         await this.userService.update(user.id, {
-            is_verify : false,
+            is_verify: false,
             otp: generateToken.token as string
         })
         return true
     }
+
+    @Post('send-otp-confirm')
+    @UseGuards(AuthGuard('jwt'))
+    @UseInterceptors(TransformInterceptor)
+    public async sendOtpEmailConfirm(@Body() body: SendOtpConfirmDto): Promise<boolean> {
+        const { email } = body;
+        this.otpService.generateTokenByEmail(email);
+        return true
+    }
+
+    @Post('verify-otp-user-update-email')
+    @UseGuards(AuthGuard('jwt'))
+    @UseInterceptors(TransformInterceptor)
+    public async verifyOtpEmailUserUpdate(@GetUser() user: UserModel, @Body() body: VerifyOtpUserUpdateDto): Promise<boolean> {
+        const { email, otp } = body;
+        // const isValid = this.otpService.checkValidToken(user.otp, email)
+        // if (!isValid) {
+        //     throw new HttpException('Otp expired', HttpStatus.UNAUTHORIZED);
+        // }
+        const checkEmailExists = await this.userService.checkEmailExists(user.id, email)
+
+        if (checkEmailExists) {
+            throw new HttpException('Email update did exists by system', HttpStatus.CONFLICT);
+        }
+
+        await this.userService.update(user.id, {
+            otp,
+            email,
+            is_verify: true
+        })
+        return true
+    }
+
 
 
     @Post('verify-otp')
@@ -131,7 +166,7 @@ export class AuthController {
     public async verifyOtpEmail(@Body() body: VerifyOtpDto): Promise<{ access_token: string }> {
         const { email, otp } = body;
         console.log(otp)
-        const user = await this.userService.findOne({email: email});
+        const user = await this.userService.findOne({ email: email });
         if (!user) {
             throw new NotFoundException('Email cannot exists')
         }
@@ -154,9 +189,9 @@ export class AuthController {
     @ApiBearerAuth()
     @UseGuards(AuthGuard('jwt'))
     @UseInterceptors(TransformInterceptor)
-    public async logOut(@Req() request: Request){
+    public async logOut(@Req() request: Request) {
         const jwt = await request.headers.authorization;
-        await this.userService.createBlackList(jwt!)    
+        await this.userService.createBlackList(jwt!)
         return true
     }
 

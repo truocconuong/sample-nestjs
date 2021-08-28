@@ -192,7 +192,9 @@ export class UserController {
     @ApiBearerAuth()
     @UseInterceptors(TransformInterceptor)
     public async update(@Body() body: UpdateUserDto, @GetUser() user: UserModel): Promise<boolean> {
-        await this.userService.update(user.id, body)
+        if (Object.keys(body).length !== 0) {
+            await this.userService.update(user.id, body)
+        }
         return true
     }
 
