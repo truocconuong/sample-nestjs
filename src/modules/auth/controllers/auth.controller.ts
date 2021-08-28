@@ -119,6 +119,7 @@ export class AuthController {
         const generateToken = this.otpService.generateTokenByEmail(email);
         // update token to user
         await this.userService.update(user.id, {
+            is_verify : false,
             otp: generateToken.token as string
         })
         return true

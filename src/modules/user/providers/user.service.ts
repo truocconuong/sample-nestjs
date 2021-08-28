@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BankAccountModel } from 'src/entity/bank-account';
 import { BeneficiaryModel } from 'src/entity/beneficiary';
@@ -70,6 +70,24 @@ export class UserService {
 
 
   public async update(id: string, data: Partial<UserModel>): Promise<UpdateResult> {
+    const user = await this.userRepositoryService.findById(id);
+    const email = data.email;
+
+    if (email && user?.email !== email) {
+      if (!user?.is_verify) {
+        throw new HttpException('Email is not verify', HttpStatus.BAD_REQUEST)
+
+      }
+      const checkUserExists = await this.userRepository
+        .createQueryBuilder('user')
+        .where('user.id !=:userId', { userId: id })
+        .andWhere('user.email = :email', { email })
+        .getOne();
+      if (checkUserExists) {
+        throw new HttpException('conflict email', HttpStatus.CONFLICT)
+      }
+    }
+
     return this.userRepositoryService.update(id, data);
   }
 
