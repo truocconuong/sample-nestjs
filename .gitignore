@@ -6,6 +6,8 @@ dist/*
 /tmp
 /out-tsc
 public/pdf
+public/upload-pdf
+
 
 # dependencies
 /node_modules
