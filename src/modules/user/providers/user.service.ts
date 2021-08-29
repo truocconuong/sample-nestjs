@@ -68,6 +68,14 @@ export class UserService {
     return this.userRepositoryService.create(data);
   }
 
+  public async findByEmail(email: string) {
+    return this.userRepository.findOne({
+      where: {
+        email
+      }
+    })
+  }
+
 
   public async update(id: string, data: Partial<UserModel>): Promise<UpdateResult> {
     // const user = await this.userRepositoryService.findById(id);
@@ -270,12 +278,12 @@ export class UserService {
     return this.userRepositoryService.findUserDetail(id)
   }
 
-  public async checkEmailExists(userId:string,new_email:string){
+  public async checkEmailExists(userId: string, new_email: string) {
     return this.userRepository
-    .createQueryBuilder('user')
-    .where('user.id != :userId',{userId})
-    .andWhere('user.email = :new_email',{new_email})
-    .getOne()
+      .createQueryBuilder('user')
+      .where('user.id != :userId', { userId })
+      .andWhere('user.email = :new_email', { new_email })
+      .getOne()
   }
 
 }

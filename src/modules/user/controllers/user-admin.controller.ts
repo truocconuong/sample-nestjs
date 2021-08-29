@@ -12,7 +12,6 @@ export class SubscriptionsAdminController {
     constructor( private userService: UserService ) { }
     
     @Get('user')
-    @ApiExcludeEndpoint()
     @UseGuards(AuthGuard('jwt'), RoleGuard(['admin']))
     @UseInterceptors(TransformInterceptor)
     async getAllUser(

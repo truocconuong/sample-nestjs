@@ -11,7 +11,6 @@ import { ApiExcludeEndpoint } from '@nestjs/swagger';
 export class SystemParameterController {
     constructor(private systemParameterService: SystemParameterService) { }
     @Get()
-    @ApiExcludeEndpoint()
     @UseGuards(AuthGuard('jwt'), RoleGuard(['admin']))
     @UseInterceptors(TransformInterceptor)
     public async getAll(): Promise<SystemParameterModel[]> {
@@ -20,7 +19,6 @@ export class SystemParameterController {
     }
 
     @Get(':id')
-    @ApiExcludeEndpoint()
     @UseGuards(AuthGuard('jwt'), RoleGuard(['admin']))
     @UseInterceptors(TransformInterceptor)
     public async getUserById(@Param('id') id: string): Promise<SystemParameterModel> {

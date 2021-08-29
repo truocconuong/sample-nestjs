@@ -4,3 +4,4 @@ export const ROLE_USER_TITLE = "user"
 export const LIMIT_ORDER = 10
 export const LIMIT_USER = 10
 export const LIMIT_SUBSCRIPTIONS = 10
+export const LIMIT_PROMOTION =10

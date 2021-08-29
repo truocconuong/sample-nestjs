@@ -12,7 +12,7 @@ export class PromocodesModel {
     percent?: number;
 
     @Column({ nullable: true })
-    type?: boolean;
+    type?: string;
 
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'updated_at' })
     updated_at!: Date;

@@ -4,14 +4,12 @@ import { TransformInterceptor } from 'src/common/interceptor/transform.intercept
 import { RoleGuard } from 'src/modules/auth/guards/role.guard';
 import { OrdersService } from '../providers/orders.service';
 import { LIMIT_ORDER } from 'src/common/constants/index';
-import { ApiExcludeEndpoint } from '@nestjs/swagger';
 
 @Controller('orders')
 export class SubscriptionsAdminController {
     constructor( private orderService: OrdersService ) { }
     
     @Get()
-    @ApiExcludeEndpoint()
     @UseGuards(AuthGuard('jwt'), RoleGuard(['admin']))
     @UseInterceptors(TransformInterceptor)
     async getAllOrder(

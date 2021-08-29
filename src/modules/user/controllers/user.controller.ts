@@ -1,4 +1,4 @@
-import { Body, Controller, Get, NotFoundException, HttpException, HttpStatus, Param, Patch, Post, UseFilters, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, HttpException, HttpStatus, Param, Patch, Post, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiExcludeEndpoint } from '@nestjs/swagger';
 import _ from 'lodash'
@@ -7,7 +7,6 @@ import { UserModel } from 'src/entity/user';
 import { GetUser } from 'src/modules/auth/decorators/get-user.decorators';
 import { CreateUserGuestDto, ExecutorDto, BeneficiaryDto, PropertyDto, BusinessInterestsDto, InvestmentsDto, ValuablesDto, BankAccountDto, InsurancePoliciesDto, InformationDto, BenefitciaryPercent } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
-import { UserLoggerExceptionsFilter } from '../exceptions/user.exceptions';
 import { UserService } from '../providers/user.service';
 import { PdfService } from 'src/shared/pdf/pdf.service';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -33,16 +32,6 @@ export class UserController {
             }
         }
         return true
-    }
-
-
-    @Get()
-    @ApiExcludeEndpoint()
-    @UseInterceptors(TransformInterceptor)
-    @UseFilters(UserLoggerExceptionsFilter)
-    public async getAll(): Promise<UserModel[]> {
-        const result = await this.userService.findAll();
-        return result;
     }
 
     @Get(':id')

@@ -11,7 +11,6 @@ export class SubscriptionsAdminController {
     constructor(private subscripionsService: SubscripionsService) { }
     
     @Get()
-    @ApiExcludeEndpoint()
     @UseGuards(AuthGuard('jwt'), RoleGuard(['admin']))
     @UseInterceptors(TransformInterceptor)
     async index(
@@ -26,7 +25,6 @@ export class SubscriptionsAdminController {
     }
 
     @Get(':id')
-    @ApiExcludeEndpoint()
     @UseGuards(AuthGuard('jwt'), RoleGuard(['admin']))
     @UseInterceptors(TransformInterceptor)
     async getSubscriptionDetail(@Param('id') id: string){

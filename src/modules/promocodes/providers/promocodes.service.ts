@@ -1,5 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate';
 import { PromocodesModel } from 'src/entity/promocodes';
 import { Repository } from 'typeorm';
 
@@ -11,17 +12,25 @@ export class PromocodesService {
     ) { }
 
     public async findDetailPromocodesByName(name: string): Promise<PromocodesModel | undefined> {
-        if (!name) {
-            throw new NotFoundException('Not found')
-        }
-
         const promocode = await this.repository.findOne({
             name
         })
-
-        if (!promocode) {
-            throw new NotFoundException('Not found')
-        }
         return promocode
     }
+
+    public async getAll(options: IPaginationOptions) {
+        return this.paginate(options)
+    }
+
+    async paginate(options: IPaginationOptions) {
+        const queryBuilder = await this.repository
+            .createQueryBuilder('promocodes')
+        return await paginate<PromocodesModel>(queryBuilder, options)
+    }
+
+    async create(data: any) {
+        return this.repository.create(data)
+    }
+
+
 }

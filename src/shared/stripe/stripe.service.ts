@@ -55,7 +55,7 @@ export class StripeService implements OnModuleInit {
             throw new HttpException(error, HttpStatus.UNPROCESSABLE_ENTITY)
         }
     }
-    public async createCoupon(data: Stripe.CouponCreateParams) {
+    public async createCoupon(data: any) {
         try {
             return this.stripe.coupons.create(data);
         } catch (error) {
