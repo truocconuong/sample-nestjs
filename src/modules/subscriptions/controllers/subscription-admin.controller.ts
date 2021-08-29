@@ -4,7 +4,6 @@ import { TransformInterceptor } from 'src/common/interceptor/transform.intercept
 import { RoleGuard } from 'src/modules/auth/guards/role.guard';
 import { SubscripionsService } from '../providers/subscriptions.service';
 import { LIMIT_SUBSCRIPTIONS } from 'src/common/constants/index';
-import { ApiExcludeEndpoint } from '@nestjs/swagger';
 
 @Controller('subscriptions')
 export class SubscriptionsAdminController {
