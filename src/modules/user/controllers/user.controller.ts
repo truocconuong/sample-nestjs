@@ -432,7 +432,7 @@ export class UserController {
     }))
     async uploadPdf(@UploadedFile() file: any, @GetUser() user: UserModel) {
         console.log( file.path.slice(6))
-        await this.userService.update(user.id, { will_pdf_link: file.path.slice(6) })
+        await this.userService.update(user.id, { pdf_upload_url: file.path.slice(6) })
         throw new HttpException('done', HttpStatus.ACCEPTED);
     }
 
