@@ -18,6 +18,7 @@
     "doc:api": "npm run build && node dist/swagger"
   },
   "dependencies": {
+    "@nestjs-modules/mailer": "^1.6.0",
     "@nestjs/common": "^7.6.18",
     "@nestjs/config": "0.6.3",
     "@nestjs/core": "^7.6.18",
@@ -54,6 +55,7 @@
     "nestjs-stripe": "^0.4.1",
     "nestjs-typeorm-paginate": "^2.5.3",
     "node-jose": "^2.0.0",
+    "nodemailer": "^6.6.3",
     "nonce": "^1.0.4",
     "number-to-words": "^1.2.4",
     "otplib": "^12.0.1",
@@ -83,6 +85,7 @@
     "@types/jest": "^26.0.24",
     "@types/multer": "^1.4.7",
     "@types/node": "^14.17.6",
+    "@types/nodemailer": "^6.4.4",
     "@types/passport-jwt": "^3.0.6",
     "@types/passport-local": "^1.0.34",
     "@types/supertest": "^2.0.11",
