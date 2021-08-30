@@ -431,8 +431,7 @@ export class UserController {
         limits: { fileSize: 3145728 }
     }))
     async uploadPdf(@UploadedFile() file: any, @GetUser() user: UserModel) {
-        console.log( file.path.slice(6))
-        await this.userService.update(user.id, { pdf_upload_url: file.path.slice(6) })
+        await this.userService.update(user.id, { pdf_upload_url: file.path.slice(6), time_upload_pdf: new Date() })
         throw new HttpException('done', HttpStatus.ACCEPTED);
     }
 

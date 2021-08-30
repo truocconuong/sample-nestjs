@@ -61,6 +61,9 @@ export class UserModel {
     @Column({ length: 255, nullable: true })
     pdf_upload_url!: string;
 
+    @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'time_upload_pdf' })
+    time_upload_pdf!: Date;
+
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'updated_at' })
     updated_at!: Date;
 

@@ -18,6 +18,11 @@ export class UpdateUserDto {
 
     @IsOptional()
     @IsString()
+    @Length(1, 255)
+    public pdf_upload_url?: string;
+
+    @IsOptional()
+    @IsString()
     @Length(1, 45)
     public phone!: string;
 
