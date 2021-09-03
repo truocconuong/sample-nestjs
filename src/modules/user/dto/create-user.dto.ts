@@ -6,7 +6,7 @@ export class InformationDto {
   @Length(1, 255)
   @IsOptional()
 
-  public email!: string;
+  public email_personal!: string;
 
   @IsString()
   @IsOptional()
@@ -380,14 +380,23 @@ export class CreateUserGuestDto {
   @IsEmail()
   @Length(1, 255)
   @IsNotEmpty()
-  public email!: string;
+  public email?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  public otp!: string;
+
+  @IsEmail()
+  @IsOptional()
+  @Length(1, 255)
+  public email_personal!: string;
 
   @IsString()
   @IsNotEmpty()
   public full_legal_name!: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @Length(1, 255)
   public nric!: string;
 
@@ -415,40 +424,48 @@ export class CreateUserGuestDto {
 
   //  done
   @IsArray()
+  @IsOptional()
   @Type(() => ExecutorDto)
   public executors!: ExecutorDto[]
 
   // done
   @IsArray()
+  @IsOptional()
   @Type(() => BeneficiaryDto)
   public beneficiaries!: BeneficiaryDto[]
 
   //done
   @IsArray()
+  @IsOptional()
   @Type(() => PropertyDto)
   public properties!: PropertyDto[]
 
   //done
   @IsArray()
+  @IsOptional()
   @Type(() => BankAccountDto)
   public bank_accounts!: BankAccountDto[]
 
   // done
   @IsArray()
+  @IsOptional()
   @Type(() => InsurancePoliciesDto)
   public insurance_policies!: InsurancePoliciesDto[]
 
   //done
   @IsArray()
+  @IsOptional()
   @Type(() => InvestmentsDto)
   public investments!: InvestmentsDto[]
 
   //done
   @IsArray()
+  @IsOptional()
   @Type(() => BusinessInterestsDto)
   public business_interests!: BusinessInterestsDto[]
 
   @IsArray()
+  @IsOptional()
   @Type(() => ValuablesDto)
   public valuables!: ValuablesDto[]
 }

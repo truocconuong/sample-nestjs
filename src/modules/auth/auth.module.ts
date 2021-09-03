@@ -15,12 +15,13 @@ import { OrdersModule } from '../orders/orders.module';
 
 @Module({
   imports: [
-    forwardRef(() => UserModule),
     TypeOrmModule.forFeature([
       ContactModel,
     ]),
     forwardRef(() => SubscriptionsModule),
     forwardRef(() => OrdersModule),
+    forwardRef(() => UserModule),
+
     OtpModule,
     PassportModule.register({
       defaultStrategy: 'jwt',
@@ -36,6 +37,6 @@ import { OrdersModule } from '../orders/orders.module';
   ],
   providers: [AuthService, LocalStrategy ,JwtStrategy],
   controllers: Object.values(controllers),
-  exports: [PassportModule]
+  exports: [PassportModule,AuthService]
 })
 export class AuthModule { }

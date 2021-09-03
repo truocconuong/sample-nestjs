@@ -8,13 +8,25 @@ import { GetUser } from 'src/modules/auth/decorators/get-user.decorators';
 import { CreateUserGuestDto, ExecutorDto, BeneficiaryDto, PropertyDto, BusinessInterestsDto, InvestmentsDto, ValuablesDto, BankAccountDto, InsurancePoliciesDto, InformationDto, BenefitciaryPercent } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserService } from '../providers/user.service';
-import { PdfService } from 'src/shared/pdf/pdf.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from '../../../common/file-upload.utils'
+import { AuthService } from 'src/modules/auth/providers';
+import { PdfService } from 'src/shared/pdf/pdf.service';
+// import { AuthService } from 'src/modules/auth/providers';
 @Controller('users')
 export class UserController {
-    constructor(private userService: UserService, private pdfService: PdfService) { }
+    constructor(private userService: UserService, private authService: AuthService, private pdfService: PdfService) { }
+
+    @Get('generate-pdf')
+    @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth()
+    @UseInterceptors(TransformInterceptor)
+    async generatePdfByUser(@GetUser() user: UserModel) {
+        const userDetail = await this.userService.getProfileUser(user.id)
+        const pdf = await this.pdfService.createPdf(userDetail)
+        return pdf
+    }
 
 
     @Patch('beneficiary/percent')
@@ -52,8 +64,11 @@ export class UserController {
 
     @Post('guest')
     @UseInterceptors(TransformInterceptor)
-    public async create(@Body() body: CreateUserGuestDto): Promise<UserModel | undefined> {
-        const { email, full_legal_name, nric, postal_code, address_line_1, address_line_2, unit_number, executors, beneficiaries, properties, bank_accounts, insurance_policies, business_interests, valuables, investments } = body;
+    public async create(@Body() body: CreateUserGuestDto): Promise<{ access_token: string }> {
+        const { email, email_personal, otp, full_legal_name, nric, postal_code, address_line_1, address_line_2, unit_number, executors, beneficiaries, properties, bank_accounts, insurance_policies, business_interests, valuables, investments } = body;
+        if (otp === '4040') {
+            throw new HttpException('OTP wrong', HttpStatus.FORBIDDEN)
+        }
         // use store beneficiary
         const beneficiaryStore: {
             id: string,
@@ -71,7 +86,10 @@ export class UserController {
             address_line_2: address_line_2 ? address_line_2 : '',
             unit_number: unit_number,
             full_legal_name,
-            role_id: '4fb6acb5-e22c-4c2e-b7a1-fde533a80324'
+            email_personal,
+            role_id: '4fb6acb5-e22c-4c2e-b7a1-fde533a80324',
+            is_verify: true,
+            otp: '9999'
         }
         // create user
         const user = await this.userService.create(information)
@@ -171,9 +189,11 @@ export class UserController {
                 await this.userService.createInvestment(dataInvestment)
             })
         }
-        console.log('chay vao day')
-        this.pdfService.createPdf(body, user.id)
-        return user
+
+
+        // this.pdfService.createPdf(body, user.id)
+        const token = await this.authService.signJwt(user)
+        return token
     }
 
     @Patch()

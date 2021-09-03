@@ -9,13 +9,12 @@ const { merge } = require('merge-pdf-buffers');
 const PromiseBlueBird = require('bluebird');
 const slugify = require('slugify');
 const fs = require('fs');
-import { UserService } from 'src/modules/user/providers'
 import { MasterdataService } from 'src/modules/masterdata/providers';
 
 @Injectable()
 export class PdfService {
-    constructor(private userService: UserService, private masterdataService: MasterdataService) { }
-    public async createPdf(user: any, id: string) {
+    constructor(private masterdataService: MasterdataService) { }
+    public async createPdf(user: any) {
         for (let i = 0; i < user.investments.length; i++) {
             const masterData = await this.masterdataService.findById(user.investments[i].type_id)
             user.investments[i].investmentType = masterData!.value
@@ -77,7 +76,7 @@ export class PdfService {
         fs.writeFile(pdfSrc, merged, function (err: any) {
             if (err) throw err;
         })
-        this.userService.update(id, { will_pdf_link: "/" + pdfLink })
+        return "/" + pdfLink
     }
 
 
