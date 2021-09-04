@@ -114,16 +114,17 @@ export class AuthController {
     @UseInterceptors(TransformInterceptor)
     public async sendOtpEmail(@Body() body: SendOtpDto): Promise<boolean> {
         const { email } = body;
-        const user = await this.userService.findOne({ email: email });
-        if (!user) {
-            throw new NotFoundException('Email cannot exists')
-        }
-        const generateToken = this.otpService.generateTokenByEmail(email);
-        // update token to user
-        await this.userService.update(user.id, {
-            is_verify: false,
-            otp: generateToken.token as string
-        })
+        console.log(email)
+        // const user = await this.userService.findOne({ email: email });
+        // if (!user) {
+        //     throw new NotFoundException('Email cannot exists')
+        // }
+        // const generateToken = this.otpService.generateTokenByEmail(email);
+        // // update token to user
+        // await this.userService.update(user.id, {
+        //     is_verify: false,
+        //     otp: generateToken.token as string
+        // })
         return true
     }
 
