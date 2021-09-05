@@ -28,7 +28,8 @@ export class AuthController {
         const yourLegacy: any = {
             email: profileUser?.email,
             full_legal_name: profileUser?.full_legal_name,
-            will_pdf_link: profileUser?.will_pdf_link
+            will_pdf_link: profileUser?.will_pdf_link,
+            will_registry : profileUser?.will_registry
         };
 
         if (profileUser?.insurance_policies) {

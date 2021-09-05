@@ -23,7 +23,14 @@ export class UpdateUserDto {
 
     @IsOptional()
     @IsString()
+    @Length(1, 255)
+    public will_registry?: string;
+
+    @IsOptional()
+    @IsString()
     @Length(1, 45)
     public phone!: string;
+
+
 
 }

@@ -22,6 +22,9 @@ export class UserModel {
     @Column({ length: 255, nullable: true })
     email_personal!: string;
 
+    @Column({ length: 255, nullable: true })
+    will_registry!: string;
+
     @Column({ length: 255, nullable: true, select: false })
     password!: string;
 
