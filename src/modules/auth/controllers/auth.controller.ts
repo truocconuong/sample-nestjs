@@ -6,7 +6,7 @@ import { UserModel } from 'src/entity/user';
 import { UserService } from 'src/modules/user/providers';
 import { OtpService } from 'src/shared/otp/otp.service';
 import { GetUser } from '../decorators/get-user.decorators';
-import { SendOtpDto } from '../dto/send-otp.dto';
+import { ActionTypeSendOtp, SendOtpDto } from '../dto/send-otp.dto';
 import { VerifyOtpDto } from '../dto/verify-otp.dto';
 import { AuthService } from '../providers';
 import { Request } from 'express';
@@ -29,7 +29,7 @@ export class AuthController {
             email: profileUser?.email,
             full_legal_name: profileUser?.full_legal_name,
             will_pdf_link: profileUser?.will_pdf_link,
-            will_registry : profileUser?.will_registry
+            will_registry: profileUser?.will_registry
         };
 
         if (profileUser?.insurance_policies) {
@@ -114,12 +114,13 @@ export class AuthController {
     @Post('send-otp')
     @UseInterceptors(TransformInterceptor)
     public async sendOtpEmail(@Body() body: SendOtpDto): Promise<boolean> {
-        const { email } = body;
-        console.log(email)
-        // const user = await this.userService.findOne({ email: email });
-        // if (!user) {
-        //     throw new NotFoundException('Email cannot exists')
-        // }
+        const { email, type } = body;
+        if (type === ActionTypeSendOtp.SIGNUP) {
+            const user = await this.userService.findOne({ email: email });
+            if (user) {
+                throw new NotFoundException('This email already exists!')
+            }
+        }
         // const generateToken = this.otpService.generateTokenByEmail(email);
         // // update token to user
         // await this.userService.update(user.id, {
