@@ -8,9 +8,6 @@ export class SystemParameterModel {
     @Column({ length: 45, nullable: false })
     type?: string;
 
-    @Column({ length: 255, nullable: false })
-    value?: string;
-
     @Column({ nullable: true })
     is_delete?: boolean;
 
@@ -19,4 +16,7 @@ export class SystemParameterModel {
 
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
     created_at!: Date;
+
+    @Column({ length: 255, nullable: false })
+    value?: string;
 }

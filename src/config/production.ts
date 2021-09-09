@@ -1,32 +1,23 @@
+
+import * as dotenv from 'dotenv';
+import * as fs from 'fs';
+const environment = process.env.NODE_ENV || '';
+const dataEnv: any = dotenv.parse(fs.readFileSync(`.env.${environment}`));
+
 export const config = {
   db: {
-    type: process.env.DB_TYPE || 'mysql',
+    type: dataEnv.DB_TYPE || 'mysql',
+    // https://typeorm.io/#/connection-options/common-connection-options
     synchronize: false,
     logging: false,
-    replication: {
-      master: {
-        host: process.env.DB_HOST || 'masterHost',
-        port: process.env.DB_PORT || 3306,
-        username: process.env.DB_USER || 'username',
-        password: process.env.DB_PASSWORD || 'password',
-        database: process.env.DB_NAME || 'dbname',
-      },
-      slaves: [{ // fix if necessary
-        host: 'slaveHost',
-        port: 3306,
-        username: 'username',
-        password: 'password',
-        database: 'dbname',
-      }],
-    },
+    host: dataEnv.DB_HOST || '127.0.0.1',
+    port: dataEnv.DB_PORT || 3306,
+    username: dataEnv.DB_USER || 'username',
+    password: dataEnv.DB_PASSWORD || 'password',
+    database: dataEnv.DB_NAME || 'dbname',
     extra: {
-      connectionLimit: 30,
+      connectionLimit: 10,
     },
   },
-  graphql: {
-    debug: false,
-    playground: false,
-    autoSchemaFile: true,
-  },
-  foo: 'pro-bar',
+  foo: 'production-bar',
 };
