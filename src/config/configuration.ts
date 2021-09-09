@@ -17,6 +17,7 @@ export const util = {
 export const configuration = async (): Promise<Record<string, unknown>> => {
   const { config } = await import('./default');
   const environment = await import(`./${process.env.NODE_ENV || 'development'}`);
+  console.log(environment,'config current')
   // object deep merge
   return util.merge(config, environment.config);
 };
