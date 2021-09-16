@@ -380,7 +380,7 @@ export class CreateUserGuestDto {
   @IsEmail()
   @Length(1, 255)
   @IsNotEmpty()
-  public email?: string;
+  public email!: string;
 
   @IsString()
   @IsNotEmpty()

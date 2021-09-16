@@ -13,10 +13,11 @@ import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from '../../../common/file-upload.utils'
 import { AuthService } from 'src/modules/auth/providers';
 import { PdfService } from 'src/shared/pdf/pdf.service';
+import { OtpService } from 'src/shared/otp/otp.service';
 // import { AuthService } from 'src/modules/auth/providers';
 @Controller('users')
 export class UserController {
-    constructor(private userService: UserService, private authService: AuthService, private pdfService: PdfService) { }
+    constructor(private userService: UserService, private authService: AuthService, private pdfService: PdfService, private otpService: OtpService) { }
 
     @Get('generate-pdf')
     @UseGuards(AuthGuard('jwt'))
@@ -76,7 +77,13 @@ export class UserController {
         }[] = [];
         const checkEmailExists = await this.userService.findOne({ email: email });
         if (checkEmailExists) {
-            throw new HttpException('Conflict', HttpStatus.FORBIDDEN);
+            throw new HttpException('Email is conflict', HttpStatus.FORBIDDEN);
+        }
+
+        const isValid = this.otpService.checkValidToken(otp, email)
+
+        if (!isValid) {
+            throw new HttpException('Otp expired', HttpStatus.UNAUTHORIZED);
         }
         const information = {
             email,
@@ -89,7 +96,7 @@ export class UserController {
             email_personal,
             role_id: '4fb6acb5-e22c-4c2e-b7a1-fde533a80324',
             is_verify: true,
-            otp: '9999'
+            otp
         }
         // create user
         const user = await this.userService.create(information)

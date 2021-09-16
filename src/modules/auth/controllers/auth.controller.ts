@@ -122,12 +122,8 @@ export class AuthController {
                 throw new NotFoundException('This email already exists!')
             }
         }
-        // const generateToken = this.otpService.generateTokenByEmail(email);
-        // // update token to user
-        // await this.userService.update(user.id, {
-        //     is_verify: false,
-        //     otp: generateToken.token as string
-        // })
+        const generateToken = this.otpService.generateTokenByEmail(email);
+        this.emailService.sendEmailOtp(email, generateToken.token)
         return true
     }
 
@@ -174,7 +170,6 @@ export class AuthController {
     @UseInterceptors(TransformInterceptor)
     public async verifyOtpEmail(@Body() body: VerifyOtpDto): Promise<{ access_token: string }> {
         const { email, otp } = body;
-        console.log(otp)
         const user = await this.userService.findOne({ email: email });
         if (!user) {
             throw new NotFoundException('Email cannot exists')

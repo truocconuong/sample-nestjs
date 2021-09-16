@@ -16,6 +16,7 @@ import { PdfModule } from 'src/shared/pdf/pdf.module';
 import * as controllers from './controllers';
 import * as providers from './providers';
 import { MulterModule } from '@nestjs/platform-express';
+import { OtpModule } from 'src/shared/otp/otp.module';
 
 @Module({
   imports: [
@@ -36,7 +37,9 @@ import { MulterModule } from '@nestjs/platform-express';
       dest: 'public/upload-pdf',
     }),
     forwardRef(() => AuthModule),
-    forwardRef(() => PdfModule)
+    forwardRef(() => PdfModule),
+    forwardRef(() => OtpModule)
+
   ],
   controllers: Object.values(controllers),
   providers: [...Object.values(providers)],

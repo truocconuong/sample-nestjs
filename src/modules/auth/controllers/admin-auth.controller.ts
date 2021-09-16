@@ -14,6 +14,7 @@ export class AdminController {
     @Post('sign-up')
     @UseInterceptors(TransformInterceptor)
     public async signUp(@Body() body: SignUpAdminDto) {
+        console.log('clgt')
         const { email } = body;
 
         const checkUserExist = await this.userService.findByEmail(email);
