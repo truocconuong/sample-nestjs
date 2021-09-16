@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate';
 import { MasterDataModel } from 'src/entity/master_data';
 import { Repository, UpdateResult, DeleteResult } from 'typeorm';
 
@@ -31,5 +32,12 @@ export class MasterDataRepositoryService {
 
     public async remove(id: string): Promise<DeleteResult> {
         return this.repository.delete(id);
+    }
+
+    async paginate(options: IPaginationOptions){
+        const queryBuilder = await this.repository
+        .createQueryBuilder('master_data')
+        .orderBy('master_data.created_at','DESC')
+        return await paginate<MasterDataModel>(queryBuilder, options)
     }
 }

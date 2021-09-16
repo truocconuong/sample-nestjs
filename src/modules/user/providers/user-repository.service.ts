@@ -42,23 +42,25 @@ export class UserRepositoryService {
     async findUserCategoriesDetail(id: string) {
         const queryBuilder = await this.repository
             .createQueryBuilder('user')
-            .leftJoinAndSelect('user.investments', 'investments','investments.is_delete is not true')
-            .leftJoinAndSelect('user.insurance_policies', 'insurance_policies' ,'insurance_policies.is_delete is not true')
-            .leftJoinAndSelect('user.properties', 'properties','properties.is_delete is not true')
-            .leftJoinAndSelect('user.business_interests', 'business_interests','business_interests.is_delete is not true')
-            .leftJoinAndSelect('user.valuables', 'valuables','valuables.is_delete is not true')
-            .leftJoinAndSelect('user.executors', 'executors','executors.is_delete is not true')
-            .leftJoinAndSelect('user.beneficiaries', 'beneficiaries','beneficiaries.is_delete is not true')
-            .leftJoinAndSelect('user.bank_accounts', 'bank_accounts','bank_accounts.is_delete is not true')
+            .leftJoinAndSelect('user.investments', 'investments', 'investments.is_delete is not true')
+            .leftJoinAndSelect('user.insurance_policies', 'insurance_policies', 'insurance_policies.is_delete is not true')
+            .leftJoinAndSelect('user.properties', 'properties', 'properties.is_delete is not true')
+            .leftJoinAndSelect('user.business_interests', 'business_interests', 'business_interests.is_delete is not true')
+            .leftJoinAndSelect('user.valuables', 'valuables', 'valuables.is_delete is not true')
+            .leftJoinAndSelect('user.executors', 'executors', 'executors.is_delete is not true')
+            .leftJoinAndSelect('user.beneficiaries', 'beneficiaries', 'beneficiaries.is_delete is not true')
+            .leftJoinAndSelect('user.bank_accounts', 'bank_accounts', 'bank_accounts.is_delete is not true')
             .where('user.id = :id', { id: id })
             .getOne()
         return queryBuilder
     }
 
-    async paginate(options: IPaginationOptions, role_id: any) {
+    async paginate(options: IPaginationOptions, _role_id: any) {
         const queryBuilder = await this.repository
             .createQueryBuilder('user')
-            .where("user.role_id = :role_id", { role_id: role_id })
+            .leftJoinAndSelect('user.role', 'role')
+            .orderBy('user.created_at','DESC')
+        // .where("user.role_id = :role_id", { role_id: role_id })
         return await paginate<UserModel>(queryBuilder, options)
     }
 
