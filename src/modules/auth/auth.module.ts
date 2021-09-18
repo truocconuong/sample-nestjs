@@ -12,6 +12,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { SubscriptionsModule } from '../subscriptions/subscriptions.module'; 
 import { OrdersModule } from '../orders/orders.module';
+import { EmailModule } from 'src/shared/email/email.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { OrdersModule } from '../orders/orders.module';
       }),
       inject: [ConfigService],
     }),
+    EmailModule
   ],
   providers: [AuthService, LocalStrategy ,JwtStrategy],
   controllers: Object.values(controllers),

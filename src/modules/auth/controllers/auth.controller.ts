@@ -13,10 +13,11 @@ import { Request } from 'express';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { SendOtpConfirmDto } from '../dto/send-otp-confirm.dto';
 import { VerifyOtpUserUpdateDto } from '../dto/verify-otp-user-update.dto';
+import { EmailService } from 'src/shared/email/email.service';
 
 @Controller('auth')
 export class AuthController {
-    constructor(private userService: UserService, private otpService: OtpService, private authService: AuthService) { }
+    constructor(private userService: UserService, private otpService: OtpService, private authService: AuthService, private emailService: EmailService) { }
 
     @Get('profile')
     @ApiBearerAuth()
@@ -121,12 +122,9 @@ export class AuthController {
                 throw new NotFoundException('This email already exists!')
             }
         }
-        // const generateToken = this.otpService.generateTokenByEmail(email);
-        // // update token to user
-        // await this.userService.update(user.id, {
-        //     is_verify: false,
-        //     otp: generateToken.token as string
-        // })
+        const generateToken = this.otpService.generateTokenByEmail(email);
+        console.log('send otp', generateToken.token, email)
+        this.emailService.sendEmailOtp(email, generateToken.token)
         return true
     }
 
@@ -135,7 +133,12 @@ export class AuthController {
     @UseInterceptors(TransformInterceptor)
     public async sendOtpEmailConfirm(@Body() body: SendOtpConfirmDto): Promise<boolean> {
         const { email } = body;
-        this.otpService.generateTokenByEmail(email);
+        const generateToken = this.otpService.generateTokenByEmail(email);
+
+        if (generateToken.token) {
+            this.emailService.sendEmailOtp(email, generateToken.token)
+        }
+
         return true
     }
 
@@ -144,10 +147,10 @@ export class AuthController {
     @UseInterceptors(TransformInterceptor)
     public async verifyOtpEmailUserUpdate(@GetUser() user: UserModel, @Body() body: VerifyOtpUserUpdateDto): Promise<boolean> {
         const { email, otp } = body;
-        // const isValid = this.otpService.checkValidToken(user.otp, email)
-        // if (!isValid) {
-        //     throw new HttpException('Otp expired', HttpStatus.UNAUTHORIZED);
-        // }
+        const isValid = this.otpService.checkValidToken(user.otp, email)
+        if (!isValid) {
+            throw new HttpException('Otp expired', HttpStatus.UNAUTHORIZED);
+        }
         const checkEmailExists = await this.userService.checkEmailExists(user.id, email)
 
         if (checkEmailExists) {
@@ -168,7 +171,6 @@ export class AuthController {
     @UseInterceptors(TransformInterceptor)
     public async verifyOtpEmail(@Body() body: VerifyOtpDto): Promise<{ access_token: string }> {
         const { email, otp } = body;
-        console.log(otp)
         const user = await this.userService.findOne({ email: email });
         if (!user) {
             throw new NotFoundException('Email cannot exists')
@@ -176,10 +178,11 @@ export class AuthController {
         // if (user.otp !== otp) {
         //     throw new NotFoundException('Otp cannot exists');
         // }
-        // const isValid = this.otpService.checkValidToken(user.otp, email)
-        // if (!isValid) {
-        //     throw new HttpException('Otp expired', HttpStatus.UNAUTHORIZED);
-        // }
+        console.log(otp, email, 'verify otp')
+        const isValid = this.otpService.checkValidToken(otp, email)
+        if (!isValid) {
+            throw new HttpException('Otp expired', HttpStatus.UNAUTHORIZED);
+        }
 
         await this.userService.update(user.id, {
             is_verify: true

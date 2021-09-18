@@ -13,7 +13,7 @@ export class OtpService {
     }
 
     public checkValidToken(token: string, secret: string) {
-        const isValid = authenticator.verify({ token, secret });
+        const isValid = authenticator.check(token, secret);
         return isValid
     }
 }

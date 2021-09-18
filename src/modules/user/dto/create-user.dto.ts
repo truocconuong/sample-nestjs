@@ -188,7 +188,7 @@ export class PropertyDto {
 export class BankAccountDto {
   @IsString()
   @IsOptional()
-  bank_id!: string;
+  bank!: string;
 
   @IsString()
   @Length(1, 255)
@@ -225,7 +225,7 @@ export class InsurancePoliciesDto {
 
   @IsString()
   @IsOptional()
-  insurance_company_id!: string
+  insurance_company!: string
 
   @IsBoolean()
   @IsOptional()
@@ -380,7 +380,7 @@ export class CreateUserGuestDto {
   @IsEmail()
   @Length(1, 255)
   @IsNotEmpty()
-  public email?: string;
+  public email!: string;
 
   @IsString()
   @IsNotEmpty()
