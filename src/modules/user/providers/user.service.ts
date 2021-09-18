@@ -267,6 +267,7 @@ export class UserService {
 
   public async findUserCategoriesDetail(id: string) {
     const user = await this.userRepositoryService.findUserCategoriesDetail(id)
+  
     return user
   }
 

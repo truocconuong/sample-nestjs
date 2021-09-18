@@ -15,13 +15,17 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       passReqToCallback: true
     });
   }
-  
+
   async validate(req: any, user: any) {
+    const userDetail = await this.userService.findById(user.id)
     // validator all
     const jwt = req.headers.authorization
     const isValidBlackList = await this.userService.validateToken(jwt);
-    if(!isValidBlackList){
+    if (!isValidBlackList) {
       throw new UnauthorizedException("token expired");
+    }
+    if (!userDetail) {
+      throw new UnauthorizedException("Unauthorized");
     }
     return user
   }
