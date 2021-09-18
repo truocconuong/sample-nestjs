@@ -270,8 +270,8 @@ export class UserService {
     return user
   }
 
-  public async getAll(options: IPaginationOptions, role_id: any) {
-    return this.userRepositoryService.paginate(options, role_id)
+  public async getAll(options: IPaginationOptions, role_id: any, notShows: string[]) {
+    return this.userRepositoryService.paginate(options, role_id, notShows)
   }
 
   public async findUserDetail(id: string) {

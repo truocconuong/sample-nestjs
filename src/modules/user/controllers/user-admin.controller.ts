@@ -6,6 +6,8 @@ import { UserService } from '../providers/user.service';
 import { ROLE_USER_TITLE, LIMIT_USER } from 'src/common/constants/index';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { ApiExcludeEndpoint } from '@nestjs/swagger';
+import { UserModel } from 'src/entity/user';
+import { GetUser } from 'src/modules/auth/decorators/get-user.decorators';
 
 @Controller('admin')
 export class SubscriptionsAdminController {
@@ -18,13 +20,16 @@ export class SubscriptionsAdminController {
     async getAllUser(
         @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
         @Query('limit', new DefaultValuePipe(LIMIT_USER), ParseIntPipe) limit: number = LIMIT_USER,
+        @GetUser() user: UserModel
     ) {
+        const notShows = [user.id]
         const role = await this.userService.findRole({ title: ROLE_USER_TITLE })
         limit = limit > 100 ? 100 : limit;
         return this.userService.getAll({
             page,
             limit,
-        }, role!.id);
+            
+        }, role!.id,notShows);
     }
 
     @Get('user/:id')

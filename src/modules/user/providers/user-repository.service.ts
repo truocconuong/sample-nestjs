@@ -55,11 +55,12 @@ export class UserRepositoryService {
         return queryBuilder
     }
 
-    async paginate(options: IPaginationOptions, _role_id: any) {
+    async paginate(options: IPaginationOptions, _role_id: any, notShows: string[]) {
         const queryBuilder = await this.repository
             .createQueryBuilder('user')
             .leftJoinAndSelect('user.role', 'role')
-            .orderBy('user.created_at','DESC')
+            .where('user.id not IN (:...notShows)', { notShows })
+            .orderBy('user.created_at', 'DESC')
         // .where("user.role_id = :role_id", { role_id: role_id })
         return await paginate<UserModel>(queryBuilder, options)
     }
