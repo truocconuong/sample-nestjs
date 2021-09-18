@@ -9,8 +9,8 @@ export class BankAccountModel {
     @Column("uuid", { nullable: false })
     user_id?: string;
 
-    @Column({ length: 45, nullable: false, type: 'uuid' })
-    bank_id?: string;
+    @Column({ nullable: false, type: 'text' })
+    bank?: string;
 
     @Column({ length: 45, nullable: true })
     account_no?: string;

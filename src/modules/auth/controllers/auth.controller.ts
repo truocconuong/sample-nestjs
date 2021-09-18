@@ -123,6 +123,7 @@ export class AuthController {
             }
         }
         const generateToken = this.otpService.generateTokenByEmail(email);
+        console.log('send otp', generateToken.token, email)
         this.emailService.sendEmailOtp(email, generateToken.token)
         return true
     }
@@ -174,10 +175,11 @@ export class AuthController {
         if (!user) {
             throw new NotFoundException('Email cannot exists')
         }
-        if (user.otp !== otp) {
-            throw new NotFoundException('Otp cannot exists');
-        }
-        const isValid = this.otpService.checkValidToken(user.otp, email)
+        // if (user.otp !== otp) {
+        //     throw new NotFoundException('Otp cannot exists');
+        // }
+        console.log(otp, email, 'verify otp')
+        const isValid = this.otpService.checkValidToken(otp, email)
         if (!isValid) {
             throw new HttpException('Otp expired', HttpStatus.UNAUTHORIZED);
         }

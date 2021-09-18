@@ -13,7 +13,7 @@ export class InsurancePolicyModel {
     beneficiary_id?: string;
 
     @Column("uuid", { nullable: true })
-    insurance_company_id?: string;
+    insurance_company?: string;
 
     @Column({ nullable: true })
     is_non_nomivated?: boolean;
