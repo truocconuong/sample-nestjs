@@ -28,7 +28,7 @@ export class UserRepositoryService {
     }
 
     public async findById(id: string, options: any = {}): Promise<UserModel | undefined> {
-        return this.repository.findOneOrFail(id, options)
+        return this.repository.findOne(id, options)
     }
 
     public async remove(id: string): Promise<DeleteResult> {
