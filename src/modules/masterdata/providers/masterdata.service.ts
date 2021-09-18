@@ -21,7 +21,7 @@ export class MasterdataService {
     }
 
 
-    public async update(id: number, data: Partial<MasterDataModel>): Promise<UpdateResult> {
+    public async update(id: string, data: Partial<MasterDataModel>): Promise<UpdateResult> {
         return this.MasterDataRepositoryService.update(id, data);
     }
 

@@ -1,4 +1,4 @@
-import { Body, Controller, DefaultValuePipe, Get, HttpException, HttpStatus, ParseIntPipe, Post, Query, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Delete, Get, HttpException, HttpStatus, Param, ParseIntPipe, Post, Query, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import _ from 'lodash'
 import { LIMIT_PROMOTION } from 'src/common/constants';
@@ -27,6 +27,12 @@ export class PromocodesAdminController {
   }
 
 
+  @Delete(':id')
+  @UseGuards(AuthGuard('jwt'), RoleGuard(['admin']))
+  @UseInterceptors(TransformInterceptor)
+  async deletePromocode(@Param('id') id: string) {
+    return this.promocodesService.remove(id)
+  }
   @Post()
   @UseGuards(AuthGuard('jwt'), RoleGuard(['admin']))
   @UseInterceptors(TransformInterceptor)

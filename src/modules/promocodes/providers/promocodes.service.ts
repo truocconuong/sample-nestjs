@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate';
 import { PromocodesModel } from 'src/entity/promocodes';
@@ -29,7 +29,17 @@ export class PromocodesService {
     }
 
     async create(data: any) {
-        return this.repository.create(data)
+        return this.repository.save(data)
+    }
+
+    async remove(id: string) {
+        const promocode = await this.repository.findOne({
+            id
+        })
+        if (!promocode) {
+            throw new HttpException('Not exists', HttpStatus.NOT_FOUND)
+        }
+        return this.repository.remove(promocode)
     }
 
 

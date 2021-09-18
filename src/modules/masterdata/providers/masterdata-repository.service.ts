@@ -20,7 +20,7 @@ export class MasterDataRepositoryService {
     }
 
 
-    public async update(id: number, data: Partial<MasterDataModel>): Promise<UpdateResult> {
+    public async update(id: string, data: Partial<MasterDataModel>): Promise<UpdateResult> {
         return this.repository.update(id, data);
     }
 

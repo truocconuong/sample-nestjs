@@ -1,4 +1,5 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Exclude } from 'class-transformer';
+import { Column, DeleteDateColumn, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { BeneficiaryModel } from '../beneficiary';
 import { ExecutorModel } from '../executor';
 import { ValuablesModel } from '../valuables';
@@ -25,6 +26,10 @@ export class MasterDataModel {
 
     @OneToOne(() => ExecutorModel, executor => executor.master_data)
     executors!: ExecutorModel;
+
+    @Exclude()
+    @DeleteDateColumn({ name: 'deleted_timestamp' })
+    deletedTimestamp!: Date;
 
 
     @OneToOne(() => BeneficiaryModel, beneficiary => beneficiary.master_data)

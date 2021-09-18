@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn, JoinColumn, ManyToOne, DeleteDateColumn } from 'typeorm';
 import { BankAccountModel } from '../bank-account';
 import { BeneficiaryModel } from '../beneficiary';
 import { BusinessInterestModel } from '../business_interest';
@@ -10,6 +10,7 @@ import { RoleModel } from '../role';
 import { ValuablesModel } from '../valuables';
 import { SubscriptionsModel } from '../subscriptions';
 import { OrdersModel } from '../orders';
+import { Exclude } from 'class-transformer';
 
 @Entity('user')
 export class UserModel {
@@ -75,6 +76,10 @@ export class UserModel {
 
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'created_at' })
     created_at!: Date;
+
+    @Exclude()
+    @DeleteDateColumn({ name: 'deleted_timestamp' })
+    deletedTimestamp!: Date;
 
     @OneToMany(() => ExecutorModel, executor => executor.user, { persistence: true })
     executors!: ExecutorModel[];
