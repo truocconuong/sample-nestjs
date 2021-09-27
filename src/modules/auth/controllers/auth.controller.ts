@@ -121,6 +121,11 @@ export class AuthController {
             if (user) {
                 throw new NotFoundException('This email already exists!')
             }
+        } else {
+            const user = await this.userService.findOne({ email: email });
+            if (!user) {
+                throw new NotFoundException('User does not exist')
+            }
         }
         const generateToken = this.otpService.generateTokenByEmail(email);
         console.log('send otp', generateToken.token, email)
