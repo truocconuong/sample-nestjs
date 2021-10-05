@@ -18,6 +18,10 @@ export class MasterDataModel {
     @Column({ nullable: false })
     is_enable?: boolean;
 
+
+    @Column({ nullable: false })
+    order?: number;
+
     @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP', name: 'updated_at' })
     updated_at!: Date;
 

@@ -11,7 +11,7 @@ export class MasterDataRepositoryService {
         private repository: Repository<MasterDataModel>,
     ) { }
 
-    public async findAll(where : any): Promise<MasterDataModel[]> {
+    public async findAll(where: any): Promise<MasterDataModel[]> {
         return this.repository.find(where)
     }
 
@@ -34,10 +34,11 @@ export class MasterDataRepositoryService {
         return this.repository.delete(id);
     }
 
-    async paginate(options: IPaginationOptions){
+    async paginate(options: IPaginationOptions) {
         const queryBuilder = await this.repository
-        .createQueryBuilder('master_data')
-        .orderBy('master_data.created_at','DESC')
+            .createQueryBuilder('master_data')
+            .where('master_data.is_enable = TRUE')
+            .orderBy('master_data.order', 'ASC')
         return await paginate<MasterDataModel>(queryBuilder, options)
     }
 }
