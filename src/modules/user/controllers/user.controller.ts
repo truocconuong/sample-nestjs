@@ -71,10 +71,7 @@ export class UserController {
             throw new HttpException('OTP wrong', HttpStatus.FORBIDDEN)
         }
         // use store beneficiary
-        const beneficiaryStore: {
-            id: string,
-            full_legal_name: string
-        }[] = [];
+    
         const checkEmailExists = await this.userService.findOne({ email: email });
         if (checkEmailExists) {
             throw new HttpException('Email is conflict', HttpStatus.FORBIDDEN);
@@ -120,11 +117,7 @@ export class UserController {
                     user_id: user.id,
                     ...beneficiary
                 }
-                const benefitciary = await this.userService.createBeneficiary(dataBeneficiary)
-                beneficiaryStore.push({
-                    id: benefitciary.id,
-                    full_legal_name: benefitciary.full_legal_name as string
-                })
+                 await this.userService.createBeneficiary(dataBeneficiary)
             }
         }
 
@@ -153,10 +146,7 @@ export class UserController {
             for (const insurance_policy of insurance_policies) {
                 const beneficiary_name = insurance_policy.beneficiary_name
                 if (beneficiary_name) {
-                    const getIdBeneficiaryByStore = _.find(beneficiaryStore, beneficiary => beneficiary.full_legal_name === beneficiary_name);
-                    if (getIdBeneficiaryByStore) {
-                        insurance_policy.beneficiary_id = getIdBeneficiaryByStore.id;
-                    }
+                        insurance_policy.beneficiary_name = beneficiary_name;
                 }
                 const dataInsurancePolicies = {
                     user_id: user.id,

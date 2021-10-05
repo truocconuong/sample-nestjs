@@ -220,8 +220,7 @@ export class BankAccountDto {
 export class InsurancePoliciesDto {
   @IsString()
   @IsOptional()
-  beneficiary_id!: string
-
+  beneficiary_name!: string
 
   @IsString()
   @IsOptional()
@@ -239,11 +238,6 @@ export class InsurancePoliciesDto {
   @Length(1, 255)
   @IsOptional()
   policy_name!: string;
-
-  @IsString()
-  @Length(1, 255)
-  @IsOptional()
-  beneficiary_name!: string;
 
   @IsString()
   @Length(1, 45)
