@@ -12,7 +12,6 @@ export class InsurancePolicyModel {
     @Column("uuid", { nullable: true })
     beneficiary_id?: string;
     
-
     @Column("uuid", { nullable: true })
     insurance_company?: string;
 
