@@ -20,7 +20,7 @@ export class SingPassController {
         var _authApiUrl = process.env.MYINFO_API_AUTHORISE;
         var _tokenApiUrl = process.env.MYINFO_API_TOKEN;
         var _personApiUrl = process.env.MYINFO_API_PERSON;
-        var _attributes = "uinfin,name,sex,race,nationality,dob,email,mobileno,regadd,housingtype,hdbtype,marital,edulevel,noa-basic,ownerprivate,cpfcontributions,cpfbalances";
+        var _attributes = "residentialstatus,name,sex,nationality,uinfin,dob,hdbownership.address,childrenbirthrecords.birthcertno,childrenbirthrecords.sex,sponsoredchildrenrecords.nric,childrenbirthrecords.name,sponsoredchildrenrecords.name,sponsoredchildrenrecords.sex";
         return {
             _publicCertContent,
             _privateKeyContent,
@@ -266,8 +266,6 @@ export class SingPassController {
     async getPersonalData(@Res() res: any, @Query() query: any) {
         // get variables from frontend
         var code = query.code
-        console.log(code)
-
         var request;
 
         // **** CALL TOKEN API ****
@@ -279,7 +277,7 @@ export class SingPassController {
                     // ERROR
                     console.error("Token Call Error: ", callErr.status);
                     console.error(callErr.response.req.res.text);
-                    return ({
+                    res.jsonp({
                         status: "ERROR",
                         msg: callErr
                     });
