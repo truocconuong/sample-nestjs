@@ -26,6 +26,12 @@ export class UserModel {
     @Column({ length: 255, nullable: true })
     will_registry!: string;
 
+    @Column({ length: 255, nullable: true })
+    social!: string;
+
+    @Column({ length: 255, nullable: true })
+    social_id!: string;
+
     @Column({ length: 255, nullable: true, select: false })
     password!: string;
 

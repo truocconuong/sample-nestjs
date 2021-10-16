@@ -14,6 +14,8 @@ import { editFileName, imageFileFilter } from '../../../common/file-upload.utils
 import { AuthService } from 'src/modules/auth/providers';
 import { PdfService } from 'src/shared/pdf/pdf.service';
 import { OtpService } from 'src/shared/otp/otp.service';
+import * as bcrypt from 'bcrypt';
+
 // import { AuthService } from 'src/modules/auth/providers';
 @Controller('users')
 export class UserController {
@@ -66,21 +68,31 @@ export class UserController {
     @Post('guest')
     @UseInterceptors(TransformInterceptor)
     public async create(@Body() body: CreateUserGuestDto): Promise<{ access_token: string }> {
-        const { email, email_personal, otp, full_legal_name, nric, postal_code, address_line_1, address_line_2, unit_number, executors, beneficiaries, properties, bank_accounts, insurance_policies, business_interests, valuables, investments } = body;
-        if (otp === '4040') {
-            throw new HttpException('OTP wrong', HttpStatus.FORBIDDEN)
-        }
-        // use store beneficiary
-    
-        const checkEmailExists = await this.userService.findOne({ email: email });
-        if (checkEmailExists) {
-            throw new HttpException('Email is conflict', HttpStatus.FORBIDDEN);
-        }
+        const { social, social_id, password, email, email_personal, otp, full_legal_name, nric, postal_code, address_line_1, address_line_2, unit_number, executors, beneficiaries, properties, bank_accounts, insurance_policies, business_interests, valuables, investments } = body;
+        if (social === 'local') {
+            if (otp === '4040') {
+                throw new HttpException('OTP wrong', HttpStatus.FORBIDDEN)
+            }
+            // use store beneficiary
 
-        const isValid = this.otpService.checkValidToken(otp, email)
+            const checkEmailExists = await this.userService.findOne({ email: email });
+            if (checkEmailExists) {
+                throw new HttpException('Email is conflict', HttpStatus.FORBIDDEN);
+            }
 
-        if (!isValid) {
-            throw new HttpException('Otp expired', HttpStatus.UNAUTHORIZED);
+            const isValid = this.otpService.checkValidToken(otp, email)
+
+            if (!isValid) {
+                throw new HttpException('Otp expired', HttpStatus.UNAUTHORIZED);
+            }
+        } else {
+            const user = await this.userService.findOne({
+                social,
+                social_id
+            })
+            if (user) {
+                throw new HttpException('User did exists', HttpStatus.CONFLICT);
+            }
         }
         const information = {
             email,
@@ -93,7 +105,10 @@ export class UserController {
             email_personal,
             role_id: '4fb6acb5-e22c-4c2e-b7a1-fde533a80324',
             is_verify: true,
-            otp
+            otp,
+            password: social === 'local' ? await bcrypt.hash(password, Number(process.env.SALT_NUMBER)) : '',
+            social_id,
+            social
         }
         // create user
         const user = await this.userService.create(information)
@@ -117,7 +132,7 @@ export class UserController {
                     user_id: user.id,
                     ...beneficiary
                 }
-                 await this.userService.createBeneficiary(dataBeneficiary)
+                await this.userService.createBeneficiary(dataBeneficiary)
             }
         }
 
@@ -146,7 +161,7 @@ export class UserController {
             for (const insurance_policy of insurance_policies) {
                 const beneficiary_name = insurance_policy.beneficiary_name
                 if (beneficiary_name) {
-                        insurance_policy.beneficiary_name = beneficiary_name;
+                    insurance_policy.beneficiary_name = beneficiary_name;
                 }
                 const dataInsurancePolicies = {
                     user_id: user.id,

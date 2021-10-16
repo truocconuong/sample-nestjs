@@ -373,12 +373,23 @@ export class ValuablesDto {
 export class CreateUserGuestDto {
   @IsEmail()
   @Length(1, 255)
-  @IsNotEmpty()
+  @IsOptional()
   public email!: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   public otp!: string;
+
+  @IsString()
+  @IsOptional()
+  public password!: string;
+
+  @IsString()
+  @IsOptional()
+  public social_id!: string;
+
+  @IsString()
+  public social!: string;
 
   @IsEmail()
   @IsOptional()
